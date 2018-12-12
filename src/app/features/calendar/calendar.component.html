@@ -1,0 +1,39 @@
+<div class="d-flex justify-content-between mb-2 lead font-weight-bold">
+  <div>
+    {{monthName}}
+  </div>
+  <div>
+    {{monthBalance}}
+  </div>
+</div>
+<div class="d-flex text-center font-weight-bold mb-2">
+  <div class="flex-fill">Sun</div>
+  <div class="flex-fill">Mon</div>
+  <div class="flex-fill">Tue</div>
+  <div class="flex-fill">Wed</div>
+  <div class="flex-fill">Thu</div>
+  <div class="flex-fill">Fri</div>
+  <div class="flex-fill">Sat</div>
+</div>
+<div class="d-flex flex-column">
+  <div *ngFor="let week of weeks" class="d-flex w-100">
+    <div *ngFor="let day of week" class="flex-fill day p-2" [ngClass]="{'disabled': day.disabled}">
+      <div class="font-weight-bold mb-1 d-flex justify-content-between">
+        <div>
+          {{day.date.getDate()}}
+        </div>
+        <div>
+          {{!day.disabled ? (0 | number: '1.2-2') : ''}}
+        </div>
+      </div>
+      <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between">
+        <div>
+          {{transaction.transDescription}}
+        </div>
+        <div>
+          {{transaction.transAmount | number: '1.2-2'}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

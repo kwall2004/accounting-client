@@ -1,0 +1,9 @@
+.day {
+    border: 1px solid black;
+    min-height: 100px;
+    min-width: 180px;
+
+    &.disabled {
+        background-color: lightgray;
+    }
+}
