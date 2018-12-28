@@ -10,7 +10,7 @@ import { TransactionRequest } from '../models/transaction-request';
 export class TransactionService {
   constructor(private httpClient: HttpClient) { }
 
-  public read(request: TransactionRequest): Observable<any> {
-    return this.httpClient.post('http://localhost:49386/api/transaction/read', request);
+  public get(request: TransactionRequest): Observable<any> {
+    return this.httpClient.get('https://accounting-48336-api.herokuapp.com/transaction');
   }
 }

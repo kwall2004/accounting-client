@@ -7,6 +7,7 @@ import { Transaction } from 'src/app/core/models/transaction';
 import { Day } from 'src/app/core/models/day';
 import { BalanceService } from 'src/app/core/services/balance.service';
 import { Balance } from 'src/app/core/models/balance';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-calendar',
@@ -20,7 +21,8 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
-    private balanceService: BalanceService
+    private balanceService: BalanceService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -30,7 +32,7 @@ export class CalendarComponent implements OnInit {
 
     this.monthName = beginDate.format('MMMM YYYY');
 
-    this.transactionService.read({
+    this.transactionService.get({
       from: beginDate.toDate(),
       to: endDate.toDate()
     }).pipe(take(1)).subscribe((transactions: Transaction[]) => {
@@ -76,5 +78,9 @@ export class CalendarComponent implements OnInit {
     }).pipe(take(1)).subscribe((balances: Balance[]) => {
       this.monthBalance = balances[0].balanceAmount;
     });
+  }
+
+  onDayClick() {
+    this.authService.login();
   }
 }

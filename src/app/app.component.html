@@ -1,2 +1,22 @@
-<a routerLink="calendar">Calendar</a>
-<router-outlet></router-outlet>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">accounting</a>
+      <button class="btn btn-primary btn-margin" routerLink="/">
+        home
+      </button>
+      <button class="btn btn-primary btn-margin" routerLink="calendar">
+        calendar
+      </button>
+      <button class="btn btn-primary btn-margin" *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
+        log in
+      </button>
+      <button class="btn btn-primary btn-margin" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
+        log out
+      </button>
+    </div>
+  </div>
+</nav>
+<main class="container">
+  <router-outlet></router-outlet>
+</main>
