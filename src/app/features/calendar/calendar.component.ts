@@ -79,8 +79,4 @@ export class CalendarComponent implements OnInit {
       this.monthBalance = balances[0].balanceAmount;
     });
   }
-
-  onDayClick() {
-    this.authService.login();
-  }
 }

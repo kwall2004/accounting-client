@@ -17,7 +17,7 @@
 </div>
 <div class="d-flex flex-column">
   <div *ngFor="let week of weeks" class="d-flex w-100">
-    <div *ngFor="let day of week" class="flex-fill day p-2" [ngClass]="{'disabled': day.disabled}" (click)="onDayClick()">
+    <div *ngFor="let day of week" class="flex-fill day p-2" [ngClass]="{'disabled': day.disabled}">
       <div class="font-weight-bold mb-1 d-flex justify-content-between">
         <div>
           {{day.date.getDate()}}
