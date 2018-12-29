@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
-import { Subject, Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private _idToken: string;
-  private _accessToken: Subject<string>;
+  private _accessToken: ReplaySubject<string>;
   private _expiresAt: number;
 
   private auth0 = new auth0.WebAuth({
@@ -16,12 +16,12 @@ export class AuthService {
     domain: 'kwall2004.auth0.com',
     responseType: 'token id_token',
     redirectUri: 'http://localhost:4200',
-    scope: 'openid'
+    audience: 'https://accounting-api/'
   });
 
   constructor(public router: Router) {
     this._idToken = '';
-    this._accessToken = new Subject<string>();
+    this._accessToken = new ReplaySubject<string>();
     this._expiresAt = 0;
   }
 

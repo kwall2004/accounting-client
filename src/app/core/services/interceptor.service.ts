@@ -13,34 +13,28 @@ export class InterceptorService implements HttpInterceptor {
 
   getNewRequest(request: HttpRequest<any>): Observable<HttpRequest<any>> {
     const headers = {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      'Pragma': 'no-cache'
+      'Content-Type': 'application/json'
     };
 
-    return this.auth.accessToken
-      .pipe(
-        take(1),
-        mergeMap(tokenData => {
-          headers['Authorization'] = `Bearer ${tokenData}`;
-          return of(request.clone({
-            setHeaders: headers
-          }));
-        })
-      );
+    return this.auth.accessToken.pipe(
+      take(1),
+      mergeMap(tokenData => {
+        headers['Authorization'] = `Bearer ${tokenData}`;
+        return of(request.clone({
+          setHeaders: headers
+        }));
+      })
+    );
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.getNewRequest(request)
-      .pipe(
-        mergeMap(newRequest => next.handle(newRequest)
-          .pipe(
-            catchError(error => {
-              console.error(error);
-              return throwError(error);
-            })
-          )
-        )
-      );
+    return this.getNewRequest(request).pipe(
+      mergeMap(newRequest => next.handle(newRequest).pipe(
+        catchError(error => {
+          console.error(error);
+          return throwError(error);
+        })
+      ))
+    );
   }
 }
