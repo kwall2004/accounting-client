@@ -50,7 +50,7 @@ export class CalendarComponent implements OnInit {
       for (let date = moment(beginDate); date <= moment(endDate); date = date.clone().add(1, 'days')) {
         days.push({
           date: date.toDate(),
-          transactions: transactions.filter(t => date.isSame(t.transDate, 'day'))
+          transactions: transactions.filter(t => date.isSame(t.date, 'day'))
         });
       }
 

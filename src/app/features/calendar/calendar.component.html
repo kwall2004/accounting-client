@@ -28,10 +28,10 @@
       </div>
       <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between">
         <div>
-          {{transaction.transDescription}}
+          {{transaction.description}}
         </div>
         <div>
-          {{transaction.transAmount | number: '1.2-2'}}
+          {{transaction.amount | number: '1.2-2'}}
         </div>
       </div>
     </div>

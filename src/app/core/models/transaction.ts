@@ -1,7 +1,7 @@
 export interface Transaction {
-    transId: number;
-    transDate: Date;
-    transDescription: string;
-    transCategory: string;
-    transAmount: number;
+    id: number;
+    date: Date;
+    description: string;
+    category: string;
+    amount: number;
 }
