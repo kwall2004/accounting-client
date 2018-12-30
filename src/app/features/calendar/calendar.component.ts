@@ -7,7 +7,6 @@ import { Transaction } from 'src/app/core/models/transaction';
 import { Day } from 'src/app/core/models/day';
 import { BalanceService } from 'src/app/core/services/balance.service';
 import { Balance } from 'src/app/core/models/balance';
-import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-calendar',
@@ -21,8 +20,7 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
-    private balanceService: BalanceService,
-    private authService: AuthService
+    private balanceService: BalanceService
   ) { }
 
   ngOnInit() {

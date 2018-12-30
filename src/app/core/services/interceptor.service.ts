@@ -2,24 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { take, mergeMap, catchError } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
-import { AuthService } from './auth.service';
+import { CoreState } from '../store';
+import { AuthSelectors } from '../store/selectors/auth.selector';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InterceptorService implements HttpInterceptor {
-  constructor(private auth: AuthService) { }
+  constructor(private store: Store<CoreState>) {}
 
   getNewRequest(request: HttpRequest<any>): Observable<HttpRequest<any>> {
     const headers = {
       'Content-Type': 'application/json'
     };
 
-    return this.auth.accessToken.pipe(
+    return this.store.select(AuthSelectors.token).pipe(
       take(1),
-      mergeMap(tokenData => {
-        headers['Authorization'] = `Bearer ${tokenData}`;
+      mergeMap(token => {
+        headers['Authorization'] = `Bearer ${token}`;
         return of(request.clone({
           setHeaders: headers
         }));

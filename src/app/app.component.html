@@ -8,10 +8,10 @@
       <button class="btn btn-primary btn-margin" routerLink="calendar">
         calendar
       </button>
-      <button class="btn btn-primary btn-margin" *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
+      <button class="btn btn-primary btn-margin" *ngIf="!(isAuthenticated$ | async)" (click)="login()">
         log in
       </button>
-      <button class="btn btn-primary btn-margin" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
+      <button class="btn btn-primary btn-margin" *ngIf="isAuthenticated$ | async" (click)="logout()">
         log out
       </button>
     </div>
