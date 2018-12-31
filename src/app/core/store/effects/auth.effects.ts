@@ -6,6 +6,7 @@ import { map, tap, catchError, mergeMap } from 'rxjs/operators';
 import { WebAuth, Auth0DecodedHash, Auth0ParseHashError } from 'auth0-js';
 import { Router } from '@angular/router';
 
+import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../services/local-storage.service';
 import { AuthActions, AuthActionTypes } from '../actions';
 
@@ -15,7 +16,7 @@ export class AuthEffects {
     clientID: 'xqhjsag2ozEdVwBcVjFQm7Jx7SlaTqJC',
     domain: 'kwall2004.auth0.com',
     responseType: 'token id_token',
-    redirectUri: 'http://localhost:4200',
+    redirectUri: environment.webAuthRedirectUri,
     audience: 'https://accounting-api/'
   });
 
@@ -41,7 +42,7 @@ export class AuthEffects {
     map(() => {
       this.webAuth.logout({
         clientID: 'xqhjsag2ozEdVwBcVjFQm7Jx7SlaTqJC',
-        returnTo: 'http://localhost:4200'
+        returnTo: environment.webAuthLogoutReturnTo
       });
 
       return new AuthActions.SetData({
