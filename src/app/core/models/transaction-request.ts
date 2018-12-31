@@ -1,4 +1,4 @@
 export interface TransactionRequest {
-    from: Date;
-    to: Date;
+    beginDate: Date;
+    endDate: Date;
 }

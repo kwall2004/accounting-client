@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { environment } from '../../../environments/environment';
 import { BalanceRequest } from '../models/balance-request';
 
 @Injectable({
@@ -10,7 +11,11 @@ import { BalanceRequest } from '../models/balance-request';
 export class BalanceService {
   constructor(private httpClient: HttpClient) { }
 
-  public read(request: BalanceRequest): Observable<any> {
-    return this.httpClient.post('http://localhost:49386/api/balance/read', request);
+  public get(request: BalanceRequest): Observable<any> {
+    const where = {
+      date: request.date.toISOString()
+    };
+
+    return this.httpClient.get(`${environment.apiBaseUrl}/balance?where=${JSON.stringify(where)}`);
   }
 }

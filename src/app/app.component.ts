@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { LocalStorageService } from './core/services/local-storage.service';
 import { CoreState, AuthActions } from './core/store';
-import { AuthSelectors } from './core/store/selectors/auth.selector';
+import { AuthSelectors } from './core/store/selectors/auth.selectors';
 
 @Component({
   selector: 'app-root',

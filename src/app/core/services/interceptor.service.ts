@@ -5,7 +5,7 @@ import { take, mergeMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { CoreState } from '../store';
-import { AuthSelectors } from '../store/selectors/auth.selector';
+import { AuthSelectors } from '../store/selectors/auth.selectors';
 
 @Injectable({
   providedIn: 'root'

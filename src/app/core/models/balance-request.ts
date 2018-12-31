@@ -1,3 +1,3 @@
 export interface BalanceRequest {
-    to: Date;
+    date: Date;
 }

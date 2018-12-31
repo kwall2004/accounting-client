@@ -1,61 +1,67 @@
-import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
+import { Store } from '@ngrx/store';
+import { Subject } from 'rxjs';
 
-import { TransactionService } from 'src/app/core/services/transaction.service';
 import { Transaction } from 'src/app/core/models/transaction';
 import { Day } from 'src/app/core/models/day';
-import { BalanceService } from 'src/app/core/services/balance.service';
 import { Balance } from 'src/app/core/models/balance';
+import { CoreState, CalendarSelectors, CalendarActions } from 'src/app/core/store';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
+  private isDestroyed$ = new Subject();
+
   monthName: string;
   monthBalance: number;
   weeks: Day[][];
 
-  constructor(
-    private transactionService: TransactionService,
-    private balanceService: BalanceService
-  ) { }
+  constructor(private store: Store<CoreState>) { }
 
   ngOnInit() {
-    const beginDate = moment().startOf('month');
-    const endDate = moment().endOf('month');
-    const days = new Array<Day>();
+    const beginDate = moment().startOf('month').startOf('day').utc(true);
+    const endDate = moment().endOf('month').endOf('day').utc(true);
 
-    this.monthName = beginDate.format('MMMM YYYY');
+    this.store.dispatch(new CalendarActions.GetTransactions({
+      beginDate: beginDate.toDate(),
+      endDate: endDate.toDate()
+    }));
 
-    this.transactionService.get({
-      from: beginDate.toDate(),
-      to: endDate.toDate()
-    }).pipe(take(1)).subscribe((transactions: Transaction[]) => {
-      const firstDateOfMonth = moment(beginDate);
-      const lastDateOfMonth = moment(endDate);
+    this.store.dispatch(new CalendarActions.GetBalances({
+      date: beginDate.clone().subtract(1, 'day').toDate()
+    }));
 
-      days.push(...new Array(firstDateOfMonth.day())
-        .fill(firstDateOfMonth.clone())
+    this.store.select(CalendarSelectors.transactions).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe((transactions: Transaction[]) => {
+      const days = new Array<Day>();
+
+      this.monthName = beginDate.format('MMMM YYYY');
+
+      days.push(...new Array(beginDate.day())
+        .fill(beginDate.clone())
         .map((date, index): Day => ({
-          date: date.clone().subtract(date.day() - index, 'days').toDate(),
+          date: date.subtract(date.day() - index, 'days').toDate(),
           transactions: [],
           disabled: true
         })));
 
-      for (let date = moment(beginDate); date <= moment(endDate); date = date.clone().add(1, 'days')) {
+      for (let date = moment(beginDate).clone(); date <= moment(endDate); date = date.add(1, 'days')) {
         days.push({
           date: date.toDate(),
           transactions: transactions.filter(t => date.isSame(t.date, 'day'))
         });
       }
 
-      days.push(...new Array(6 - lastDateOfMonth.day())
-        .fill(lastDateOfMonth.clone())
+      days.push(...new Array(6 - endDate.day())
+        .fill(endDate.clone())
         .map((date, index): Day => ({
-          date: date.clone().add(index + 1, 'days').toDate(),
+          date: date.add(index + 1, 'days').toDate(),
           transactions: [],
           disabled: true
         })));
@@ -71,10 +77,14 @@ export class CalendarComponent implements OnInit {
       }, []);
     });
 
-    this.balanceService.read({
-      to: beginDate.subtract(1, 'day').toDate()
-    }).pipe(take(1)).subscribe((balances: Balance[]) => {
-      this.monthBalance = balances[0].balanceAmount;
+    this.store.select(CalendarSelectors.balances).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe((balances: Balance[]) => {
+      this.monthBalance = balances.length && balances[0].amount;
     });
+  }
+
+  ngOnDestroy() {
+    this.isDestroyed$.next();
   }
 }
