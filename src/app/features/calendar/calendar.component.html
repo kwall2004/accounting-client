@@ -6,18 +6,18 @@
     {{monthBalance}}
   </div>
 </div>
-<div class="d-flex text-center font-weight-bold mb-2">
-  <div class="flex-fill">Sun</div>
-  <div class="flex-fill">Mon</div>
-  <div class="flex-fill">Tue</div>
-  <div class="flex-fill">Wed</div>
-  <div class="flex-fill">Thu</div>
-  <div class="flex-fill">Fri</div>
-  <div class="flex-fill">Sat</div>
+<div class="row text-center font-weight-bold mb-2">
+  <div class="col">Sun</div>
+  <div class="col">Mon</div>
+  <div class="col">Tue</div>
+  <div class="col">Wed</div>
+  <div class="col">Thu</div>
+  <div class="col">Fri</div>
+  <div class="col">Sat</div>
 </div>
-<div class="d-flex flex-column">
-  <div *ngFor="let week of weeks" class="d-flex w-100">
-    <div *ngFor="let day of week" class="flex-fill day p-2" [ngClass]="{'disabled': day.disabled}">
+<div class="row">
+  <ng-container *ngFor="let week of weeks">
+    <div *ngFor="let day of week" class="col day p-2" [ngClass]="{'disabled': day.disabled}">
       <div class="font-weight-bold mb-1 d-flex justify-content-between">
         <div>
           {{day.date.getDate()}}
@@ -35,5 +35,6 @@
         </div>
       </div>
     </div>
-  </div>
+    <div class="w-100 d-none d-xl-block"></div>
+  </ng-container>
 </div>

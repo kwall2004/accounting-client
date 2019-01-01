@@ -24,16 +24,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
   constructor(private store: Store<CoreState>) { }
 
   ngOnInit() {
-    const beginDate = moment().startOf('month').startOf('day').utc(true);
-    const endDate = moment().endOf('month').endOf('day').utc(true);
+    const beginDate = moment().startOf('month').startOf('day');
+    const endDate = moment().endOf('month').endOf('day');
 
     this.store.dispatch(new CalendarActions.GetTransactions({
-      beginDate: beginDate.toDate(),
-      endDate: endDate.toDate()
+      beginDate: beginDate.clone().utc(true).toDate(),
+      endDate: endDate.clone().utc(true).toDate()
     }));
 
     this.store.dispatch(new CalendarActions.GetBalances({
-      date: beginDate.clone().subtract(1, 'day').toDate()
+      date: beginDate.clone().utc(true).subtract(1, 'day').toDate()
     }));
 
     this.store.select(CalendarSelectors.transactions).pipe(
@@ -44,9 +44,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.monthName = beginDate.format('MMMM YYYY');
 
       days.push(...new Array(beginDate.day())
-        .fill(beginDate.clone())
+        .fill(beginDate)
         .map((date, index): Day => ({
-          date: date.subtract(date.day() - index, 'days').toDate(),
+          date: date.clone().subtract(date.day() - index, 'days').toDate(),
           transactions: [],
           disabled: true
         })));
@@ -59,9 +59,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       }
 
       days.push(...new Array(6 - endDate.day())
-        .fill(endDate.clone())
+        .fill(endDate)
         .map((date, index): Day => ({
-          date: date.add(index + 1, 'days').toDate(),
+          date: date.clone().add(index + 1, 'days').toDate(),
           transactions: [],
           disabled: true
         })));
