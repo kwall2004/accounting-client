@@ -24,8 +24,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   constructor(private store: Store<CoreState>) { }
 
   ngOnInit() {
-    const beginDate = moment().startOf('month').startOf('day');
-    const endDate = moment().endOf('month').endOf('day');
+    const beginDate = moment().subtract(1, 'month').startOf('month').startOf('day');
+    const endDate = moment().subtract(1, 'month').endOf('month').endOf('day');
 
     this.store.dispatch(new CalendarActions.GetTransactions({
       beginDate: beginDate.clone().utc(true).toDate(),
