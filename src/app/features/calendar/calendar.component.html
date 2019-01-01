@@ -6,19 +6,21 @@
     {{monthBalance}}
   </div>
 </div>
-<div class="row text-center font-weight-bold mb-2">
-  <div class="col">Sun</div>
-  <div class="col">Mon</div>
-  <div class="col">Tue</div>
-  <div class="col">Wed</div>
-  <div class="col">Thu</div>
-  <div class="col">Fri</div>
-  <div class="col">Sat</div>
+<div class="d-none d-xl-block">
+  <div class="row text-center font-weight-bold mb-2">
+    <div class="col">Sun</div>
+    <div class="col">Mon</div>
+    <div class="col">Tue</div>
+    <div class="col">Wed</div>
+    <div class="col">Thu</div>
+    <div class="col">Fri</div>
+    <div class="col">Sat</div>
+  </div>
 </div>
-<div class="row">
+<div class="row border mb-5">
   <ng-container *ngFor="let week of weeks">
-    <div *ngFor="let day of week" class="col day p-2" [ngClass]="{'disabled': day.disabled}">
-      <div class="font-weight-bold mb-1 d-flex justify-content-between">
+    <div *ngFor="let day of week" class="col day border p-2" [ngClass]="{'disabled d-none d-xl-block': day.disabled}">
+      <div class="font-weight-bold mb-2 d-flex justify-content-between">
         <div>
           {{day.date.getDate()}}
         </div>
@@ -26,11 +28,11 @@
           {{!day.disabled ? (0 | number: '1.2-2') : ''}}
         </div>
       </div>
-      <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between">
-        <div>
+      <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between border rounded my-1 transaction">
+        <div class="px-1">
           {{transaction.description}}
         </div>
-        <div>
+        <div class="px-1">
           {{transaction.amount | number: '1.2-2'}}
         </div>
       </div>

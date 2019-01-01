@@ -1,8 +1,32 @@
-.day {
-    border: 1px solid black;
-    min-height: 100px;
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
-    &.disabled {
-        background-color: lightgray;
-    }
+.day {
+  min-height: 100px;
+
+  &.disabled {
+    background-color: $gray-200;
+  }
+}
+
+.day:not(.disabled):hover:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  border-radius: $border-radius;
+  box-shadow: 0 0 0 3px $primary;
+}
+
+.transaction {
+  position: relative;
+  z-index: 20;
+
+  &:hover {
+    box-shadow: 0 0 0 2px $primary;
+    cursor: pointer;
+  }
 }

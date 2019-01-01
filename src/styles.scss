@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'customize-bootstrap.scss';
+@import '../node_modules/bootstrap/scss/bootstrap';
+
 body {
-    font-size: small;
+  font-size: small;
 }
 
-.flex-fill {
-    flex: 1 1 0 !important;
-}
