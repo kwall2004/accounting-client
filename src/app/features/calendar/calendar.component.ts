@@ -20,8 +20,8 @@ export class CalendarComponent implements OnInit {
   constructor(private store: Store<CoreState>) { }
 
   ngOnInit() {
-    const beginDate = moment().subtract(1, 'month').startOf('month').startOf('day');
-    const endDate = moment().subtract(1, 'month').endOf('month').endOf('day');
+    const beginDate = moment().utc(true).subtract(1, 'month').startOf('month').startOf('day');
+    const endDate = moment().utc(true).subtract(1, 'month').endOf('month').endOf('day');
 
     this.weeks$ = this.store.select(CalendarSelectors.weeks);
     this.previousMonthEndBalance$ = this.store.select(CalendarSelectors.previousMonthEndBalance);
