@@ -1,39 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { LocalStorageService } from './core/services/local-storage.service';
-import { CoreState, AuthActions } from './core/store';
-import { AuthSelectors } from './core/store/selectors/auth.selectors';
+import { CoreState, AppActions } from './core/store';
+import { AppSelectors } from './core/store/selectors/app.selectors';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  isAuthenticated$: Observable<boolean>;
+  authIsExpired$: Observable<boolean>;
+  loading$: Observable<boolean>;
 
-  constructor(
-    private storage: LocalStorageService,
-    private store: Store<CoreState>
-  ) {
-    this.store.dispatch(new AuthActions.ParseHash());
-  }
+  constructor(private store: Store<CoreState>) { }
 
   ngOnInit() {
-    this.isAuthenticated$ = this.store.select(AuthSelectors.isAuthenticated);
-
-    if (this.storage.getItem('accessToken')) {
-      this.store.dispatch(new AuthActions.CheckSession());
-    }
+    this.authIsExpired$ = this.store.select(AppSelectors.authIsExpired);
+    this.loading$ = this.store.select(AppSelectors.loading);
   }
 
   login() {
-    this.store.dispatch(new AuthActions.Login());
+    this.store.dispatch(new AppActions.Login());
   }
 
   logout() {
-    this.store.dispatch(new AuthActions.Logout());
+    this.store.dispatch(new AppActions.Logout());
   }
 }

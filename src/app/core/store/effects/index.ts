@@ -1,10 +1,10 @@
-import { AuthEffects } from './auth.effects';
+import { AppEffects } from './app.effects';
 import { CalendarEffects } from './calendar.effects';
 
 export const effects: any[] = [
-  AuthEffects,
+  AppEffects,
   CalendarEffects
 ];
 
-export * from './auth.effects';
+export * from './app.effects';
 export * from './calendar.effects';

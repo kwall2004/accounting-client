@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'http://localhost:1337',
-  webAuthRedirectUri: 'http://localhost:4200',
-  webAuthLogoutReturnTo: 'http://localhost:4200'
+  webAuthRedirectUri: 'http://localhost:4200/calendar',
+  webAuthLogoutReturnTo: 'http://localhost:4200/home'
 };
 
 /*

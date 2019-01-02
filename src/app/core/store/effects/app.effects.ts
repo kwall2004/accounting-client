@@ -8,10 +8,10 @@ import { Router } from '@angular/router';
 
 import { environment } from '../../../../environments/environment';
 import { LocalStorageService } from '../../services/local-storage.service';
-import { AuthActions, AuthActionTypes } from '../actions';
+import { AppActions, AppActionTypes } from '../actions';
 
 @Injectable()
-export class AuthEffects {
+export class AppEffects {
   private webAuth = new WebAuth({
     clientID: 'xqhjsag2ozEdVwBcVjFQm7Jx7SlaTqJC',
     domain: 'kwall2004.auth0.com',
@@ -28,7 +28,7 @@ export class AuthEffects {
 
   @Effect()
   login$: Observable<Action> = this.actions$.pipe(
-    ofType(AuthActionTypes.LOGIN),
+    ofType(AppActionTypes.LOGIN),
     mergeMap(() => {
       this.webAuth.authorize();
 
@@ -38,14 +38,14 @@ export class AuthEffects {
 
   @Effect()
   logout$: Observable<Action> = this.actions$.pipe(
-    ofType(AuthActionTypes.LOGOUT),
+    ofType(AppActionTypes.LOGOUT),
     map(() => {
       this.webAuth.logout({
         clientID: 'xqhjsag2ozEdVwBcVjFQm7Jx7SlaTqJC',
         returnTo: environment.webAuthLogoutReturnTo
       });
 
-      return new AuthActions.SetData({
+      return new AppActions.SetAuth({
         accessToken: null,
         idToken: null,
         expiresAt: 0
@@ -54,9 +54,9 @@ export class AuthEffects {
   );
 
   @Effect()
-  setDataFromLocalStorage$: Observable<Action> = this.actions$.pipe(
+  setAuthFromLocalStorage$: Observable<Action> = this.actions$.pipe(
     ofType(ROOT_EFFECTS_INIT),
-    map(() => new AuthActions.SetDataFromLocalStorage({
+    map(() => new AppActions.SetAuthFromLocalStorage({
       accessToken: this.storage.getItem('accessToken'),
       idToken: this.storage.getItem('idToken'),
       expiresAt: Number(this.storage.getItem('expiresAt'))
@@ -64,9 +64,9 @@ export class AuthEffects {
   );
 
   @Effect({ dispatch: false })
-  setData$: Observable<Action> = this.actions$.pipe(
-    ofType(AuthActionTypes.SET_DATA),
-    tap<AuthActions.SetData>(action => {
+  setAuth$: Observable<Action> = this.actions$.pipe(
+    ofType(AppActionTypes.SET_AUTH),
+    tap<AppActions.SetAuth>(action => {
       if (action.payload && action.payload.accessToken) {
         this.storage.setItem('accessToken', action.payload.accessToken);
       } else {
@@ -88,30 +88,37 @@ export class AuthEffects {
   );
 
   @Effect()
-  parseHash$: Observable<Action> = this.actions$.pipe(
-    ofType(AuthActionTypes.PARSE_HASH),
-    mergeMap(() => Observable.create((observer: Observer<Auth0DecodedHash>) => {
+  parseAuthHash$: Observable<Action> = this.actions$.pipe(
+    ofType<AppActions.ParseAuthHash>(AppActionTypes.PARSE_AUTH_HASH),
+    mergeMap(action => Observable.create((observer: Observer<Auth0DecodedHash>) => {
       this.webAuth.parseHash((err: Auth0ParseHashError, result: Auth0DecodedHash) => {
         if (result && result.accessToken && result.idToken) {
           observer.next(result);
         } else if (err) {
           observer.error(err);
+        } else {
+          observer.next(null);
         }
         observer.complete();
       });
     }).pipe(
-      mergeMap((result: Auth0DecodedHash) => {
-        window.location.hash = '';
-        this.router.navigate(['/']);
+      mergeMap((result: Auth0DecodedHash): Action[] => {
+        if (result) {
+          window.location.hash = '';
 
-        return [new AuthActions.SetData({
-          accessToken: result.accessToken,
-          idToken: result.idToken,
-          expiresAt: (result.expiresIn * 1000) + new Date().getTime()
-        })];
+          return [
+            new AppActions.SetAuth({
+              accessToken: result.accessToken,
+              idToken: result.idToken,
+              expiresAt: (result.expiresIn * 1000) + new Date().getTime()
+            }),
+            ...action.next
+          ];
+        }
+
+        return [new AppActions.CheckAuthSession(action.next)];
       }),
       catchError(error => {
-        this.router.navigate(['/']);
         console.error(error);
 
         return [];
@@ -120,9 +127,9 @@ export class AuthEffects {
   );
 
   @Effect()
-  checkSession$: Observable<Action> = this.actions$.pipe(
-    ofType(AuthActionTypes.CHECK_SESSION),
-    mergeMap(() => Observable.create((observer: Observer<any>) => {
+  checkAuthSession$: Observable<Action> = this.actions$.pipe(
+    ofType<AppActions.CheckAuthSession>(AppActionTypes.CHECK_AUTH_SESSION),
+    mergeMap(action => Observable.create((observer: Observer<any>) => {
       this.webAuth.checkSession({}, (err: any, result: any) => {
         if (result && result.accessToken && result.idToken) {
           observer.next(result);
@@ -132,18 +139,21 @@ export class AuthEffects {
         observer.complete();
       });
     }).pipe(
-      mergeMap((result: any) => [new AuthActions.SetData({
-        accessToken: result.accessToken,
-        idToken: result.idToken,
-        expiresAt: (result.expiresIn * 1000) + new Date().getTime()
-      })]),
+      mergeMap((result: any): Action[] => [
+        new AppActions.SetAuth({
+          accessToken: result.accessToken,
+          idToken: result.idToken,
+          expiresAt: (result.expiresIn * 1000) + new Date().getTime()
+        }),
+        ...action.next
+      ]),
       catchError(error => {
         console.error(error);
         alert(`Could not get a new token (${error.error}: ${error.error_description}).`);
 
         return [
-          new AuthActions.Logout(),
-          new AuthActions.SetData({
+          new AppActions.Logout(),
+          new AppActions.SetAuth({
             accessToken: null,
             idToken: null,
             expiresAt: 0

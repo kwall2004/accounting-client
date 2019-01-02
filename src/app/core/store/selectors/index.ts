@@ -1,2 +1,2 @@
-export * from './auth.selectors';
+export * from './app.selectors';
 export * from './calendar.selectors';

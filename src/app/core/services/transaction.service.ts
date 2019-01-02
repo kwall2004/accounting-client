@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 import { environment } from '../../../environments/environment';
 import { TransactionRequest } from '../models/transaction-request';
@@ -14,8 +15,8 @@ export class TransactionService {
   public get(request: TransactionRequest): Observable<any> {
     const where = {
       date: {
-        '>=': request.beginDate.toISOString(),
-        '<=': request.endDate.toISOString()
+        '>=': moment(request.beginDate).utc(true).toISOString(),
+        '<=': moment(request.endDate).utc(true).toISOString()
       }
     };
 

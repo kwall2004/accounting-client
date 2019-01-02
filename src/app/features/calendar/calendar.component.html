@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between mb-2 lead font-weight-bold">
   <div>
-    {{monthName}}
+    {{monthName$ | async}}
   </div>
   <div>
-    {{monthBalance}}
+    {{previousMonthEndBalance$ | async}}
   </div>
 </div>
 <div class="d-none d-xl-block">
@@ -18,7 +18,7 @@
   </div>
 </div>
 <div class="row border mb-5">
-  <ng-container *ngFor="let week of weeks">
+  <ng-container *ngFor="let week of (weeks$ | async)">
     <div *ngFor="let day of week" class="col day border p-2" [ngClass]="{'disabled d-none d-xl-block': day.disabled}">
       <div class="font-weight-bold mb-2 d-flex justify-content-between">
         <div>

@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { CalendarComponent } from './features/calendar/calendar.component';
+import { HomeComponent } from './features/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CalendarComponent
+    CalendarComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

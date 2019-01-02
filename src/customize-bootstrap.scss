@@ -4,7 +4,8 @@ $grid-breakpoints: (
   md: 768px,
   lg: 992px,
   xl: 1200px,
-  xxl: 1900px
+  xxl: 1700px,
+  xxxl: 1900px
 );
 
 $container-max-widths: (
@@ -12,7 +13,8 @@ $container-max-widths: (
   md: 720px,
   lg: 960px,
   xl: 1140px,
-  xxl: 1780px
+  xxl: 1580px,
+  xxxl: 1780px
 );
 
 $blue: darken(#007bff, 10%);
