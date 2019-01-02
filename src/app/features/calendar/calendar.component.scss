@@ -6,7 +6,7 @@
   min-height: 100px;
 
   &.disabled {
-    background-color: $gray-200;
+    background-color: $gray-900;
   }
 }
 
@@ -27,6 +27,7 @@
   z-index: 20;
 
   &:hover {
+    border-color: $primary !important;
     box-shadow: 0 0 0 2px $primary;
     cursor: pointer;
   }

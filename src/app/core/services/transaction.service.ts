@@ -15,8 +15,8 @@ export class TransactionService {
   public get(request: TransactionRequest): Observable<any> {
     const where = {
       date: {
-        '>=': moment(request.beginDate).utc(true).toISOString(),
-        '<=': moment(request.endDate).utc(true).toISOString()
+        '>=': moment(request.beginDate).format('YYYY-MM-DDTHH:mm:ss'),
+        '<=': moment(request.endDate).format('YYYY-MM-DDTHH:mm:ss')
       }
     };
 

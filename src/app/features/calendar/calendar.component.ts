@@ -33,7 +33,7 @@ export class CalendarComponent implements OnInit {
         endDate: endDate.clone().toDate()
       }),
       new CalendarActions.GetBalances({
-        date: beginDate.clone().utc(true).subtract(1, 'day').toDate()
+        date: beginDate.clone().subtract(1, 'day').toDate()
       })
     ]));
   }
