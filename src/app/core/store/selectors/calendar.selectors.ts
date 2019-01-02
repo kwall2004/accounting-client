@@ -46,7 +46,7 @@ export namespace CalendarSelectors {
       for (let date = moment(beginDate1).clone(); date <= moment(endDate1); date = date.add(1, 'days')) {
         days.push({
           date: date.toDate(),
-          transactions: transactions1.filter(t => date.isSame(t.date, 'day'))
+          transactions: transactions1.filter(t => date.isSame(moment(t.date).utc(), 'day'))
         });
       }
 
