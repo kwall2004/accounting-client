@@ -33,6 +33,7 @@ $theme-colors: (
     "dark":       $dark
   )
 );
+$border-color:                $gray-600;
 $link-color:                theme-color("primary");
 $link-hover-color:          darken($link-color, 15%);
 

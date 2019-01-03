@@ -3,7 +3,7 @@
     {{monthName$ | async}}
   </div>
   <div>
-    {{previousMonthEndBalance$ | async}}
+    {{previousMonthEndBalance$ | async | number: '1.2-2'}}
   </div>
 </div>
 <div class="d-none d-xl-block">
