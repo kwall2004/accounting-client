@@ -20,7 +20,8 @@ $container-max-widths: (
   xxxl: 1780px
 );
 
-$primary: darken($primary, 20%);
+$primary: #9cdcfe;
+$secondary: #d7ba7d;
 $theme-colors: (
   (
     "primary":    $primary,
