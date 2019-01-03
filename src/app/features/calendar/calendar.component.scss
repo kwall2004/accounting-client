@@ -1,4 +1,4 @@
-@import '../../../customize-bootstrap.scss';
+@import '../../../variables';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
@@ -10,25 +10,15 @@
   }
 }
 
-.day:not(.disabled):hover:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  border-radius: $border-radius;
-  box-shadow: 0 0 0 3px $primary;
+.day:not(.disabled):hover {
+  background-color: $primary;
 }
 
 .transaction {
   position: relative;
-  z-index: 20;
 
   &:hover {
-    border-color: $primary !important;
-    box-shadow: 0 0 0 2px $primary;
+    box-shadow: 0 0 0 2px white;
     cursor: pointer;
   }
 }

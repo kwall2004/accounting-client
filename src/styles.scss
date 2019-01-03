@@ -1,10 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'customize-bootstrap.scss';
+@import 'variables';
 @import '~bootstrap/scss/bootstrap';
 
 body {
   font-size: small;
   color: $gray-300;
-  background-color: $gray-800;
+  background-color: $gray-900;
 }
-
