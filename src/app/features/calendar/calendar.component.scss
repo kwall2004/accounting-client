@@ -18,7 +18,8 @@
   position: relative;
 
   &:hover {
-    box-shadow: 0 0 0 2px $primary;
+    border-color: $primary !important;
+    box-shadow: 0 0 0 1px $primary;
     cursor: pointer;
   }
 }
