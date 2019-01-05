@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressBarModule, MatDialogModule } from '@angular/material';
@@ -37,7 +37,8 @@ import { InterceptorService } from './services/interceptor.service';
     {
       provide: RouterStateSerializer,
       useClass: CustomSerializer
-    }
+    },
+    DatePipe
   ],
   exports: [
     MatProgressBarModule,

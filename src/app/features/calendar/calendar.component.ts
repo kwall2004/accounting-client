@@ -61,6 +61,7 @@ export class CalendarComponent implements OnInit {
 
   onTransactionClick(transaction: Transaction) {
     this.dialog.open(TransactionComponent, {
+      width: '400px',
       data: transaction
     });
   }

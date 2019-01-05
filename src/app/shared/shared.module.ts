@@ -10,6 +10,7 @@ import { TransactionComponent } from './transaction/transaction.component';
   ],
   imports: [
     MatProgressBarModule,
+    BrowserAnimationsModule,
     MatDialogModule
   ],
   entryComponents: [
@@ -18,6 +19,7 @@ import { TransactionComponent } from './transaction/transaction.component';
   exports: [
     TransactionComponent,
     MatProgressBarModule,
+    BrowserAnimationsModule,
     MatDialogModule
   ]
 })
