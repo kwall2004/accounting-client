@@ -1,9 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'variables';
 @import '~bootstrap/scss/bootstrap';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 body {
   font-size: small;
   color: $primary;
   background-color: $gray-900;
+}
+
+.clickable-primary {
+  &:hover {
+    border-color: $primary !important;
+    box-shadow: 0 0 0 2px $primary;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline-color: $primary;
+  }
+}
+
+.clickable-secondary {
+  &:hover {
+    border-color: $secondary !important;
+    box-shadow: 0 0 0 2px $secondary;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline-color: $secondary;
+  }
+}
+
+.clickable-muted {
+  &:hover {
+    border-color: $gray-600 !important;
+    box-shadow: 0 0 0 2px $gray-600;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline-color: $gray-600;
+  }
+}
+
+.mat-dialog-container {
+  background-color: $black;
+  color: $primary;
+  border: solid 1px $secondary;
 }

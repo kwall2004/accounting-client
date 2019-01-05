@@ -19,6 +19,7 @@
 </nav>
 <main>
   <div class="overlay" *ngIf="loading$ | async">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
   <div class="container">
     <router-outlet></router-outlet>

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 
 import { environment } from '../../../environments/environment';
-import { BalanceRequest } from '../models/balance-request';
+import { TransactionRequest } from '../models/transaction-request';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +12,9 @@ import { BalanceRequest } from '../models/balance-request';
 export class BalanceService {
   constructor(private httpClient: HttpClient) { }
 
-  public get(request: BalanceRequest): Observable<any> {
+  public get(request: TransactionRequest): Observable<any> {
     const where = {
-      date: moment(request.date).format('YYYY-MM-DDTHH:mm:ss')
+      date: moment(request.beginDate).subtract(1, 'day').format('YYYY-MM-DDTHH:mm:ss')
     };
 
     return this.httpClient.get(`${environment.apiBaseUrl}/balance?where=${JSON.stringify(where)}`);

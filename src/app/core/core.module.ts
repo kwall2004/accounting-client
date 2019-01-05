@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatProgressBarModule, MatDialogModule } from '@angular/material';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -22,7 +24,9 @@ import { InterceptorService } from './services/interceptor.service';
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument({
       maxAge: 50
-    }) : []
+    }) : [],
+    BrowserAnimationsModule,
+    MatProgressBarModule
   ],
   providers: [
     {
@@ -34,6 +38,10 @@ import { InterceptorService } from './services/interceptor.service';
       provide: RouterStateSerializer,
       useClass: CustomSerializer
     }
+  ],
+  exports: [
+    MatProgressBarModule,
+    MatDialogModule
   ]
 })
 export class CoreModule { }

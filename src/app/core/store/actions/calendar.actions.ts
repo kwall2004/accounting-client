@@ -2,10 +2,10 @@ import { Action } from '@ngrx/store';
 
 import { Transaction } from '../../models/transaction';
 import { TransactionRequest } from '../../models/transaction-request';
-import { BalanceRequest } from '../../models/balance-request';
 import { Balance } from '../../models/balance';
 
 export enum CalendarActionTypes {
+  LOAD = '[calendar] LOAD',
   GET_TRANSACTIONS = '[calendar] GET_TRANSACTIONS',
   SET_TRANSACTIONS = '[calendar] SET_TRANSACTIONS',
   GET_BALANCES = '[calendar] GET_BALANCES',
@@ -13,6 +13,12 @@ export enum CalendarActionTypes {
 }
 
 export namespace CalendarActions {
+  export class Load implements Action {
+    readonly type = CalendarActionTypes.LOAD;
+
+    constructor(public payload: TransactionRequest) { }
+  }
+
   export class GetTransactions implements Action {
     readonly type = CalendarActionTypes.GET_TRANSACTIONS;
 
@@ -28,7 +34,7 @@ export namespace CalendarActions {
   export class GetBalances implements Action {
     readonly type = CalendarActionTypes.GET_BALANCES;
 
-    constructor(public payload: BalanceRequest) { }
+    constructor(public payload: TransactionRequest) { }
   }
 
   export class SetBalances implements Action {
@@ -39,6 +45,7 @@ export namespace CalendarActions {
 }
 
 export type CalendarAction =
+  CalendarActions.Load |
   CalendarActions.GetTransactions |
   CalendarActions.SetTransactions |
   CalendarActions.GetBalances |
