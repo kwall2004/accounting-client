@@ -43,6 +43,20 @@ body {
   color: $secondary !important;
 }
 
+.clickable-tertiary {
+  &:hover {
+    border-color: $tertiary !important;
+    box-shadow: 0 0 0 2px $tertiary;
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline-color: $tertiary;
+  }
+
+  color: $tertiary !important;
+}
+
 .clickable-muted {
   &:hover {
     border-color: $gray-600 !important;

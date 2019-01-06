@@ -37,15 +37,25 @@
           {{day.date.getDate()}}
         </div>
         <div>
-          {{!day.disabled ? (0 | number: '1.2-2') : ''}}
+          {{!day.disabled && !(loading$ | async) ? (day.balance | number: '1.2-2') : ''}}
         </div>
       </div>
-      <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between border rounded my-1 clickable-primary" (click)="onTransactionClick(transaction)">
+      <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between border rounded my-1 clickable-primary"
+        (click)="onTransactionClick(transaction)">
         <div class="px-1">
           {{transaction.description}}
         </div>
         <div class="px-1">
           {{transaction.amount | number: '1.2-2'}}
+        </div>
+      </div>
+      <div *ngFor="let recurrence of day.recurrences" class="d-flex justify-content-between border rounded my-1 clickable-tertiary font-italic"
+        (click)="onRecurrenceClick(recurrence)">
+        <div class="px-1">
+          {{recurrence.description}}
+        </div>
+        <div class="px-1">
+          {{recurrence.amount | number: '1.2-2'}}
         </div>
       </div>
     </div>

@@ -1,20 +1,27 @@
+import * as moment from 'moment';
+
 import { CalendarActionTypes, CalendarAction } from '../actions/calendar.actions';
 import { Transaction } from '../../models/transaction';
 import { Balance } from '../../models/balance';
-import * as moment from 'moment';
+import { Recurrence } from '../../models/recurrence';
+import { Captured } from '../../models/captured';
 
 export interface State {
   beginDate: Date;
   endDate: Date;
   transactions: Transaction[];
   balances: Balance[];
+  captureds: Captured[];
+  recurrences: Recurrence[];
 }
 
 const initialState: State = {
   beginDate: moment().subtract(1, 'month').startOf('month').startOf('day').toDate(),
   endDate: moment().subtract(1, 'month').endOf('month').endOf('day').toDate(),
   transactions: [],
-  balances: []
+  balances: [],
+  captureds: [],
+  recurrences: []
 };
 
 export function reducer(state = initialState, action: CalendarAction): State {
@@ -26,7 +33,7 @@ export function reducer(state = initialState, action: CalendarAction): State {
         endDate: action.payload.endDate
       };
 
-      case CalendarActionTypes.SET_TRANSACTIONS:
+    case CalendarActionTypes.SET_TRANSACTIONS:
       return {
         ...state,
         transactions: action.payload
@@ -36,6 +43,18 @@ export function reducer(state = initialState, action: CalendarAction): State {
       return {
         ...state,
         balances: action.payload
+      };
+
+    case CalendarActionTypes.SET_CAPTUREDS:
+      return {
+        ...state,
+        captureds: action.payload
+      };
+
+    case CalendarActionTypes.SET_RECURRENCES:
+      return {
+        ...state,
+        recurrences: action.payload
       };
   }
 

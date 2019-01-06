@@ -3,10 +3,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressBarModule, MatDialogModule } from '@angular/material';
 
 import { TransactionComponent } from './transaction/transaction.component';
+import { RecurrenceComponent } from './recurrence/recurrence.component';
 
 @NgModule({
   declarations: [
-    TransactionComponent
+    TransactionComponent,
+    RecurrenceComponent
   ],
   imports: [
     MatProgressBarModule,
@@ -14,10 +16,12 @@ import { TransactionComponent } from './transaction/transaction.component';
     MatDialogModule
   ],
   entryComponents: [
-    TransactionComponent
+    TransactionComponent,
+    RecurrenceComponent
   ],
   exports: [
     TransactionComponent,
+    RecurrenceComponent,
     MatProgressBarModule,
     BrowserAnimationsModule,
     MatDialogModule
