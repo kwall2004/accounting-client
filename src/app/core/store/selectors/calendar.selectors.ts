@@ -82,23 +82,11 @@ export namespace CalendarSelectors {
         const dayRecurrences = !captured1 ? recurrences1.filter(r => {
           if (date.isSameOrAfter(moment(r.startDate), 'day') && (!r.endDate || date.isSameOrBefore(moment(r.endDate), 'day'))) {
             if (r.monthlyFrequency) {
-              if (r.monthlyFrequency === 1) {
-                return r.monthlyDate && date.date() === r.monthlyDate;
-              } else {
-                for (const loopDate = moment(r.startDate).clone(); loopDate <= date; loopDate.add(r.monthlyFrequency, 'months')) {
-                  return r.monthlyDate && loopDate.month() === date.month() && date.date() === r.monthlyDate;
-                }
-              }
+              return r.monthlyDate && moment(r.startDate).diff(date, 'months') % r.monthlyFrequency === 0 && date.date() === r.monthlyDate;
             }
 
             if (r.weeklyFrequency) {
-              if (r.weeklyFrequency === 1) {
-                return r.weeklyDay && date.format('dddd') === r.weeklyDay;
-              } else {
-                for (const loopDate = moment(r.startDate).clone(); loopDate <= date; loopDate.add(r.weeklyFrequency, 'weeks')) {
-                  return r.weeklyDay && loopDate.week() === date.week() && date.format('dddd') === r.weeklyDay;
-                }
-              }
+              return r.weeklyDay && moment(r.startDate).diff(date, 'weeks') % r.weeklyFrequency === 0 && date.format('dddd') === r.weeklyDay;
             }
           }
 
