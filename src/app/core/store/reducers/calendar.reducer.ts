@@ -20,12 +20,20 @@ const initialState: State = {
   endDate: moment().subtract(1, 'month').endOf('month').endOf('day').toDate(),
   transactions: [],
   balances: [],
-  captureds: [],
+  captureds: [{ date: moment().subtract(1, 'month').startOf('month').startOf('day').toDate() }],
   recurrences: []
 };
 
 export function reducer(state = initialState, action: CalendarAction): State {
   switch (action.type) {
+    case CalendarActionTypes.LOAD:
+      return {
+        ...state,
+        transactions: [],
+        balances: [],
+        captureds: [{ date: action.payload.beginDate }]
+      };
+
     case CalendarActionTypes.GET_TRANSACTIONS:
       return {
         ...state,

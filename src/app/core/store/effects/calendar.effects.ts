@@ -25,10 +25,9 @@ export class CalendarEffects {
   load$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.Load>(CalendarActionTypes.LOAD),
     mergeMap(action => [
-      new CalendarActions.GetTransactions(action.payload),
-      new CalendarActions.GetBalances(action.payload),
       new CalendarActions.GetCaptureds(action.payload),
-      new CalendarActions.GetRecurrences()
+      new CalendarActions.GetTransactions(action.payload),
+      new CalendarActions.GetBalances(action.payload)
     ])
   );
 

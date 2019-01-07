@@ -41,6 +41,7 @@ export class CalendarComponent implements OnInit {
     this.loading$ = this.store.select(AppSelectors.loading);
 
     this.store.dispatch(new AppActions.ParseAuthHash([
+      new CalendarActions.GetRecurrences(),
       new CalendarActions.Load(this.transactionRequest)
     ]));
   }
