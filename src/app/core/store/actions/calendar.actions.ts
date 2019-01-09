@@ -10,7 +10,7 @@ export enum CalendarActionTypes {
   LOAD = '[calendar] LOAD',
   GET_TRANSACTIONS = '[calendar] GET_TRANSACTIONS',
   SET_TRANSACTIONS = '[calendar] SET_TRANSACTIONS',
-  PUT_TRANSACTION = '[calendar] PUT_TRANSACTION',
+  PATCH_TRANSACTION = '[calendar] PATCH_TRANSACTION',
   SET_TRANSACTION = '[calendar] SET_TRANSACTION',
   GET_BALANCES = '[calendar] GET_BALANCES',
   SET_BALANCES = '[calendar] SET_BALANCES',
@@ -39,8 +39,8 @@ export namespace CalendarActions {
     constructor(public payload: Transaction[]) { }
   }
 
-  export class PutTransaction implements Action {
-    readonly type = CalendarActionTypes.PUT_TRANSACTION;
+  export class PatchTransaction implements Action {
+    readonly type = CalendarActionTypes.PATCH_TRANSACTION;
 
     constructor(public payload: Transaction) { }
   }
@@ -90,7 +90,7 @@ export type CalendarAction =
   CalendarActions.Load |
   CalendarActions.GetTransactions |
   CalendarActions.SetTransactions |
-  CalendarActions.PutTransaction |
+  CalendarActions.PatchTransaction |
   CalendarActions.SetTransaction |
   CalendarActions.GetBalances |
   CalendarActions.SetBalances |

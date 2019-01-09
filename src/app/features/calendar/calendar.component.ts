@@ -70,7 +70,7 @@ export class CalendarComponent implements OnInit {
   }
 
   onTransactionAmountClick(transaction: Transaction) {
-    this.store.dispatch(new CalendarActions.PutTransaction({
+    this.store.dispatch(new CalendarActions.PatchTransaction({
       ...transaction,
       cleared: !transaction.cleared
     }));

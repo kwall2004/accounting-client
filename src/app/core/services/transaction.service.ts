@@ -24,7 +24,7 @@ export class TransactionService {
     return this.httpClient.get(`${environment.apiBaseUrl}/transaction?where=${JSON.stringify(where)}`);
   }
 
-  public put(transaction: Transaction) {
-    return this.httpClient.put(`${environment.apiBaseUrl}/transaction/${transaction.id}`, JSON.stringify(transaction));
+  public patch(transaction: Transaction) {
+    return this.httpClient.patch(`${environment.apiBaseUrl}/transaction/${transaction.id}`, JSON.stringify(transaction));
   }
 }
