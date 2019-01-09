@@ -37,7 +37,7 @@
           {{day.date.getDate()}}
         </div>
         <div>
-          {{!day.disabled && !(loading$ | async) ? (day.balance | number: '1.2-2') : ''}}
+          {{!day.disabled ? (day.balance | number: '1.2-2') : ''}}
         </div>
       </div>
       <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between border rounded my-1"

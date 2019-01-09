@@ -22,7 +22,6 @@ export class CalendarComponent implements OnInit {
   weeks$: Observable<Day[][]>;
   previousMonthEndBalance$: Observable<number>;
   monthName$: Observable<string>;
-  loading$: Observable<boolean>;
 
   transactionRequest: TransactionRequest = {
     beginDate: moment().startOf('month').startOf('day').toDate(),
@@ -38,7 +37,6 @@ export class CalendarComponent implements OnInit {
     this.weeks$ = this.store.select(CalendarSelectors.weeks);
     this.previousMonthEndBalance$ = this.store.select(CalendarSelectors.beginningBalance);
     this.monthName$ = this.store.select(CalendarSelectors.monthName);
-    this.loading$ = this.store.select(AppSelectors.loading);
 
     this.store.dispatch(new AppActions.ParseAuthHash([
       new CalendarActions.GetRecurrences(),
