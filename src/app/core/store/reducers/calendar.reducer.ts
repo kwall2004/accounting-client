@@ -47,6 +47,17 @@ export function reducer(state = initialState, action: CalendarAction): State {
         transactions: action.payload
       };
 
+    case CalendarActionTypes.SET_TRANSACTION:
+      return {
+        ...state,
+        transactions: state.transactions.map((t: Transaction) => {
+          if (t.id === action.payload.id) {
+            return action.payload;
+          }
+          return t;
+        })
+      };
+
     case CalendarActionTypes.SET_BALANCES:
       return {
         ...state,

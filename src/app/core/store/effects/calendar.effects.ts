@@ -46,6 +46,20 @@ export class CalendarEffects {
   );
 
   @Effect()
+  putTransaction$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.PutTransaction>(CalendarActionTypes.PUT_TRANSACTION),
+    mergeMap(action => this.transactionService.put(action.payload).pipe(
+      mergeMap((transaction: Transaction) => {
+        return [new CalendarActions.SetTransaction(transaction)];
+      }),
+      catchError(error => {
+        console.error(error);
+        return [];
+      })
+    ))
+  );
+
+  @Effect()
   getBalances$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.GetBalances>(CalendarActionTypes.GET_BALANCES),
     mergeMap(action => this.balanceService.get(action.payload).pipe(

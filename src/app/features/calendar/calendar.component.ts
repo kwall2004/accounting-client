@@ -64,11 +64,18 @@ export class CalendarComponent implements OnInit {
     this.store.dispatch(new CalendarActions.Load(this.transactionRequest));
   }
 
-  onTransactionClick(transaction: Transaction) {
+  onTransactionDescriptionClick(transaction: Transaction) {
     this.dialog.open(TransactionComponent, {
       width: '400px',
       data: transaction
     });
+  }
+
+  onTransactionAmountClick(transaction: Transaction) {
+    this.store.dispatch(new CalendarActions.PutTransaction({
+      ...transaction,
+      cleared: !transaction.cleared
+    }));
   }
 
   onRecurrenceClick(recurrence: Recurrence) {

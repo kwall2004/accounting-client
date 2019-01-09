@@ -5,6 +5,7 @@ import * as moment from 'moment';
 
 import { environment } from '../../../environments/environment';
 import { TransactionRequest } from '../models/transaction-request';
+import { Transaction } from '../models/transaction';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class TransactionService {
     };
 
     return this.httpClient.get(`${environment.apiBaseUrl}/transaction?where=${JSON.stringify(where)}`);
+  }
+
+  public put(transaction: Transaction) {
+    return this.httpClient.put(`${environment.apiBaseUrl}/transaction/${transaction.id}`, JSON.stringify(transaction));
   }
 }

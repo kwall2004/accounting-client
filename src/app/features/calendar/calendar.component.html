@@ -41,11 +41,11 @@
         </div>
       </div>
       <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between border rounded my-1"
-        [ngClass]="{'clickable-primary': transaction.cleared, 'clickable-danger': !transaction.cleared}" (click)="onTransactionClick(transaction)">
-        <div class="px-1">
+        [ngClass]="{'clickable-primary': transaction.cleared, 'clickable-danger': !transaction.cleared}">
+        <div class="px-1" (click)="onTransactionDescriptionClick(transaction)">
           {{transaction.description}}
         </div>
-        <div class="px-1">
+        <div class="px-1" (click)="onTransactionAmountClick(transaction)">
           {{transaction.amount | number: '1.2-2'}}
         </div>
       </div>
