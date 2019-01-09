@@ -11,7 +11,7 @@ import { Transaction } from 'src/app/core/models/transaction';
 export class TransactionComponent {
   constructor(
     public dialogRef: MatDialogRef<TransactionComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Transaction
+    @Inject(MAT_DIALOG_DATA) public transaction: Transaction
   ) { }
 
   onCloseClick() {

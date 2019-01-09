@@ -40,8 +40,8 @@
           {{!day.disabled && !(loading$ | async) ? (day.balance | number: '1.2-2') : ''}}
         </div>
       </div>
-      <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between border rounded my-1 clickable-primary"
-        (click)="onTransactionClick(transaction)">
+      <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between border rounded my-1"
+        [ngClass]="{'clickable-primary': transaction.cleared, 'clickable-danger': !transaction.cleared}" (click)="onTransactionClick(transaction)">
         <div class="px-1">
           {{transaction.description}}
         </div>

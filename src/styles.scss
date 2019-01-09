@@ -57,16 +57,18 @@ body {
   color: $tertiary !important;
 }
 
-.clickable-muted {
+.clickable-danger {
   &:hover {
-    border-color: $gray-600 !important;
-    box-shadow: 0 0 0 2px $gray-600;
+    border-color: $danger !important;
+    box-shadow: 0 0 0 2px $danger;
     cursor: pointer;
   }
 
   &:focus {
-    outline-color: $gray-600;
+    outline-color: $danger;
   }
+
+  color: $danger !important;
 }
 
 .mat-dialog-container {
