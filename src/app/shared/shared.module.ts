@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressBarModule, MatDialogModule, MatButtonModule } from '@angular/material';
+import { MatProgressBarModule, MatDialogModule } from '@angular/material';
 
 import { TransactionComponent } from './transaction/transaction.component';
 import { RecurrenceComponent } from './recurrence/recurrence.component';
@@ -15,8 +15,7 @@ import { CaptureConfirmationComponent } from './capture-confirmation/capture-con
   imports: [
     BrowserAnimationsModule,
     MatProgressBarModule,
-    MatDialogModule,
-    MatButtonModule
+    MatDialogModule
   ],
   entryComponents: [
     TransactionComponent,
@@ -29,8 +28,7 @@ import { CaptureConfirmationComponent } from './capture-confirmation/capture-con
     CaptureConfirmationComponent,
     BrowserAnimationsModule,
     MatProgressBarModule,
-    MatDialogModule,
-    MatButtonModule
+    MatDialogModule
   ]
 })
 export class SharedModule { }

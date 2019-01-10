@@ -43,6 +43,16 @@ button[mat-dialog-close] {
   box-shadow: none;
 }
 
+.btn-primary {
+  color: $primary;
+  background-color: transparent;
+}
+
+.btn-secondary {
+  color: $secondary;
+  background-color: transparent;
+}
+
 .clickable-primary {
   &:hover {
     border-color: $primary !important;
