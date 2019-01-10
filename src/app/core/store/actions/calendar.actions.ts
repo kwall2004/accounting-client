@@ -5,6 +5,7 @@ import { TransactionRequest } from '../../models/transaction-request';
 import { Balance } from '../../models/balance';
 import { Recurrence } from '../../models/recurrence';
 import { Captured } from '../../models/captured';
+import { Day } from '../../models/day';
 
 export enum CalendarActionTypes {
   LOAD = '[calendar] LOAD',
@@ -17,7 +18,8 @@ export enum CalendarActionTypes {
   GET_CAPTUREDS = '[calendar] GET_CAPTUREDS',
   SET_CAPTUREDS = '[calendar] SET_CAPTUREDS',
   GET_RECURRENCES = '[calendar] GET_RECURRENCES',
-  SET_RECURRENCES = '[calendar] SET_RECURRENCES'
+  SET_RECURRENCES = '[calendar] SET_RECURRENCES',
+  CAPTURE_MONTH = '[calendar] CAPTURE_MONTH'
 }
 
 export namespace CalendarActions {
@@ -84,6 +86,12 @@ export namespace CalendarActions {
 
     constructor(public payload: Recurrence[]) { }
   }
+
+  export class CaptureMonth implements Action {
+    readonly type = CalendarActionTypes.CAPTURE_MONTH;
+
+    constructor(public payload: Day[][]) { }
+  }
 }
 
 export type CalendarAction =
@@ -97,4 +105,5 @@ export type CalendarAction =
   CalendarActions.GetCaptureds |
   CalendarActions.SetCaptureds |
   CalendarActions.GetRecurrences |
-  CalendarActions.SetRecurrences;
+  CalendarActions.SetRecurrences |
+  CalendarActions.CaptureMonth;

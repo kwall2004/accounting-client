@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material';
+import { takeUntil } from 'rxjs/operators';
 
 import { Day } from 'src/app/core/models/day';
 import { CoreState, CalendarSelectors, AppActions, CalendarActions, AppSelectors } from 'src/app/core/store';
@@ -11,6 +12,7 @@ import { Transaction } from 'src/app/core/models/transaction';
 import { TransactionComponent } from 'src/app/shared/transaction/transaction.component';
 import { Recurrence } from 'src/app/core/models/recurrence';
 import { RecurrenceComponent } from 'src/app/shared/recurrence/recurrence.component';
+import { CaptureConfirmationComponent } from 'src/app/shared/capture-confirmation/capture-confirmation.component';
 
 @Component({
   selector: 'app-calendar',
@@ -18,15 +20,19 @@ import { RecurrenceComponent } from 'src/app/shared/recurrence/recurrence.compon
   styleUrls: ['./calendar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CalendarComponent implements OnInit {
-  weeks$: Observable<Day[][]>;
-  previousMonthEndBalance$: Observable<number>;
-  monthName$: Observable<string>;
+export class CalendarComponent implements OnInit, OnDestroy {
+  private isDestroyed$ = new Subject();
 
-  transactionRequest: TransactionRequest = {
+  private transactionRequest: TransactionRequest = {
     beginDate: moment().startOf('month').startOf('day').toDate(),
     endDate: moment().endOf('month').endOf('day').toDate()
   };
+
+  previousMonthEndBalance$: Observable<number>;
+  monthName$: Observable<string>;
+  captured$: Observable<boolean>;
+
+  weeks: Day[][];
 
   constructor(
     private store: Store<CoreState>,
@@ -34,14 +40,22 @@ export class CalendarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.weeks$ = this.store.select(CalendarSelectors.weeks);
+    this.store.select(CalendarSelectors.weeks).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe(weeks => this.weeks = weeks);
+
     this.previousMonthEndBalance$ = this.store.select(CalendarSelectors.beginningBalance);
     this.monthName$ = this.store.select(CalendarSelectors.monthName);
+    this.captured$ = this.store.select(CalendarSelectors.captured);
 
     this.store.dispatch(new AppActions.ParseAuthHash([
       new CalendarActions.GetRecurrences(),
       new CalendarActions.Load(this.transactionRequest)
     ]));
+  }
+
+  ngOnDestroy() {
+    this.isDestroyed$.next();
   }
 
   onPreviousMonthClick() {
@@ -60,6 +74,16 @@ export class CalendarComponent implements OnInit {
     };
 
     this.store.dispatch(new CalendarActions.Load(this.transactionRequest));
+  }
+
+  onMonthNameClick() {
+    const dialogRef = this.dialog.open(CaptureConfirmationComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.store.dispatch(new CalendarActions.CaptureMonth(this.weeks));
+      }
+    });
   }
 
   onTransactionDescriptionClick(transaction: Transaction) {

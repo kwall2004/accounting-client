@@ -4,11 +4,13 @@ import { MatProgressBarModule, MatDialogModule } from '@angular/material';
 
 import { TransactionComponent } from './transaction/transaction.component';
 import { RecurrenceComponent } from './recurrence/recurrence.component';
+import { CaptureConfirmationComponent } from './capture-confirmation/capture-confirmation.component';
 
 @NgModule({
   declarations: [
     TransactionComponent,
-    RecurrenceComponent
+    RecurrenceComponent,
+    CaptureConfirmationComponent
   ],
   imports: [
     MatProgressBarModule,
@@ -17,11 +19,13 @@ import { RecurrenceComponent } from './recurrence/recurrence.component';
   ],
   entryComponents: [
     TransactionComponent,
-    RecurrenceComponent
+    RecurrenceComponent,
+    CaptureConfirmationComponent
   ],
   exports: [
     TransactionComponent,
     RecurrenceComponent,
+    CaptureConfirmationComponent,
     MatProgressBarModule,
     BrowserAnimationsModule,
     MatDialogModule

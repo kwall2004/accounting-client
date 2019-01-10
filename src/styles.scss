@@ -21,11 +21,16 @@ body {
   &:hover {
     border-color: $primary !important;
     box-shadow: 0 0 0 2px $primary;
-    cursor: pointer;
   }
 
   &:focus {
     outline-color: $primary;
+  }
+
+  color: $primary !important;
+
+  div {
+    cursor: pointer;
   }
 }
 
@@ -33,7 +38,6 @@ body {
   &:hover {
     border-color: $secondary !important;
     box-shadow: 0 0 0 2px $secondary;
-    cursor: pointer;
   }
 
   &:focus {
@@ -41,13 +45,16 @@ body {
   }
 
   color: $secondary !important;
+
+  div {
+    cursor: pointer;
+  }
 }
 
 .clickable-tertiary {
   &:hover {
     border-color: $tertiary !important;
     box-shadow: 0 0 0 2px $tertiary;
-    cursor: pointer;
   }
 
   &:focus {
@@ -55,13 +62,16 @@ body {
   }
 
   color: $tertiary !important;
+
+  div {
+    cursor: pointer;
+  }
 }
 
 .clickable-danger {
   &:hover {
     border-color: $danger !important;
     box-shadow: 0 0 0 2px $danger;
-    cursor: pointer;
   }
 
   &:focus {
@@ -69,6 +79,10 @@ body {
   }
 
   color: $danger !important;
+
+  div {
+    cursor: pointer;
+  }
 }
 
 .mat-dialog-container {
