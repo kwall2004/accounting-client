@@ -3,6 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressBarModule, MatDialogModule } from '@angular/material';
+import { ToastrModule } from 'ngx-toastr';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,7 +27,11 @@ import { InterceptorService } from './services/interceptor.service';
       maxAge: 50
     }) : [],
     BrowserAnimationsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDialogModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-full-width'
+    })
   ],
   providers: [
     {
@@ -42,7 +47,8 @@ import { InterceptorService } from './services/interceptor.service';
   ],
   exports: [
     MatProgressBarModule,
-    MatDialogModule
+    MatDialogModule,
+    ToastrModule
   ]
 })
 export class CoreModule { }

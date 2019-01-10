@@ -17,6 +17,32 @@ body {
   background-color: $primary;
 }
 
+.mat-dialog-container {
+  background-color: $black;
+  color: $primary;
+  border: solid 1px $secondary;
+  padding: 10px !important;
+}
+
+button[mat-dialog-close] {
+  i {
+    position: relative;
+    top: -1px;
+  }
+}
+
+.toast-top-full-width {
+	margin-top: 25px;
+}
+
+.toast-error {
+  background-color: $danger;
+}
+
+.toast-container .toast {
+  box-shadow: none;
+}
+
 .clickable-primary {
   &:hover {
     border-color: $primary !important;
@@ -82,19 +108,5 @@ body {
 
   div {
     cursor: pointer;
-  }
-}
-
-.mat-dialog-container {
-  background-color: $black;
-  color: $primary;
-  border: solid 1px $secondary;
-  padding: 10px !important;
-}
-
-button[mat-dialog-close] {
-  i {
-    position: relative;
-    top: -1px;
   }
 }

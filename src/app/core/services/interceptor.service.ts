@@ -34,10 +34,7 @@ export class InterceptorService implements HttpInterceptor {
     return this.getNewRequest(request).pipe(
       tap(() => this.store.dispatch(new AppActions.SetLoading(true))),
       mergeMap(newRequest => next.handle(newRequest).pipe(
-        catchError(error => {
-          console.error(error);
-          return throwError(error);
-        })
+        catchError(error => throwError(error))
       )),
       finalize(() => this.store.dispatch(new AppActions.SetLoading(false)))
     );

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, mergeMap } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 import { CalendarActions, CalendarActionTypes } from '../actions';
 import { TransactionService, BalanceService, CapturedService, RecurrenceService } from '../../services';
@@ -15,6 +16,7 @@ import { Recurrence } from '../../models/recurrence';
 export class CalendarEffects {
   constructor(
     private actions$: Actions,
+    private toastrService: ToastrService,
     private transactionService: TransactionService,
     private balanceService: BalanceService,
     private capturedService: CapturedService,
@@ -40,6 +42,7 @@ export class CalendarEffects {
       }),
       catchError(error => {
         console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
         return [];
       })
     ))
@@ -54,6 +57,7 @@ export class CalendarEffects {
       }),
       catchError(error => {
         console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
         return [];
       })
     ))
@@ -68,6 +72,7 @@ export class CalendarEffects {
       }),
       catchError(error => {
         console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
         return [];
       })
     ))
@@ -82,6 +87,7 @@ export class CalendarEffects {
       }),
       catchError(error => {
         console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
         return [];
       })
     ))
@@ -96,6 +102,7 @@ export class CalendarEffects {
       }),
       catchError(error => {
         console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
         return [];
       })
     ))
