@@ -1,26 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'variables';
 @import '~bootstrap/scss/bootstrap';
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@angular/material/theming";
+
+@include mat-core();
+
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent:  mat-palette($mat-amber, A200, A100, A400);
+$dark-warn:    mat-palette($mat-deep-orange);
+$dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+@include angular-material-theme($dark-theme);
 
 body {
   font-size: small;
-  color: $primary;
-  background-color: $gray-900;
+  // color: $primary;
+  // background-color: $gray-900;
 }
 
-.mat-progress-bar-buffer {
-  background-color: $black;
-}
+// .mat-progress-bar-buffer {
+//   background-color: $black;
+// }
 
-.mat-progress-bar-fill::after {
-  background-color: $primary;
-}
+// .mat-progress-bar-fill::after {
+//   background-color: $primary;
+// }
 
 .mat-dialog-container {
-  background-color: $black;
-  color: $primary;
-  border: solid 1px $secondary;
+  // background-color: $black;
+  // color: $primary;
+  // border: solid 1px $secondary;
   padding: 10px !important;
 }
 
@@ -35,88 +44,88 @@ button[mat-dialog-close] {
 	margin-top: 25px;
 }
 
-.toast-error {
-  background-color: $danger;
-}
+// .toast-error {
+//   background-color: $danger;
+// }
 
 .toast-container .toast {
   box-shadow: none;
 }
 
-.btn-primary {
-  color: $primary;
-  background-color: transparent;
-}
+// .btn-primary {
+//   color: $primary;
+//   background-color: transparent;
+// }
 
-.btn-secondary {
-  color: $secondary;
-  background-color: transparent;
-}
+// .btn-secondary {
+//   color: $secondary;
+//   background-color: transparent;
+// }
 
-.clickable-primary {
-  &:hover {
-    border-color: $primary !important;
-    box-shadow: 0 0 0 2px $primary;
-  }
+// .clickable-primary {
+//   &:hover {
+//     border-color: $primary !important;
+//     box-shadow: 0 0 0 2px $primary;
+//   }
 
-  &:focus {
-    outline-color: $primary;
-  }
+//   &:focus {
+//     outline-color: $primary;
+//   }
 
-  color: $primary !important;
+//   color: $primary !important;
 
-  div {
-    cursor: pointer;
-  }
-}
+//   div {
+//     cursor: pointer;
+//   }
+// }
 
-.clickable-secondary {
-  &:hover {
-    border-color: $secondary !important;
-    box-shadow: 0 0 0 2px $secondary;
-  }
+// .clickable-secondary {
+//   &:hover {
+//     border-color: $secondary !important;
+//     box-shadow: 0 0 0 2px $secondary;
+//   }
 
-  &:focus {
-    outline-color: $secondary;
-  }
+//   &:focus {
+//     outline-color: $secondary;
+//   }
 
-  color: $secondary !important;
+//   color: $secondary !important;
 
-  div {
-    cursor: pointer;
-  }
-}
+//   div {
+//     cursor: pointer;
+//   }
+// }
 
-.clickable-tertiary {
-  &:hover {
-    border-color: $tertiary !important;
-    box-shadow: 0 0 0 2px $tertiary;
-  }
+// .clickable-tertiary {
+//   &:hover {
+//     border-color: $tertiary !important;
+//     box-shadow: 0 0 0 2px $tertiary;
+//   }
 
-  &:focus {
-    outline-color: $tertiary;
-  }
+//   &:focus {
+//     outline-color: $tertiary;
+//   }
 
-  color: $tertiary !important;
+//   color: $tertiary !important;
 
-  div {
-    cursor: pointer;
-  }
-}
+//   div {
+//     cursor: pointer;
+//   }
+// }
 
-.clickable-danger {
-  &:hover {
-    border-color: $danger !important;
-    box-shadow: 0 0 0 2px $danger;
-  }
+// .clickable-danger {
+//   &:hover {
+//     border-color: $danger !important;
+//     box-shadow: 0 0 0 2px $danger;
+//   }
 
-  &:focus {
-    outline-color: $danger;
-  }
+//   &:focus {
+//     outline-color: $danger;
+//   }
 
-  color: $danger !important;
+//   color: $danger !important;
 
-  div {
-    cursor: pointer;
-  }
-}
+//   div {
+//     cursor: pointer;
+//   }
+// }

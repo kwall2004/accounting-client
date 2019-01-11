@@ -20,23 +20,23 @@ $container-max-widths: (
   xxxl: 1780px
 );
 
-$primary: #9cdcfe;
-$secondary: #d7ba7d;
-$tertiary: #ce9178;
-$danger: #f44747;
-$theme-colors: (
-  (
-    "primary":    $primary,
-    "secondary":  $secondary,
-    "success":    $success,
-    "info":       $info,
-    "warning":    $warning,
-    "danger":     $danger,
-    "light":      $light,
-    "dark":       $dark
-  )
-);
-$border-color:                $gray-600;
-$link-color:                theme-color("primary");
-$link-hover-color:          darken($link-color, 15%);
+// $primary: #9cdcfe;
+// $secondary: #d7ba7d;
+// $tertiary: #ce9178;
+// $danger: #f44747;
+// $theme-colors: (
+//   (
+//     "primary":    $primary,
+//     "secondary":  $secondary,
+//     "success":    $success,
+//     "info":       $info,
+//     "warning":    $warning,
+//     "danger":     $danger,
+//     "light":      $light,
+//     "dark":       $dark
+//   )
+// );
+// $border-color:                $gray-600;
+// $link-color:                theme-color("primary");
+// $link-hover-color:          darken($link-color, 15%);
 
