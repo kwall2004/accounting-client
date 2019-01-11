@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressBarModule, MatDialogModule } from '@angular/material';
-import { ToastrModule } from 'ngx-toastr';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,13 +22,7 @@ import { InterceptorService } from './services/interceptor.service';
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument({
       maxAge: 50
-    }) : [],
-    BrowserAnimationsModule,
-    MatProgressBarModule,
-    MatDialogModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-top-full-width'
-    })
+    }) : []
   ],
   providers: [
     {
@@ -44,11 +35,6 @@ import { InterceptorService } from './services/interceptor.service';
       useClass: CustomSerializer
     },
     DatePipe
-  ],
-  exports: [
-    MatProgressBarModule,
-    MatDialogModule,
-    ToastrModule
   ]
 })
 export class CoreModule { }

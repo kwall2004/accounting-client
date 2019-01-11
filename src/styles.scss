@@ -5,32 +5,38 @@
 
 @include mat-core();
 
-$dark-primary: mat-palette($mat-blue-grey);
-$dark-accent:  mat-palette($mat-amber, A200, A100, A400);
-$dark-warn:    mat-palette($mat-deep-orange);
-$dark-theme:   mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+$dark-primary: mat-palette($mat-cyan);
+$dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$dark-warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+$dark-theme-foreground-base: map_get($mat-blue-grey, 300);
+$mat-dark-theme-foreground: (
+  base:              $dark-theme-foreground-base,
+  divider:           $light-dividers,
+  dividers:          $light-dividers,
+  disabled:          $light-disabled-text,
+  disabled-button:   rgba($dark-theme-foreground-base, 0.3),
+  disabled-text:     $light-disabled-text,
+  elevation:         black,
+  hint-text:         $light-disabled-text,
+  secondary-text:    $light-secondary-text,
+  icon:              $dark-theme-foreground-base,
+  icons:             $dark-theme-foreground-base,
+  text:              $dark-theme-foreground-base,
+  slider-min:        $dark-theme-foreground-base,
+  slider-off:        rgba($dark-theme-foreground-base, 0.3),
+  slider-off-active: rgba($dark-theme-foreground-base, 0.3),
+);
 
 @include angular-material-theme($dark-theme);
 
 body {
   font-size: small;
-  // color: $primary;
-  // background-color: $gray-900;
 }
 
-// .mat-progress-bar-buffer {
-//   background-color: $black;
-// }
-
-// .mat-progress-bar-fill::after {
-//   background-color: $primary;
-// }
-
 .mat-dialog-container {
-  // background-color: $black;
-  // color: $primary;
-  // border: solid 1px $secondary;
-  padding: 10px !important;
+  padding: 15px !important;
 }
 
 button[mat-dialog-close] {
