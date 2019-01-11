@@ -1,18 +1,18 @@
-<div class="text-secondary row mb-2 lead font-weight-bold">
+<div class="row mb-2 lead font-weight-bold">
   <div class="col d-flex align-items-center">
     <div>
-      <button class="mx-2 bg-transparent border-0 rounded text-secondary clickable-secondary" (click)="onPreviousMonthClick()">
+      <button mat-button class="mx-2 bg-transparent border-0 rounded clickable-secondary" (click)="onPreviousMonthClick()">
         <i class="fa fa-chevron-left"></i>
       </button>
     </div>
     <div>
-      <button class="mx-2 bg-transparent border-0 rounded text-secondary font-weight-bold text-center" [ngClass]="!(captured$ | async) ? 'clickable-secondary' : ''"
+      <button mat-button class="mx-2 bg-transparent border-0 rounded font-weight-bold text-center" [ngClass]="!(captured$ | async) ? 'clickable-secondary' : ''"
         style="min-width: 160px;" (click)="onMonthNameClick()">
         {{monthName$ | async}}
       </button>
     </div>
     <div>
-      <button class="mx-2 bg-transparent border-0 rounded text-secondary clickable-secondary" (click)="onNextMonthClick()">
+      <button mat-button class="mx-2 bg-transparent border-0 rounded clickable-secondary" (click)="onNextMonthClick()">
         <i class="fa fa-chevron-right"></i>
       </button>
     </div>
@@ -22,7 +22,7 @@
   </div>
 </div>
 <div class="d-none d-xl-block">
-  <div class="row text-center text-muted font-weight-bold mb-2">
+  <div class="row text-center font-weight-bold mb-2">
     <div class="col">Sun</div>
     <div class="col">Mon</div>
     <div class="col">Tue</div>
@@ -35,7 +35,7 @@
 <div class="row border mb-5">
   <ng-container *ngFor="let week of weeks">
     <div *ngFor="let day of week" class="col border p-2 day" [ngClass]="{'disabled d-none d-xl-block': day.disabled}">
-      <div class="font-weight-bold text-secondary mb-2 d-flex justify-content-between">
+      <div class="font-weight-bold mb-2 d-flex justify-content-between">
         <div>
           {{day.date.getDate()}}
         </div>
