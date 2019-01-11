@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import * as moment from 'moment';
@@ -36,13 +36,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<CoreState>,
+    private cd: ChangeDetectorRef,
     public dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.store.select(CalendarSelectors.weeks).pipe(
       takeUntil(this.isDestroyed$)
-    ).subscribe(weeks => this.weeks = weeks);
+    ).subscribe(weeks => {
+      this.weeks = weeks;
+      this.cd.markForCheck();
+    });
 
     this.previousMonthEndBalance$ = this.store.select(CalendarSelectors.beginningBalance);
     this.monthName$ = this.store.select(CalendarSelectors.monthName);
