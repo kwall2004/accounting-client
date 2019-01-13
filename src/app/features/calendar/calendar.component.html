@@ -1,18 +1,18 @@
 <div class="row mb-2 lead font-weight-bold">
   <div class="col d-flex align-items-center">
     <div>
-      <button mat-button class="mx-2 bg-transparent border-0 rounded clickable-secondary" (click)="onPreviousMonthClick()">
+      <button mat-button color="primary" (click)="onPreviousMonthClick()">
         <i class="fa fa-chevron-left"></i>
       </button>
     </div>
     <div>
-      <button mat-button class="mx-2 bg-transparent border-0 rounded font-weight-bold text-center" [ngClass]="!(captured$ | async) ? 'clickable-secondary' : ''"
+      <button mat-button color="primary" [disabled]="captured$ | async"
         style="min-width: 160px;" (click)="onMonthNameClick()">
         {{monthName$ | async}}
       </button>
     </div>
     <div>
-      <button mat-button class="mx-2 bg-transparent border-0 rounded clickable-secondary" (click)="onNextMonthClick()">
+      <button mat-button color="primary" (click)="onNextMonthClick()">
         <i class="fa fa-chevron-right"></i>
       </button>
     </div>

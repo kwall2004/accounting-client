@@ -3,9 +3,10 @@
 @import '~bootstrap/scss/bootstrap';
 
 * {
+
   &:active,
   :focus {
-    outline: none !important;  // 1
+    outline: none !important; // 1
   }
 }
 
@@ -16,40 +17,55 @@ label {
 // a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not([mat-list-item]) {
 //   color: #3f51b5; // 3
 // }
-  
+
 @import "~@angular/material/theming";
 
 @include mat-core();
 
-$dark-primary: mat-palette($mat-cyan);
-$dark-accent: mat-palette($mat-amber, A200, A100, A400);
-$dark-warn: mat-palette($mat-deep-orange);
+$dark-primary: mat-palette($mat-cyan, 200, 50, 400);
+$dark-accent: mat-palette($mat-amber, 100, 50, 200);
+$dark-warn: mat-palette($mat-deep-orange, 200, 50, 400);
 
-$dark-theme-foreground-base: map_get($mat-cyan, 300);
-$mat-dark-theme-foreground: (
-  base:              $dark-theme-foreground-base,
-  divider:           $light-dividers,
-  dividers:          $light-dividers,
-  disabled:          $light-disabled-text,
-  disabled-button:   rgba($dark-theme-foreground-base, 0.3),
-  disabled-text:     $light-disabled-text,
-  elevation:         black,
-  hint-text:         $light-disabled-text,
-  secondary-text:    $light-secondary-text,
-  icon:              $dark-theme-foreground-base,
-  icons:             $dark-theme-foreground-base,
-  text:              $dark-theme-foreground-base,
-  slider-min:        $dark-theme-foreground-base,
-  slider-off:        rgba($dark-theme-foreground-base, 0.3),
-  slider-off-active: rgba($dark-theme-foreground-base, 0.3),
+$dark-theme-foreground-base: map_get($mat-gray, 400);
+$mat-dark-theme-foreground: (base: $dark-theme-foreground-base,
+divider: $light-dividers,
+dividers: $light-dividers,
+disabled: $light-disabled-text,
+disabled-button: rgba($dark-theme-foreground-base, 0.3),
+disabled-text: $light-disabled-text,
+elevation: black,
+hint-text: $light-disabled-text,
+secondary-text: $light-secondary-text,
+icon: $dark-theme-foreground-base,
+icons: $dark-theme-foreground-base,
+text: $dark-theme-foreground-base,
+slider-min: $dark-theme-foreground-base,
+slider-off: rgba($dark-theme-foreground-base, 0.3),
+slider-off-active: rgba($dark-theme-foreground-base, 0.3),
 );
 
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+$_mat-button-ripple-opacity: 0.3;
 
 @include angular-material-theme($dark-theme);
 
 body {
   font-size: small;
+  overflow-y: scroll;
+}
+
+.cdk-global-scrollblock {
+  overflow-y: hidden;
+}
+
+.mat-progress-bar-buffer {
+  background-color: $black !important;
+}
+
+.mat-button:hover .mat-button-focus-overlay,
+.mat-stroked-button:hover .mat-button-focus-overlay {
+  opacity: .12 !important;
 }
 
 .mat-dialog-container {
@@ -64,7 +80,7 @@ button[mat-dialog-close] {
 }
 
 .toast-top-full-width {
-	margin-top: 25px;
+  margin-top: 25px;
 }
 
 // .toast-error {
