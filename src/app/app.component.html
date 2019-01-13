@@ -1,17 +1,16 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">accounting</a>
-      <button mat-stroked-button class="mx-1" routerLink="/">
+      <button class="btn btn-link mx-1" routerLink="/">
         home
       </button>
-      <button mat-stroked-button class="mx-1" routerLink="calendar">
+      <button class="btn btn-link mx-1" routerLink="calendar">
         calendar
       </button>
-      <button mat-stroked-button class="mx-1" *ngIf="authIsExpired$ | async" (click)="login()">
+      <button class="btn btn-link mx-1" *ngIf="authIsExpired$ | async" (click)="login()">
         log in
       </button>
-      <button mat-stroked-button class="mx-1" *ngIf="!(authIsExpired$ | async)" (click)="logout()">
+      <button class="btn btn-link mx-1" *ngIf="!(authIsExpired$ | async)" (click)="logout()">
         log out
       </button>
     </div>

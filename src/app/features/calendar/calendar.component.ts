@@ -28,7 +28,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     endDate: moment().endOf('month').endOf('day').toDate()
   };
 
-  previousMonthEndBalance$: Observable<number>;
+  loading$: Observable<boolean>;
+  beginningBalance$: Observable<number>;
   monthName$: Observable<string>;
   captured$: Observable<boolean>;
 
@@ -48,7 +49,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     });
 
-    this.previousMonthEndBalance$ = this.store.select(CalendarSelectors.beginningBalance);
+    this.loading$ = this.store.select(AppSelectors.loading);
+    this.beginningBalance$ = this.store.select(CalendarSelectors.beginningBalance);
     this.monthName$ = this.store.select(CalendarSelectors.monthName);
     this.captured$ = this.store.select(CalendarSelectors.captured);
 

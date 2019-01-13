@@ -22,6 +22,6 @@ export namespace AppSelectors {
 
   export const loading = createSelector(
     appFeatureSelector,
-    (state: State): boolean => !!state.loading
+    (state: State): boolean => state.loading > 0
   );
 }

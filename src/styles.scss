@@ -3,56 +3,131 @@
 @import '~bootstrap/scss/bootstrap';
 
 * {
+
   &:active,
   :focus {
-    outline: none !important;  // 1
+    outline: none !important; // 1
   }
 }
 
-label {
-  margin-bottom: 0; // 2
+.btn {
+  font-weight: $font-weight-bold;
+  background-color: transparent;
+  border-color: transparent;
+
+  &:hover:not(:disabled) {
+    background-color: transparent;
+    border-color: transparent !important;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  :not(:disabled):not(.disabled).active,
+  .show>.dropdown-toggle {
+    background-color: transparent;
+    border-color: transparent !important;
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
 }
 
-// a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not([mat-list-item]) {
-//   color: #3f51b5; // 3
-// }
-  
-@import "~@angular/material/theming";
+.btn-primary {
+  color: $primary;
 
+  &:hover:not(:disabled) {
+    color: $primary;
+    box-shadow: 0 0 0 2px $primary;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  :not(:disabled):not(.disabled).active,
+  .show>.dropdown-toggle {
+    color: $primary;
+  }
+}
+
+.btn-secondary {
+  color: $secondary;
+
+  &:hover:not(:disabled) {
+    color: $secondary;
+    box-shadow: 0 0 0 2px $secondary;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  :not(:disabled):not(.disabled).active,
+  .show>.dropdown-toggle {
+    color: $secondary;
+  }
+}
+
+.btn-warning {
+  color: $warning;
+
+  &:hover:not(:disabled) {
+    color: $warning;
+    box-shadow: 0 0 0 2px $warning;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  :not(:disabled):not(.disabled).active,
+  .show>.dropdown-toggle {
+    color: $warning;
+  }
+}
+
+.btn-danger {
+  color: $danger;
+
+  &:hover:not(:disabled) {
+    color: $danger;
+    box-shadow: 0 0 0 2px $danger;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  :not(:disabled):not(.disabled).active,
+  .show>.dropdown-toggle {
+    color: $danger;
+  }
+}
+
+.lead {
+  .btn {
+    font-size: 1.25rem !important;
+  }
+}
+
+
+
+@import "~@angular/material/theming";
 @include mat-core();
 
-$dark-primary: mat-palette($mat-cyan);
-$dark-accent: mat-palette($mat-amber, A200, A100, A400);
-$dark-warn: mat-palette($mat-deep-orange);
+.cdk-global-scrollblock {
+  overflow-y: hidden;
+}
 
-$dark-theme-foreground-base: map_get($mat-cyan, 300);
-$mat-dark-theme-foreground: (
-  base:              $dark-theme-foreground-base,
-  divider:           $light-dividers,
-  dividers:          $light-dividers,
-  disabled:          $light-disabled-text,
-  disabled-button:   rgba($dark-theme-foreground-base, 0.3),
-  disabled-text:     $light-disabled-text,
-  elevation:         black,
-  hint-text:         $light-disabled-text,
-  secondary-text:    $light-secondary-text,
-  icon:              $dark-theme-foreground-base,
-  icons:             $dark-theme-foreground-base,
-  text:              $dark-theme-foreground-base,
-  slider-min:        $dark-theme-foreground-base,
-  slider-off:        rgba($dark-theme-foreground-base, 0.3),
-  slider-off-active: rgba($dark-theme-foreground-base, 0.3),
-);
+.mat-progress-bar-buffer {
+  background-color: $black;
+}
 
-$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+.mat-progress-bar-fill::after {
+  background-color: $primary;
+}
 
-@include angular-material-theme($dark-theme);
+
 
 body {
   font-size: small;
+  color: $primary;
+  background-color: $gray-900;
+  overflow-y: scroll;
 }
 
 .mat-dialog-container {
+  background-color: $black;
+  color: $primary;
+  border: solid 1px $secondary;
   padding: 15px !important;
 }
 
@@ -64,91 +139,55 @@ button[mat-dialog-close] {
 }
 
 .toast-top-full-width {
-	margin-top: 25px;
+  margin-top: 25px;
 }
 
-// .toast-error {
-//   background-color: $danger;
-// }
+.toast-error {
+  background-color: $danger;
+}
 
 .toast-container .toast {
   box-shadow: none;
 }
 
-// .btn-primary {
-//   color: $primary;
-//   background-color: transparent;
-// }
+.clickable {
+  div {
+    cursor: pointer;
+  }
+}
 
-// .btn-secondary {
-//   color: $secondary;
-//   background-color: transparent;
-// }
+.clickable-primary {
+  &:hover {
+    border-color: $primary !important;
+    box-shadow: 0 0 0 2px $primary;
+  }
 
-// .clickable-primary {
-//   &:hover {
-//     border-color: $primary !important;
-//     box-shadow: 0 0 0 2px $primary;
-//   }
+  color: $primary !important;
+}
 
-//   &:focus {
-//     outline-color: $primary;
-//   }
+.clickable-secondary {
+  &:hover {
+    border-color: $secondary !important;
+    box-shadow: 0 0 0 2px $secondary;
+  }
 
-//   color: $primary !important;
+  color: $secondary !important;
+}
 
-//   div {
-//     cursor: pointer;
-//   }
-// }
+.clickable-warning {
+  &:hover {
+    border-color: $warning !important;
+    box-shadow: 0 0 0 2px $warning;
+  }
 
-// .clickable-secondary {
-//   &:hover {
-//     border-color: $secondary !important;
-//     box-shadow: 0 0 0 2px $secondary;
-//   }
+  color: $warning !important;
+}
 
-//   &:focus {
-//     outline-color: $secondary;
-//   }
+.clickable-danger {
+  &:hover {
+    border-color: $danger !important;
+    box-shadow: 0 0 0 2px $danger;
+  }
 
-//   color: $secondary !important;
-
-//   div {
-//     cursor: pointer;
-//   }
-// }
-
-// .clickable-tertiary {
-//   &:hover {
-//     border-color: $tertiary !important;
-//     box-shadow: 0 0 0 2px $tertiary;
-//   }
-
-//   &:focus {
-//     outline-color: $tertiary;
-//   }
-
-//   color: $tertiary !important;
-
-//   div {
-//     cursor: pointer;
-//   }
-// }
-
-// .clickable-danger {
-//   &:hover {
-//     border-color: $danger !important;
-//     box-shadow: 0 0 0 2px $danger;
-//   }
-
-//   &:focus {
-//     outline-color: $danger;
-//   }
-
-//   color: $danger !important;
-
-//   div {
-//     cursor: pointer;
-//   }
-// }
+  color: $danger !important;
+}
