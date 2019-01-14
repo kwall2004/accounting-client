@@ -43,7 +43,7 @@
         </div>
       </div>
       <div *ngFor="let transaction of day.transactions" matRipple class="d-flex justify-content-between border rounded my-1 clickable"
-        [ngClass]="{'clickable-primary': transaction.cleared, 'clickable-danger': !transaction.cleared}" (click)="onTransactionClick(transaction)">
+        [ngClass]="{'clickable-primary': transaction.cleared, 'clickable-warn': !transaction.cleared}" (click)="onTransactionClick(transaction)">
         <div class="px-1">
           {{transaction.description}}
         </div>
@@ -51,7 +51,7 @@
           {{transaction.amount | number: '1.2-2'}}
         </div>
       </div>
-      <div *ngFor="let recurrence of day.recurrences" class="d-flex justify-content-between border rounded my-1 clickable-tertiary font-italic"
+      <div *ngFor="let recurrence of day.recurrences" matRipple class="d-flex justify-content-between border rounded my-1 font-italic clickable clickable-accent"
         (click)="onRecurrenceClick(recurrence)">
         <div class="px-1">
           {{recurrence.description}}
