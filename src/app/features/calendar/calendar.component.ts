@@ -90,7 +90,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     });
   }
 
-  onTransactionDescriptionClick(transaction: Transaction) {
+  onTransactionClick(transaction: Transaction) {
     this.dialog.open(TransactionComponent, {
       width: '400px',
       data: transaction
