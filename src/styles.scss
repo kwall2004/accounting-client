@@ -6,17 +6,17 @@
 
   &:active,
   :focus {
-    outline: none !important; // 1
+    outline: none !important;
   }
 }
 
 label {
-  margin-bottom: 0; // 2
+  margin-bottom: 0;
 }
 
-// a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not([mat-list-item]) {
-//   color: #3f51b5; // 3
-// }
+
+
+
 
 @import "~@angular/material/theming";
 
@@ -41,19 +41,14 @@ icons: $dark-theme-foreground-base,
 text: $dark-theme-foreground-base,
 slider-min: $dark-theme-foreground-base,
 slider-off: rgba($dark-theme-foreground-base, 0.3),
-slider-off-active: rgba($dark-theme-foreground-base, 0.3),
-);
+slider-off-active: rgba($dark-theme-foreground-base, 0.3));
 
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
-$_mat-button-ripple-opacity: 0.3;
+$_mat-button-ripple-opacity: 0.5;
+$mat-ripple-color-opacity: 0.5;
 
 @include angular-material-theme($dark-theme);
-
-body {
-  font-size: small;
-  overflow-y: scroll;
-}
 
 .cdk-global-scrollblock {
   overflow-y: hidden;
@@ -63,13 +58,48 @@ body {
   background-color: $black !important;
 }
 
+$button-hover-opacity: .2;
+
 .mat-button:hover .mat-button-focus-overlay,
 .mat-stroked-button:hover .mat-button-focus-overlay {
-  opacity: .12 !important;
+  opacity: $button-hover-opacity !important;
 }
 
 .mat-dialog-container {
   padding: 15px !important;
+}
+
+a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not([mat-list-item]) {
+  color: mat-color($dark-primary);
+}
+
+
+
+
+
+.toast-top-full-width {
+  margin-top: 25px;
+}
+
+.toast-error {
+  background-color: $danger;
+}
+
+.toast-container .toast {
+  box-shadow: none;
+}
+
+
+
+
+
+body {
+  font-size: small;
+  overflow-y: scroll;
+}
+
+button {
+  font-size: inherit !important;
 }
 
 button[mat-dialog-close] {
@@ -79,92 +109,44 @@ button[mat-dialog-close] {
   }
 }
 
-.toast-top-full-width {
-  margin-top: 25px;
+.clickable {
+  cursor: pointer;
+
+  &:before {
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    pointer-events: none;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1);
+  }
+
+  &:hover {
+    &:before {
+      opacity: $button-hover-opacity;
+    }
+  }
+
+  &.clickable-primary {
+    color: mat-color($dark-primary);
+    border-color: mat-color($dark-primary, default, $button-hover-opacity) !important;
+
+    .mat-ripple-element {
+      background-color: rgba(mat-color($dark-primary), $mat-ripple-color-opacity);
+    }
+  }
+
+  &.clickable-danger {
+    color: mat-color($dark-warn);
+    border-color: mat-color($dark-warn, default, $button-hover-opacity) !important;
+
+    .mat-ripple-element {
+      background-color: rgba(mat-color($dark-warn), $mat-ripple-color-opacity);
+    }
+  }
 }
-
-// .toast-error {
-//   background-color: $danger;
-// }
-
-.toast-container .toast {
-  box-shadow: none;
-}
-
-// .btn-primary {
-//   color: $primary;
-//   background-color: transparent;
-// }
-
-// .btn-secondary {
-//   color: $secondary;
-//   background-color: transparent;
-// }
-
-// .clickable-primary {
-//   &:hover {
-//     border-color: $primary !important;
-//     box-shadow: 0 0 0 2px $primary;
-//   }
-
-//   &:focus {
-//     outline-color: $primary;
-//   }
-
-//   color: $primary !important;
-
-//   div {
-//     cursor: pointer;
-//   }
-// }
-
-// .clickable-secondary {
-//   &:hover {
-//     border-color: $secondary !important;
-//     box-shadow: 0 0 0 2px $secondary;
-//   }
-
-//   &:focus {
-//     outline-color: $secondary;
-//   }
-
-//   color: $secondary !important;
-
-//   div {
-//     cursor: pointer;
-//   }
-// }
-
-// .clickable-tertiary {
-//   &:hover {
-//     border-color: $tertiary !important;
-//     box-shadow: 0 0 0 2px $tertiary;
-//   }
-
-//   &:focus {
-//     outline-color: $tertiary;
-//   }
-
-//   color: $tertiary !important;
-
-//   div {
-//     cursor: pointer;
-//   }
-// }
-
-// .clickable-danger {
-//   &:hover {
-//     border-color: $danger !important;
-//     box-shadow: 0 0 0 2px $danger;
-//   }
-
-//   &:focus {
-//     outline-color: $danger;
-//   }
-
-//   color: $danger !important;
-
-//   div {
-//     cursor: pointer;
-//   }
-// }

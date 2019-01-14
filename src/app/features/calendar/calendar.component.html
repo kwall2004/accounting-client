@@ -6,8 +6,7 @@
       </button>
     </div>
     <div>
-      <button mat-button color="primary" [disabled]="captured$ | async"
-        style="min-width: 160px;" (click)="onMonthNameClick()">
+      <button mat-button color="primary" [disabled]="captured$ | async" style="min-width: 175px;" (click)="onMonthNameClick()">
         {{monthName$ | async}}
       </button>
     </div>
@@ -17,7 +16,7 @@
       </button>
     </div>
   </div>
-  <div class="col text-right">
+  <div class="col text-right color-primary">
     {{previousMonthEndBalance$ | async | number: '1.2-2'}}
   </div>
 </div>
@@ -43,7 +42,7 @@
           {{!day.disabled ? (day.balance | number: '1.2-2') : ''}}
         </div>
       </div>
-      <div *ngFor="let transaction of day.transactions" class="d-flex justify-content-between border rounded my-1"
+      <div *ngFor="let transaction of day.transactions" matRipple class="d-flex justify-content-between border rounded my-1 clickable"
         [ngClass]="{'clickable-primary': transaction.cleared, 'clickable-danger': !transaction.cleared}">
         <div class="px-1" (click)="onTransactionDescriptionClick(transaction)">
           {{transaction.description}}

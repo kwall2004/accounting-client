@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressBarModule, MatDialogModule, MatButtonModule } from '@angular/material';
+import { MatProgressBarModule, MatDialogModule, MatButtonModule, MatRippleModule } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
 
 import { TransactionComponent } from './transaction/transaction.component';
@@ -18,6 +18,7 @@ import { CaptureConfirmationComponent } from './capture-confirmation/capture-con
     MatProgressBarModule,
     MatDialogModule,
     MatButtonModule,
+    MatRippleModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-full-width'
     })
@@ -34,6 +35,7 @@ import { CaptureConfirmationComponent } from './capture-confirmation/capture-con
     MatProgressBarModule,
     MatDialogModule,
     MatButtonModule,
+    MatRippleModule,
     ToastrModule
   ]
 })
