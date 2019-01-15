@@ -18,6 +18,7 @@ label {
 
 
 
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import "~@angular/material/theming";
 
 @include mat-core();
@@ -72,6 +73,15 @@ button[mat-dialog-close] {
     position: relative;
     top: -1px;
   }
+}
+
+.mat-icon {
+  height: 48px !important;
+  width: 48px !important;
+}
+
+.material-icons {
+  font-size: 48px;
 }
 
 

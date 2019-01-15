@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatProgressBarModule, MatDialogModule, MatButtonModule, MatRippleModule } from '@angular/material';
+import { AngularMaterialModule } from './angular-material.module';
 import { ToastrModule } from 'ngx-toastr';
 
 import { TransactionComponent } from './transaction/transaction.component';
@@ -15,10 +15,7 @@ import { CaptureConfirmationComponent } from './capture-confirmation/capture-con
   ],
   imports: [
     BrowserAnimationsModule,
-    MatProgressBarModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatRippleModule,
+    AngularMaterialModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-full-width'
     })
@@ -29,14 +26,11 @@ import { CaptureConfirmationComponent } from './capture-confirmation/capture-con
     CaptureConfirmationComponent
   ],
   exports: [
+    AngularMaterialModule,
+    ToastrModule,
     TransactionComponent,
     RecurrenceComponent,
     CaptureConfirmationComponent,
-    MatProgressBarModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatRippleModule,
-    ToastrModule
   ]
 })
 export class SharedModule { }
