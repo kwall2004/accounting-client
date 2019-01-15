@@ -1,46 +1,24 @@
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
+@import "~@angular/material/theming";
 
-$grid-breakpoints: (
-  xs: 0,
-  sm: 567px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1700px,
-  xxxl: 1900px
-);
+$dark-primary: mat-palette($mat-cyan, 200, 50, 400);
+$dark-accent: mat-palette($mat-amber, 100, 50, 200);
+$dark-warn: mat-palette($mat-deep-orange, 200, 50, 400);
 
-$container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px,
-  xxl: 1580px,
-  xxxl: 1780px
-);
+$day-disabled-background-color: mat-color($mat-gray, 800);
+$day-hover-background-color: mat-color($mat-gray, 900);
+$button-hover-opacity: .2;
 
-// $link-color: #3f51b5;
-// $link-hover-color: currentColor;
-// $link-hover-decoration: none;
+$grid-breakpoints: (xs: 0,
+sm: 567px,
+md: 768px,
+lg: 992px,
+xl: 1200px,
+xxl: 1700px,
+xxxl: 1900px);
 
-// $primary: #9cdcfe;
-// $secondary: #d7ba7d;
-// $tertiary: #ce9178;
-// $danger: #f44747;
-// $theme-colors: (
-//   (
-//     "primary":    $primary,
-//     "secondary":  $secondary,
-//     "success":    $success,
-//     "info":       $info,
-//     "warning":    $warning,
-//     "danger":     $danger,
-//     "light":      $light,
-//     "dark":       $dark
-//   )
-// );
-// $border-color:                $gray-600;
-// $link-color:                theme-color("primary");
-// $link-hover-color:          darken($link-color, 15%);
-
+$container-max-widths: (sm: 540px,
+md: 720px,
+lg: 960px,
+xl: 1140px,
+xxl: 1580px,
+xxxl: 1780px);

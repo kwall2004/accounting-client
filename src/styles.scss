@@ -22,16 +22,12 @@ label {
 
 @include mat-core();
 
-$dark-primary: mat-palette($mat-cyan, 200, 50, 400);
-$dark-accent: mat-palette($mat-amber, 100, 50, 200);
-$dark-warn: mat-palette($mat-deep-orange, 200, 50, 400);
-
 $dark-theme-foreground-base: map_get($mat-gray, 400);
 $mat-dark-theme-foreground: (base: $dark-theme-foreground-base,
 divider: $light-dividers,
 dividers: $light-dividers,
 disabled: $light-disabled-text,
-disabled-button: rgba($dark-theme-foreground-base, 0.3),
+disabled-button: rgba($dark-theme-foreground-base, 1),
 disabled-text: $light-disabled-text,
 elevation: black,
 hint-text: $light-disabled-text,
@@ -58,8 +54,6 @@ $mat-ripple-color-opacity: 0.5;
   background-color: $black !important;
 }
 
-$button-hover-opacity: .2;
-
 .mat-button:hover .mat-button-focus-overlay,
 .mat-stroked-button:hover .mat-button-focus-overlay {
   opacity: $button-hover-opacity !important;
@@ -73,6 +67,13 @@ a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not(
   color: mat-color($dark-primary);
 }
 
+button[mat-dialog-close] {
+  i {
+    position: relative;
+    top: -1px;
+  }
+}
+
 
 
 
@@ -82,7 +83,7 @@ a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not(
 }
 
 .toast-error {
-  background-color: $danger;
+  background-color: mat-color($dark-warn);
 }
 
 .toast-container .toast {
@@ -100,63 +101,4 @@ body {
 
 button {
   font-size: inherit !important;
-}
-
-button[mat-dialog-close] {
-  i {
-    position: relative;
-    top: -1px;
-  }
-}
-
-.clickable {
-  position: relative;
-  cursor: pointer;
-
-  &:before {
-    content: "";
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: absolute;
-    pointer-events: none;
-    border-radius: inherit;
-    background-color: currentColor;
-    opacity: 0;
-    transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1);
-  }
-
-  &:hover {
-    &:before {
-      opacity: $button-hover-opacity;
-    }
-  }
-
-  &.clickable-primary {
-    color: mat-color($dark-primary);
-    border-color: mat-color($dark-primary, default, $button-hover-opacity) !important;
-
-    .mat-ripple-element {
-      background-color: rgba(mat-color($dark-primary), $mat-ripple-color-opacity);
-    }
-  }
-
-  &.clickable-warn {
-    color: mat-color($dark-warn);
-    border-color: mat-color($dark-warn, default, $button-hover-opacity) !important;
-
-    .mat-ripple-element {
-      background-color: rgba(mat-color($dark-warn), $mat-ripple-color-opacity);
-    }
-  }
-
-  &.clickable-accent {
-    color: mat-color($dark-accent);
-    border-color: mat-color($dark-accent, default, $button-hover-opacity) !important;
-
-    .mat-ripple-element {
-      background-color: rgba(mat-color($dark-accent), $mat-ripple-color-opacity);
-    }
-  }
 }

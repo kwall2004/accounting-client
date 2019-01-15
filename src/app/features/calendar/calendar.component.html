@@ -33,7 +33,8 @@
 </div>
 <div class="row border mb-5">
   <ng-container *ngFor="let week of weeks">
-    <div *ngFor="let day of week" class="col border p-2 day" [ngClass]="{'disabled d-none d-xl-block': day.disabled}">
+    <div *ngFor="let day of week" class="col border p-2 day" [ngClass]="{'disabled d-none d-xl-block': day.disabled}"
+      (click)="$event.preventDefault();">
       <div class="font-weight-bold mb-2 d-flex justify-content-between">
         <div>
           {{day.date.getDate()}}

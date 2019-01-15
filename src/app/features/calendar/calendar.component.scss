@@ -1,13 +1,85 @@
+@import '../../../variables';
 @import "~@angular/material/theming";
 
 .day {
   min-height: 100px;
+  position: relative;
 
   &.disabled {
-    background-color: mat-color($mat-gray, 800);
+    background-color: $day-disabled-background-color;
+  }
+
+  &:before {
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+    background-color: $day-hover-background-color;
+    opacity: 0;
+    transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1);
+  }
+
+  &:hover:not(.disabled) {
+    &:before {
+      opacity: 1;
+    }
   }
 }
 
-.day:not(.disabled):hover {
-  background-color: mat-color($mat-gray, 900);
+.clickable {
+  position: relative;
+  cursor: pointer;
+
+  &:before {
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity .2s cubic-bezier(.35, 0, .25, 1), background-color .2s cubic-bezier(.35, 0, .25, 1);
+  }
+
+  &:hover {
+    &:before {
+      opacity: $button-hover-opacity;
+    }
+  }
+
+  &.clickable-primary {
+    color: mat-color($dark-primary);
+    border-color: mat-color($dark-primary, default, $button-hover-opacity) !important;
+
+    .mat-ripple-element {
+      background-color: rgba(mat-color($dark-primary), $mat-ripple-color-opacity);
+    }
+  }
+
+  &.clickable-warn {
+    color: mat-color($dark-warn);
+    border-color: mat-color($dark-warn, default, $button-hover-opacity) !important;
+
+    .mat-ripple-element {
+      background-color: rgba(mat-color($dark-warn), $mat-ripple-color-opacity);
+    }
+  }
+
+  &.clickable-accent {
+    color: mat-color($dark-accent);
+    border-color: mat-color($dark-accent, default, $button-hover-opacity) !important;
+
+    .mat-ripple-element {
+      background-color: rgba(mat-color($dark-accent), $mat-ripple-color-opacity);
+    }
+  }
 }
