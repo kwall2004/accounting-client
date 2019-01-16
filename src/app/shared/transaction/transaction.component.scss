@@ -1,0 +1,11 @@
+@import '../../../mixins';
+
+mat-icon {
+  @include mat-icon-size(16px);
+}
+
+.mat-icon-button {
+  height: 20px;
+  width: 20px;
+  line-height: 20px;
+}
