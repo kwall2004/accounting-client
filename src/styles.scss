@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'variables';
+@import 'mixins';
 @import '~bootstrap/scss/bootstrap';
 
 * {
@@ -102,4 +103,24 @@ body {
 
 button {
   font-size: inherit !important;
+}
+
+.color-primary {
+  color: mat-color($dark-primary);
+}
+
+.color-accent {
+  color: mat-color($dark-accent);
+}
+
+.color-warn {
+  color: mat-color($dark-warn);
+}
+
+.dialog-close-button {
+  @include mat-icon-size(20px);
+
+  mat-icon {
+    @include mat-icon-size(16px);
+  }
 }

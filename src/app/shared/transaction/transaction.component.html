@@ -1,13 +1,11 @@
-<div class="d-flex justify-content-between text-secondary">
+<div class="d-flex justify-content-between">
   <div>
     {{transaction.date | date}}
   </div>
-  <button mat-icon-button mat-dialog-close>
+  <button mat-icon-button mat-dialog-close class="dialog-close-button">
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div mat-dialog-title>
-  <div class="h5" [ngClass]="{'text-primary': transaction.cleared, 'text-danger': !transaction.cleared}">
-    {{transaction.description}}
-  </div>
+<div class="h5" [ngClass]="{'color-primary': transaction.cleared, 'color-warn': !transaction.cleared}">
+  {{transaction.description}}
 </div>

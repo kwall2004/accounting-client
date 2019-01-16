@@ -1,15 +1,15 @@
-<div class="d-flex justify-content-between text-secondary">
+<div class="d-flex justify-content-between">
   <div>
     confirm capture
   </div>
-  <button type="button" class="bg-transparent border-0 rounded clickable-secondary" mat-dialog-close>
-    <i class="fa fa-close"></i>
+  <button mat-icon-button mat-dialog-close class="dialog-close-button">
+    <mat-icon>close</mat-icon>
   </button>
 </div>
-<div>
+<div class="h5 color-primary">
   are you sure?
 </div>
 <div class="d-flex justify-content-end mt-2">
-  <button mat-button class="mr-2" mat-dialog-close>no</button>
+  <button mat-button mat-dialog-close class="mr-2">no</button>
   <button mat-button [mat-dialog-close]="true">yes</button>
 </div>

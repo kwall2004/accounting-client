@@ -1,13 +1,11 @@
-<div class="d-flex justify-content-between text-secondary">
+<div class="d-flex justify-content-between">
   <div>
     {{data.startDate | date}}
   </div>
-  <button type="button" class="bg-transparent border-0 rounded clickable-secondary" mat-dialog-close>
-    <i class="fa fa-close"></i>
+  <button mat-icon-button mat-dialog-close class="dialog-close-button">
+    <mat-icon>close</mat-icon>
   </button>
 </div>
-<div mat-dialog-title>
-  <div class="h5">
-    {{data.description}}
-  </div>
+<div class="h5 color-accent">
+  {{data.description}}
 </div>
