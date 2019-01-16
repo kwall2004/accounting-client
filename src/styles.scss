@@ -85,7 +85,7 @@ button[mat-dialog-close] {
 }
 
 .toast-error {
-  background-color: mat-color($dark-warn);
+  background-color: mat-color($dark-warn, darker);
 }
 
 .toast-container .toast {

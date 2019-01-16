@@ -81,7 +81,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   onMonthNameClick() {
-    const dialogRef = this.dialog.open(CaptureConfirmationComponent);
+    const dialogRef = this.dialog.open(CaptureConfirmationComponent, {
+      width: '200px'
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
