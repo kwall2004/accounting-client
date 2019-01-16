@@ -1,17 +1,17 @@
 <div class="row mb-2 lead font-weight-bold">
   <div class="col d-flex align-items-center">
     <div>
-      <button mat-button color="primary" class="navigate-month-button" (click)="onPreviousMonthClick()">
+      <button mat-button color="primary" matTooltip="previous month" class="navigate-month-button" (click)="onPreviousMonthClick()">
         <mat-icon>chevron_left</mat-icon>
       </button>
     </div>
     <div>
-      <button mat-button color="primary" [disabled]="captured$ | async" style="min-width: 175px;" (click)="onMonthNameClick()">
+      <button mat-button color="primary" matTooltip="capture current month" [disabled]="captured$ | async" style="min-width: 175px;" (click)="onMonthNameClick()">
         {{monthName$ | async}}
       </button>
     </div>
     <div>
-      <button mat-button color="primary" class="navigate-month-button" (click)="onNextMonthClick()">
+      <button mat-button color="primary" matTooltip="next month" class="navigate-month-button" (click)="onNextMonthClick()">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
