@@ -9,10 +9,10 @@ import { Day } from 'src/app/core/models/day';
 import { CoreState, CalendarSelectors, AppActions, CalendarActions, AppSelectors } from 'src/app/core/store';
 import { TransactionRequest } from 'src/app/core/models/transaction-request';
 import { Transaction } from 'src/app/core/models/transaction';
-import { TransactionComponent } from 'src/app/shared/transaction/transaction.component';
+import { TransactionDialogComponent } from 'src/app/shared/dialogs/transaction-dialog/transaction-dialog.component';
 import { Recurrence } from 'src/app/core/models/recurrence';
-import { RecurrenceComponent } from 'src/app/shared/recurrence/recurrence.component';
-import { CaptureConfirmationComponent } from 'src/app/shared/capture-confirmation/capture-confirmation.component';
+import { RecurrenceDialogComponent } from 'src/app/shared/dialogs/recurrence-dialog/recurrence-dialog.component';
+import { CaptureMonthDialogComponent } from 'src/app/shared/dialogs/capture-month-dialog/capture-month-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -81,7 +81,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   onMonthNameClick() {
-    const dialogRef = this.dialog.open(CaptureConfirmationComponent, {
+    const dialogRef = this.dialog.open(CaptureMonthDialogComponent, {
       width: '200px'
     });
 
@@ -93,7 +93,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   onTransactionClick(transaction: Transaction) {
-    this.dialog.open(TransactionComponent, {
+    this.dialog.open(TransactionDialogComponent, {
       width: '400px',
       data: transaction
     });
@@ -107,7 +107,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   onRecurrenceClick(recurrence: Recurrence) {
-    this.dialog.open(RecurrenceComponent, {
+    this.dialog.open(RecurrenceDialogComponent, {
       width: '400px',
       data: recurrence
     });

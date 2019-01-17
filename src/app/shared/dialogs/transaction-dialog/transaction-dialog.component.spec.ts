@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecurrenceComponent } from './recurrence.component';
+import { TransactionDialogComponent } from './transaction-dialog.component';
 
-describe('RecurrenceComponent', () => {
-  let component: RecurrenceComponent;
-  let fixture: ComponentFixture<RecurrenceComponent>;
+describe('TransactionComponent', () => {
+  let component: TransactionDialogComponent;
+  let fixture: ComponentFixture<TransactionDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RecurrenceComponent ]
+      declarations: [ TransactionDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RecurrenceComponent);
+    fixture = TestBed.createComponent(TransactionDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

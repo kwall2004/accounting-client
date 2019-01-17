@@ -4,13 +4,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Transaction } from 'src/app/core/models/transaction';
 
 @Component({
-  selector: 'app-transaction',
-  templateUrl: './transaction.component.html',
-  styleUrls: ['./transaction.component.scss']
+  selector: 'app-transaction-dialog',
+  templateUrl: './transaction-dialog.component.html',
+  styleUrls: ['./transaction-dialog.component.scss']
 })
-export class TransactionComponent {
+export class TransactionDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<TransactionComponent>,
+    public dialogRef: MatDialogRef<TransactionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public transaction: Transaction
   ) { }
 

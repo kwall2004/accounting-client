@@ -3,15 +3,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import { ToastrModule } from 'ngx-toastr';
 
-import { TransactionComponent } from './transaction/transaction.component';
-import { RecurrenceComponent } from './recurrence/recurrence.component';
-import { CaptureConfirmationComponent } from './capture-confirmation/capture-confirmation.component';
+import { TransactionDialogComponent } from './dialogs/transaction-dialog/transaction-dialog.component';
+import { RecurrenceDialogComponent } from './dialogs/recurrence-dialog/recurrence-dialog.component';
+import { CaptureMonthDialogComponent } from './dialogs/capture-month-dialog/capture-month-dialog.component';
 
 @NgModule({
   declarations: [
-    TransactionComponent,
-    RecurrenceComponent,
-    CaptureConfirmationComponent
+    TransactionDialogComponent,
+    RecurrenceDialogComponent,
+    CaptureMonthDialogComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -21,16 +21,16 @@ import { CaptureConfirmationComponent } from './capture-confirmation/capture-con
     })
   ],
   entryComponents: [
-    TransactionComponent,
-    RecurrenceComponent,
-    CaptureConfirmationComponent
+    TransactionDialogComponent,
+    RecurrenceDialogComponent,
+    CaptureMonthDialogComponent
   ],
   exports: [
     AngularMaterialModule,
     ToastrModule,
-    TransactionComponent,
-    RecurrenceComponent,
-    CaptureConfirmationComponent,
+    TransactionDialogComponent,
+    RecurrenceDialogComponent,
+    CaptureMonthDialogComponent,
   ]
 })
 export class SharedModule { }

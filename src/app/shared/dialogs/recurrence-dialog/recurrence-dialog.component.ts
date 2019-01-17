@@ -4,13 +4,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Recurrence } from 'src/app/core/models/recurrence';
 
 @Component({
-  selector: 'app-recurrence',
-  templateUrl: './recurrence.component.html',
-  styleUrls: ['./recurrence.component.scss']
+  selector: 'app-recurrence-dialog',
+  templateUrl: './recurrence-dialog.component.html',
+  styleUrls: ['./recurrence-dialog.component.scss']
 })
-export class RecurrenceComponent {
+export class RecurrenceDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<RecurrenceComponent>,
+    public dialogRef: MatDialogRef<RecurrenceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Recurrence
   ) { }
 
