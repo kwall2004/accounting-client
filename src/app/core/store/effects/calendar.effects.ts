@@ -6,11 +6,12 @@ import { catchError, mergeMap } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { CalendarActions, CalendarActionTypes } from '../actions';
-import { TransactionService, BalanceService, CapturedService, RecurrenceService } from '../../services';
+import { TransactionService, BalanceService, CapturedService, RecurrenceService, TransactionsService } from '../../services';
 import { Transaction } from '../../models/transaction';
 import { Balance } from '../../models/balance';
 import { Captured } from '../../models/captured';
 import { Recurrence } from '../../models/recurrence';
+import { Day } from '../../models/day';
 
 @Injectable()
 export class CalendarEffects {
@@ -20,14 +21,15 @@ export class CalendarEffects {
     private transactionService: TransactionService,
     private balanceService: BalanceService,
     private capturedService: CapturedService,
-    private recurrenceService: RecurrenceService
+    private recurrenceService: RecurrenceService,
+    private transactionsService: TransactionsService
   ) { }
 
   @Effect()
   load$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.Load>(CalendarActionTypes.LOAD),
     mergeMap(action => [
-      new CalendarActions.GetCaptureds(action.payload),
+      new CalendarActions.GetCaptured(action.payload),
       new CalendarActions.GetTransactions(action.payload),
       new CalendarActions.GetBalances(action.payload)
     ])
@@ -37,9 +39,7 @@ export class CalendarEffects {
   getTransactions$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.GetTransactions>(CalendarActionTypes.GET_TRANSACTIONS),
     mergeMap(action => this.transactionService.get(action.payload).pipe(
-      mergeMap((transactions: Transaction[]) => {
-        return [new CalendarActions.SetTransactions(transactions)];
-      }),
+      mergeMap((transactions: Transaction[]) => [new CalendarActions.SetTransactions(transactions)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -52,9 +52,7 @@ export class CalendarEffects {
   patchTransaction$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.PatchTransaction>(CalendarActionTypes.PATCH_TRANSACTION),
     mergeMap(action => this.transactionService.patch(action.payload).pipe(
-      mergeMap((transaction: Transaction) => {
-        return [new CalendarActions.SetTransaction(transaction)];
-      }),
+      mergeMap((transaction: Transaction) => [new CalendarActions.SetTransaction(transaction)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -67,9 +65,7 @@ export class CalendarEffects {
   getBalances$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.GetBalances>(CalendarActionTypes.GET_BALANCES),
     mergeMap(action => this.balanceService.get(action.payload).pipe(
-      mergeMap((balances: Balance[]) => {
-        return [new CalendarActions.SetBalances(balances)];
-      }),
+      mergeMap((balances: Balance[]) => [new CalendarActions.SetBalances(balances)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -79,12 +75,10 @@ export class CalendarEffects {
   );
 
   @Effect()
-  getCaptured$: Observable<Action> = this.actions$.pipe(
-    ofType<CalendarActions.GetCaptureds>(CalendarActionTypes.GET_CAPTUREDS),
+  getCaptureds$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.GetCaptured>(CalendarActionTypes.GET_CAPTURED),
     mergeMap(action => this.capturedService.get(action.payload).pipe(
-      mergeMap((captureds: Captured[]) => {
-        return [new CalendarActions.SetCaptureds(captureds)];
-      }),
+      mergeMap((captureds: Captured[]) => [new CalendarActions.SetCaptured(captureds)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -97,14 +91,51 @@ export class CalendarEffects {
   getRecurrences$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.GetRecurrences>(CalendarActionTypes.GET_RECURRENCES),
     mergeMap(() => this.recurrenceService.get().pipe(
-      mergeMap((recurrences: Recurrence[]) => {
-        return [new CalendarActions.SetRecurrences(recurrences)];
-      }),
+      mergeMap((recurrences: Recurrence[]) => [new CalendarActions.SetRecurrences(recurrences)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
         return [];
       })
     ))
+  );
+
+  @Effect()
+  captureMonth$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.CaptureMonth>(CalendarActionTypes.CAPTURE_MONTH),
+    mergeMap(action => {
+      const weeks = action.payload;
+      const transactions = [
+        ...weeks.reduce((weekTransactions: Transaction[], week: Day[]): Transaction[] => [
+          ...weekTransactions,
+          ...week.reduce((dayTransactions: Transaction[], day: Day): Transaction[] => [
+            ...dayTransactions,
+            ...day.recurrences.map((r): Transaction => ({
+              date: day.date,
+              description: r.description,
+              category: r.category,
+              amount: r.amount,
+              cleared: false
+            }))
+          ], [])
+        ], [])
+      ];
+
+      return this.transactionsService.post(transactions).pipe(
+        mergeMap(() => this.capturedService.post({ date: action.payload.reduce((days, week) => days.concat(week)).filter(day => !day.disabled)[0].date }).pipe(
+          mergeMap(() => action.next),
+          catchError(error => {
+            console.error(error);
+            this.toastrService.error(error.message || JSON.stringify(error));
+            return [];
+          })
+        )),
+        catchError(error => {
+          console.error(error);
+          this.toastrService.error(error.message || JSON.stringify(error));
+          return [];
+        })
+      );
+    })
   );
 }

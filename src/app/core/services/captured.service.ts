@@ -5,6 +5,7 @@ import * as moment from 'moment';
 
 import { environment } from '../../../environments/environment';
 import { TransactionRequest } from '../models/transaction-request';
+import { Captured } from '../models/captured';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,9 @@ export class CapturedService {
     };
 
     return this.httpClient.get(`${environment.apiBaseUrl}/captured?where=${JSON.stringify(where)}`);
+  }
+
+  public post(captured: Captured): Observable<any> {
+    return this.httpClient.post(`${environment.apiBaseUrl}/captured`, { date: moment(captured.date).format('YYYY-MM-DDTHH:mm:ss') });
   }
 }

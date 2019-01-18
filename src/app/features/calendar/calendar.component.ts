@@ -87,7 +87,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.store.dispatch(new CalendarActions.CaptureMonth(this.weeks));
+        this.store.dispatch(new CalendarActions.CaptureMonth(this.weeks,
+          [new CalendarActions.GetTransactions(this.transactionRequest)]
+        ));
       }
     });
   }

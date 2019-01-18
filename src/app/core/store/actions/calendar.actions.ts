@@ -15,8 +15,8 @@ export enum CalendarActionTypes {
   SET_TRANSACTION = '[calendar] SET_TRANSACTION',
   GET_BALANCES = '[calendar] GET_BALANCES',
   SET_BALANCES = '[calendar] SET_BALANCES',
-  GET_CAPTUREDS = '[calendar] GET_CAPTUREDS',
-  SET_CAPTUREDS = '[calendar] SET_CAPTUREDS',
+  GET_CAPTURED = '[calendar] GET_CAPTURED',
+  SET_CAPTURED = '[calendar] SET_CAPTURED',
   GET_RECURRENCES = '[calendar] GET_RECURRENCES',
   SET_RECURRENCES = '[calendar] SET_RECURRENCES',
   CAPTURE_MONTH = '[calendar] CAPTURE_MONTH'
@@ -65,14 +65,14 @@ export namespace CalendarActions {
     constructor(public payload: Balance[]) { }
   }
 
-  export class GetCaptureds implements Action {
-    readonly type = CalendarActionTypes.GET_CAPTUREDS;
+  export class GetCaptured implements Action {
+    readonly type = CalendarActionTypes.GET_CAPTURED;
 
     constructor(public payload: TransactionRequest) { }
   }
 
-  export class SetCaptureds implements Action {
-    readonly type = CalendarActionTypes.SET_CAPTUREDS;
+  export class SetCaptured implements Action {
+    readonly type = CalendarActionTypes.SET_CAPTURED;
 
     constructor(public payload: Captured[]) { }
   }
@@ -90,7 +90,10 @@ export namespace CalendarActions {
   export class CaptureMonth implements Action {
     readonly type = CalendarActionTypes.CAPTURE_MONTH;
 
-    constructor(public payload: Day[][]) { }
+    constructor(
+      public payload: Day[][],
+      public next: Action[]
+    ) { }
   }
 }
 
@@ -102,8 +105,8 @@ export type CalendarAction =
   CalendarActions.SetTransaction |
   CalendarActions.GetBalances |
   CalendarActions.SetBalances |
-  CalendarActions.GetCaptureds |
-  CalendarActions.SetCaptureds |
+  CalendarActions.GetCaptured |
+  CalendarActions.SetCaptured |
   CalendarActions.GetRecurrences |
   CalendarActions.SetRecurrences |
   CalendarActions.CaptureMonth;
