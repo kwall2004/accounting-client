@@ -6,8 +6,9 @@
       </button>
     </div>
     <div>
-      <button mat-button color="primary" matTooltip="capture month" [disabled]="captured$ | async" style="min-width: 175px;" (click)="onMonthNameClick()">
-        {{monthName$ | async}}
+      <button mat-button color="primary" matTooltip="capture month" [disabled]="captured" style="min-width: 175px;"
+        (click)="onNameClick()">
+        {{name}}
       </button>
     </div>
     <div>
@@ -17,7 +18,7 @@
     </div>
   </div>
   <div class="col text-right color-primary">
-    {{previousMonthEndBalance$ | async | number: '1.2-2'}}
+    {{beginningBalance | number: '1.2-2'}}
   </div>
 </div>
 <div class="d-none d-xl-block">

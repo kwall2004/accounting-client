@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material';
 import { takeUntil } from 'rxjs/operators';
@@ -28,11 +28,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
     endDate: moment().endOf('month').endOf('day').toDate()
   };
 
-  previousMonthEndBalance$: Observable<number>;
-  monthName$: Observable<string>;
-  captured$: Observable<boolean>;
-
   weeks: Day[][];
+  beginningBalance: number;
+  name: string;
+  captured: boolean;
 
   constructor(
     private store: Store<CoreState>,
@@ -45,12 +44,36 @@ export class CalendarComponent implements OnInit, OnDestroy {
       takeUntil(this.isDestroyed$)
     ).subscribe(weeks => {
       this.weeks = weeks;
-      this.cd.markForCheck();
     });
 
-    this.previousMonthEndBalance$ = this.store.select(CalendarSelectors.beginningBalance);
-    this.monthName$ = this.store.select(CalendarSelectors.monthName);
-    this.captured$ = this.store.select(CalendarSelectors.captured);
+    this.store.select(CalendarSelectors.beginningBalance).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe(beginningBalance => {
+      this.beginningBalance = beginningBalance;
+    });
+
+    this.store.select(CalendarSelectors.name).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe(name => {
+      this.name = name;
+    });
+
+    this.store.select(CalendarSelectors.captured).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe(captured => {
+      this.captured = captured;
+    });
+
+    this.store.select(AppSelectors.loading).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe(loading => {
+      if (loading) {
+        this.cd.detach();
+      } else {
+        this.cd.reattach();
+        this.cd.detectChanges();
+      }
+    });
 
     this.store.dispatch(new AppActions.ParseAuthHash([
       new CalendarActions.GetRecurrences(),
@@ -80,13 +103,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.store.dispatch(new CalendarActions.Load(this.transactionRequest));
   }
 
-  onMonthNameClick() {
+  onNameClick() {
     const dialogRef = this.dialog.open(CaptureMonthDialogComponent, {
       width: '200px'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    dialogRef.afterClosed().subscribe(yes => {
+      if (yes) {
         this.store.dispatch(new CalendarActions.CaptureMonth(this.weeks, [
           new CalendarActions.GetTransactions(this.transactionRequest),
           new CalendarActions.GetCaptured(this.transactionRequest)

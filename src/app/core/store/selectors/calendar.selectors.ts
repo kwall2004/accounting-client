@@ -20,7 +20,7 @@ export namespace CalendarSelectors {
     (state: State): Date => state.endDate
   );
 
-  export const monthName = createSelector(
+  export const name = createSelector(
     beginDate,
     (beginDate1): string => moment(beginDate1).format('MMMM YYYY')
   );
@@ -30,7 +30,7 @@ export namespace CalendarSelectors {
     (state: State): Transaction[] => state.transactions
   );
 
-  export const balances = createSelector(
+  const balances = createSelector(
     calendarFeatureSelector,
     (state: State): Balance[] => state.balances
   );
@@ -40,7 +40,7 @@ export namespace CalendarSelectors {
     (balances1: Balance[]): number => balances1.length && balances1[0].amount
   );
 
-  export const captureds = createSelector(
+  const captureds = createSelector(
     calendarFeatureSelector,
     (state: State): Captured[] => state.captureds
   );
