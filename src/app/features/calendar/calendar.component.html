@@ -58,7 +58,7 @@
         <div class="px-1">
           {{transaction.description}}
         </div>
-        <div class="px-1" [matTooltip]="transaction.cleared ? 'unclear' : 'clear'" (click)="onTransactionAmountClick(transaction)">
+        <div class="px-1" [matTooltip]="transaction.cleared ? 'unclear' : 'clear'" (click)="onTransactionAmountClick(transaction);$event.stopPropagation()">
           {{transaction.amount | number: '1.2-2'}}
         </div>
       </div>
