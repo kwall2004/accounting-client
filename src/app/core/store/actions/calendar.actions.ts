@@ -91,7 +91,7 @@ export namespace CalendarActions {
     readonly type = CalendarActionTypes.CAPTURE_MONTH;
 
     constructor(
-      public payload: Day[][],
+      public payload: Day[],
       public next: Action[]
     ) { }
   }

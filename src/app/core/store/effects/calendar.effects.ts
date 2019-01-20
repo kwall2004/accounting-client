@@ -104,25 +104,22 @@ export class CalendarEffects {
   captureMonth$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.CaptureMonth>(CalendarActionTypes.CAPTURE_MONTH),
     mergeMap(action => {
-      const weeks = action.payload;
+      const days = action.payload;
       const transactions = [
-        ...weeks.reduce((weekTransactions: Transaction[], week: Day[]): Transaction[] => [
-          ...weekTransactions,
-          ...week.reduce((dayTransactions: Transaction[], day: Day): Transaction[] => [
-            ...dayTransactions,
-            ...day.recurrences.map((r): Transaction => ({
-              date: day.date,
-              description: r.description,
-              category: r.category,
-              amount: r.amount,
-              cleared: false
-            }))
-          ], [])
+        ...days.reduce((dayTransactions: Transaction[], day: Day): Transaction[] => [
+          ...dayTransactions,
+          ...day.recurrences.map((r): Transaction => ({
+            date: day.date,
+            description: r.description,
+            category: r.category,
+            amount: r.amount,
+            cleared: false
+          }))
         ], [])
       ];
 
       return this.transactionsService.post(transactions).pipe(
-        mergeMap(() => this.capturedService.post({ date: action.payload.reduce((days, week) => days.concat(week)).filter(day => !day.disabled)[0].date }).pipe(
+        mergeMap(() => this.capturedService.post({ date: days[0].date }).pipe(
           mergeMap(() => action.next),
           catchError(error => {
             console.error(error);

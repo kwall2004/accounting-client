@@ -55,25 +55,15 @@ export namespace CalendarSelectors {
     (state: State): Recurrence[] => state.recurrences
   );
 
-  export const weeks = createSelector(
+  export const days = createSelector(
     beginDate,
     endDate,
     transactions,
     beginningBalance,
     captured,
     recurrences,
-    (beginDate1: Date, endDate1: Date, transactions1: Transaction[], beginningBalance1: number, captured1: boolean, recurrences1: Recurrence[]): Day[][] => {
-      const days = new Array<Day>();
-
-      days.push(...new Array(moment(beginDate1).day())
-        .fill(moment(beginDate1))
-        .map((date, index): Day => ({
-          date: date.clone().subtract(date.day() - index, 'days').toDate(),
-          transactions: [],
-          balance: 0,
-          recurrences: [],
-          disabled: true
-        })));
+    (beginDate1: Date, endDate1: Date, transactions1: Transaction[], beginningBalance1: number, captured1: boolean, recurrences1: Recurrence[]): Day[] => {
+      const result = new Array<Day>();
 
       let dayBalance = beginningBalance1;
       for (let date = moment(beginDate1).clone(); date <= moment(endDate1); date = date.add(1, 'days')) {
@@ -95,7 +85,7 @@ export namespace CalendarSelectors {
 
         dayBalance += dayTransactions.reduce((total, t) => total + t.amount, 0) + dayRecurrences.reduce((total, r) => total + r.amount, 0);
 
-        days.push({
+        result.push({
           date: date.toDate(),
           transactions: dayTransactions,
           balance: dayBalance,
@@ -103,25 +93,7 @@ export namespace CalendarSelectors {
         });
       }
 
-      days.push(...new Array(6 - moment(endDate1).day())
-        .fill(moment(endDate1))
-        .map((date, index): Day => ({
-          date: date.clone().add(index + 1, 'days').toDate(),
-          transactions: [],
-          balance: 0,
-          recurrences: [],
-          disabled: true
-        })));
-
-      return days.reduce((result: Day[][], day) => {
-        if (result.length === 0 || result[result.length - 1].length === 7) {
-          result.push([]);
-        }
-
-        result[result.length - 1].push(day);
-
-        return result;
-      }, []);
+      return result;
     }
   );
 }

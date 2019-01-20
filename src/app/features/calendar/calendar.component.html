@@ -17,25 +17,34 @@
       </button>
     </div>
   </div>
-  <div class="col text-right color-primary">
+  <div class="col text-right color-primary" style="line-height: 1.7">
     {{beginningBalance | number: '1.2-2'}}
   </div>
 </div>
-<div class="d-none d-xl-block">
-  <div class="row text-center font-weight-bold mb-2">
-    <div class="col">Sun</div>
-    <div class="col">Mon</div>
-    <div class="col">Tue</div>
-    <div class="col">Wed</div>
-    <div class="col">Thu</div>
-    <div class="col">Fri</div>
-    <div class="col">Sat</div>
-  </div>
+<div class="row mb-2 text-center font-weight-bold">
+  <div class="col d-none d-xl-block">Sun</div>
+  <div class="col d-none d-xl-block">Mon</div>
+  <div class="col d-none d-xl-block">Tue</div>
+  <div class="col d-none d-xl-block">Wed</div>
+  <div class="col d-none d-xl-block">Thu</div>
+  <div class="col d-none d-xl-block">Fri</div>
+  <div class="col d-none d-xl-block">Sat</div>
 </div>
 <div class="row border mb-5">
-  <ng-container *ngFor="let week of weeks">
-    <div *ngFor="let day of week" class="col border p-2 day" [ngClass]="{'disabled d-none d-xl-block': day.disabled}"
-      (click)="$event.preventDefault();">
+  <ng-container *ngFor="let day of previousMonthDays">
+    <div class="col border p-2 day disabled d-none d-xl-block">
+      <div class="font-weight-bold mb-2 d-flex justify-content-between">
+        <div>
+          {{day.date.getDate()}}
+        </div>
+        <div>
+          &nbsp;
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngFor="let day of days; let dayIndex = index">
+    <div class="col border p-2 day">
       <div class="font-weight-bold mb-2 d-flex justify-content-between">
         <div>
           {{day.date.getDate()}}
@@ -49,7 +58,7 @@
         <div class="px-1">
           {{transaction.description}}
         </div>
-        <div class="px-1" [matTooltip]="transaction.cleared ? 'unclear' : 'clear'" (click)="onTransactionAmountClick(transaction);$event.stopPropagation();">
+        <div class="px-1" [matTooltip]="transaction.cleared ? 'unclear' : 'clear'" (click)="onTransactionAmountClick(transaction)">
           {{transaction.amount | number: '1.2-2'}}
         </div>
       </div>
@@ -63,6 +72,65 @@
         </div>
       </div>
     </div>
-    <div class="w-100 d-none d-xl-block"></div>
+    <div *ngIf="(previousMonthDays.length + dayIndex + 1) % 7 === 0" class="w-100 d-none d-xl-block"></div>
+    <div *ngIf="(dayIndex + 1) % 5 === 0" class="w-100 d-none d-lg-block d-xl-none"></div>
+    <div *ngIf="(dayIndex + 1) % 3 === 0" class="w-100 d-none d-md-block d-lg-none"></div>
+    <div *ngIf="(dayIndex + 1) % 2 === 0" class="w-100 d-block d-sm-none"></div>
+  </ng-container>
+  <ng-container *ngIf="(previousMonthDays.length + days.length) % 7 as remainder">
+    <ng-container *ngFor="let day of getNextMonthDays(7 - remainder)">
+      <div class="col border p-2 day disabled d-none d-xl-block">
+        <div class="font-weight-bold mb-2 d-flex justify-content-between">
+          <div>
+            {{day.date.getDate()}}
+          </div>
+          <div>
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="days.length % 5 as remainder">
+    <ng-container *ngFor="let day of getNextMonthDays(5 - remainder)">
+      <div class="col border p-2 day disabled d-none d-lg-block d-xl-none">
+        <div class="font-weight-bold mb-2 d-flex justify-content-between">
+          <div>
+            {{day.date.getDate()}}
+          </div>
+          <div>
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="days.length % 3 as remainder">
+    <ng-container *ngFor="let day of getNextMonthDays(3 - remainder)">
+      <div class="col border p-2 day disabled d-none d-md-block d-lg-none">
+        <div class="font-weight-bold mb-2 d-flex justify-content-between">
+          <div>
+            {{day.date.getDate()}}
+          </div>
+          <div>
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngIf="days.length % 2 as remainder">
+    <ng-container *ngFor="let day of getNextMonthDays(2 - remainder)">
+      <div class="col border p-2 day disabled d-block d-sm-none">
+        <div class="font-weight-bold mb-2 d-flex justify-content-between">
+          <div>
+            {{day.date.getDate()}}
+          </div>
+          <div>
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </ng-container>
 </div>

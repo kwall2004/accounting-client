@@ -28,7 +28,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     endDate: moment().endOf('month').endOf('day').toDate()
   };
 
-  weeks: Day[][];
+  days: Day[];
+  previousMonthDays: Day[];
   beginningBalance: number;
   name: string;
   captured: boolean;
@@ -40,10 +41,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.store.select(CalendarSelectors.weeks).pipe(
+    this.store.select(CalendarSelectors.days).pipe(
       takeUntil(this.isDestroyed$)
-    ).subscribe(weeks => {
-      this.weeks = weeks;
+    ).subscribe(days => {
+      this.days = days;
+
+      this.previousMonthDays = new Array(moment(this.transactionRequest.beginDate).day())
+        .fill(moment(this.transactionRequest.beginDate))
+        .map((date, index): Day => ({
+          date: date.clone().subtract(date.day() - index, 'days').toDate(),
+          transactions: [],
+          balance: 0,
+          recurrences: [],
+          disabled: true
+        }));
     });
 
     this.store.select(CalendarSelectors.beginningBalance).pipe(
@@ -85,6 +96,18 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.isDestroyed$.next();
   }
 
+  getNextMonthDays(count: number): Day[] {
+    return new Array(count)
+      .fill(moment(this.transactionRequest.endDate))
+      .map((date, index): Day => ({
+        date: date.clone().add(index + 1, 'days').toDate(),
+        transactions: [],
+        balance: 0,
+        recurrences: [],
+        disabled: true
+      }));
+  }
+
   onPreviousMonthClick() {
     this.transactionRequest = {
       beginDate: moment(this.transactionRequest.beginDate).clone().subtract(1, 'month').startOf('month').startOf('day').toDate(),
@@ -110,7 +133,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(yes => {
       if (yes) {
-        this.store.dispatch(new CalendarActions.CaptureMonth(this.weeks, [
+        this.store.dispatch(new CalendarActions.CaptureMonth(this.days, [
           new CalendarActions.GetTransactions(this.transactionRequest),
           new CalendarActions.GetCaptured(this.transactionRequest)
         ]));
