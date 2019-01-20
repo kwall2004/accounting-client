@@ -49,6 +49,9 @@
         <div>
           {{day.date.getDate()}}
         </div>
+        <div class="d-block d-xl-none">
+          {{day.date | date: 'EEEEEE'}}
+        </div>
         <div>
           {{!day.disabled ? (day.balance | number: '1.2-2') : ''}}
         </div>
