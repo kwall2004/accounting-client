@@ -5,7 +5,9 @@ import {
   MatButtonModule,
   MatRippleModule,
   MatIconModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatFormFieldModule,
+  MatInputModule
 } from '@angular/material';
 
 @NgModule({
@@ -15,7 +17,9 @@ import {
     MatButtonModule,
     MatRippleModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     MatProgressBarModule,
@@ -23,7 +27,9 @@ import {
     MatButtonModule,
     MatRippleModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class AngularMaterialModule { }

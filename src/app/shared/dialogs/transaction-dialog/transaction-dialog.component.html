@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between mb-4">
   <div>
     {{transaction.date | date}}
   </div>
@@ -6,6 +6,6 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div class="h5" [ngClass]="{'color-primary': transaction.cleared, 'color-warn': !transaction.cleared}">
-  {{transaction.description}}
-</div>
+<mat-form-field [color]="transaction.cleared ? 'primary' : 'warn'">
+  <input matInput placeholder="description" [formControl]="description">
+</mat-form-field>

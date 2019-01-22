@@ -69,9 +69,8 @@ a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not(
 }
 
 button[mat-dialog-close] {
-  i {
-    position: relative;
-    top: -1px;
+  mat-icon {
+    margin-top: -1px;
   }
 }
 
