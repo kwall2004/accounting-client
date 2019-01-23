@@ -19,11 +19,10 @@ label {
 
 
 
-@import "~@angular/material/theming";
-
 @include mat-core();
 
 $dark-theme-foreground-base: map_get($mat-gray, 400);
+
 $mat-dark-theme-foreground: (base: $dark-theme-foreground-base,
 divider: $light-dividers,
 dividers: $light-dividers,

@@ -1,11 +1,18 @@
-<div class="d-flex justify-content-between mb-4">
-  <div>
-    {{transaction.date | date}}
+<div class="transaction-dialog-container">
+  <div class="d-flex justify-content-between mb-4">
+    <div>
+      {{transaction.date | date}}
+    </div>
+    <button mat-icon-button mat-dialog-close class="dialog-close-button">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
-  <button mat-icon-button mat-dialog-close class="dialog-close-button">
-    <mat-icon>close</mat-icon>
-  </button>
+  <form [formGroup]="form" class="d-flex flex-column">
+    <mat-form-field>
+      <input matInput placeholder="description" formControlName="description">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="amount" formControlName="amount">
+    </mat-form-field>
+  </form>
 </div>
-<mat-form-field [color]="transaction.cleared ? 'primary' : 'warn'">
-  <input matInput placeholder="description" [formControl]="description">
-</mat-form-field>
