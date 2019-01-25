@@ -3,16 +3,16 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
 
-import { Day } from 'src/app/core/models/day';
-import { CoreState, CalendarSelectors, AppActions, CalendarActions, AppSelectors } from 'src/app/core/store';
-import { TransactionRequest } from 'src/app/core/models/transaction-request';
-import { Transaction } from 'src/app/core/models/transaction';
-import { TransactionDialogComponent } from 'src/app/shared/dialogs/transaction-dialog/transaction-dialog.component';
-import { Recurrence } from 'src/app/core/models/recurrence';
-import { RecurrenceDialogComponent } from 'src/app/shared/dialogs/recurrence-dialog/recurrence-dialog.component';
-import { CaptureMonthDialogComponent } from 'src/app/shared/dialogs/capture-month-dialog/capture-month-dialog.component';
+import { Day } from '../../core/models/day';
+import { CoreState, CalendarSelectors, AppActions, CalendarActions, AppSelectors } from '../../core/store';
+import { TransactionRequest } from '../../core/models/transaction-request';
+import { Transaction } from '../../core/models/transaction';
+import { TransactionDialogComponent } from '../../shared/dialogs/transaction-dialog/transaction-dialog.component';
+import { Recurrence } from '../../core/models/recurrence';
+import { RecurrenceDialogComponent } from '../../shared/dialogs/recurrence-dialog/recurrence-dialog.component';
+import { CaptureMonthDialogComponent } from '../../shared/dialogs/capture-month-dialog/capture-month-dialog.component';
 
 @Component({
   selector: 'app-calendar',
@@ -131,8 +131,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
       width: '200px'
     });
 
-    dialogRef.afterClosed().subscribe(yes => {
-      if (yes) {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(confirmed => {
+      if (confirmed) {
         this.store.dispatch(new CalendarActions.CaptureMonth(this.days, [
           new CalendarActions.GetTransactions(this.transactionRequest),
           new CalendarActions.GetCaptured(this.transactionRequest)
@@ -142,9 +142,21 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   onTransactionClick(transaction: Transaction) {
-    this.dialog.open(TransactionDialogComponent, {
+    const dialogIsClosed = new Subject();
+
+    const dialogRef = this.dialog.open(TransactionDialogComponent, {
       width: '400px',
       data: transaction
+    });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe(() => dialogIsClosed.next());
+
+    this.store.select(CalendarSelectors.transactions).pipe(takeUntil(dialogIsClosed)).subscribe((tt: Transaction[]) => {
+      dialogRef.componentInstance.transaction = tt.find(t => t.id === dialogRef.componentInstance.transaction.id);
+    });
+
+    dialogRef.componentInstance.patch.pipe(takeUntil(dialogIsClosed)).subscribe((t: Transaction) => {
+      this.store.dispatch(new CalendarActions.PatchTransaction(t));
     });
   }
 

@@ -13,7 +13,18 @@
     position: absolute;
     pointer-events: none;
     border-radius: inherit;
-    background-color: mat-color($dark-warn, default);
     opacity: .2;
+  }
+
+  &.transaction-dialog-container-primary {
+    &:before {
+      background-color: mat-color($dark-primary, default);
+    }
+  }
+
+  &.transaction-dialog-container-warn {
+    &:before {
+      background-color: mat-color($dark-warn, default);
+    }
   }
 }

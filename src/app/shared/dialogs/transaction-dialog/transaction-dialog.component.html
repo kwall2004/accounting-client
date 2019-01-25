@@ -1,18 +1,29 @@
-<div class="transaction-dialog-container">
+<div class="transaction-dialog-container" [ngClass]="{'transaction-dialog-container-primary': transaction.cleared, 'transaction-dialog-container-warn': !transaction.cleared}">
   <div class="d-flex justify-content-between mb-4">
     <div>
-      {{transaction.date | date}}
+      transaction
     </div>
     <button mat-icon-button mat-dialog-close class="dialog-close-button">
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <form [formGroup]="form" class="d-flex flex-column">
-    <mat-form-field>
+  <form [formGroup]="form" class="d-flex flex-column" *ngIf="transaction.cleared ? 'primary' : 'warn' as color"
+    (ngSubmit)="onSubmit()">
+    <mat-form-field [color]="color">
+      <input matInput [matDatepicker]="picker" placeholder="date" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field [color]="color">
       <input matInput placeholder="description" formControlName="description">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field [color]="color">
       <input matInput placeholder="amount" formControlName="amount">
     </mat-form-field>
+    <button mat-button type="button" (click)="onClearClick()">{{transaction.cleared ? 'unclear' : 'clear'}}</button>
+    <div class="d-flex justify-content-end mt-2">
+      <button mat-button mat-dialog-close type="button" class="mr-2">cancel</button>
+      <button mat-button type="submit">ok</button>
+    </div>
   </form>
 </div>

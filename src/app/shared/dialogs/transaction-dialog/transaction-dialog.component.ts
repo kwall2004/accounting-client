@@ -1,8 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Output, EventEmitter } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { Transaction } from 'src/app/core/models/transaction';
+import { Transaction } from '../../../core/models/transaction';
 
 @Component({
   selector: 'app-transaction-dialog',
@@ -10,7 +10,10 @@ import { Transaction } from 'src/app/core/models/transaction';
   styleUrls: ['./transaction-dialog.component.scss']
 })
 export class TransactionDialogComponent {
+  @Output() patch = new EventEmitter<Transaction>();
+
   form = new FormGroup({
+    date: new FormControl(new Date()),
     description: new FormControl(''),
     amount: new FormControl('')
   });
@@ -20,12 +23,26 @@ export class TransactionDialogComponent {
     @Inject(MAT_DIALOG_DATA) public transaction: Transaction
   ) {
     this.form.patchValue({
+      date: transaction.date,
       description: transaction.description,
       amount: transaction.amount
     });
   }
 
-  onCloseClick() {
+  onSubmit() {
+    if (this.form.dirty) {
+      this.patch.emit({
+        ...this.transaction,
+        ...this.form.value
+      });
+    }
     this.dialogRef.close();
+  }
+
+  onClearClick() {
+    this.patch.emit({
+      ...this.transaction,
+      cleared: !this.transaction.cleared
+    });
   }
 }

@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'variables';
-@import 'mixins';
 @import '~bootstrap/scss/bootstrap';
 
 * {
@@ -18,6 +17,8 @@ label {
 
 
 
+
+@import 'mixins';
 
 @include mat-core();
 
@@ -104,6 +105,7 @@ body {
 
 button {
   font-size: inherit !important;
+  font-weight: inherit !important;
 }
 
 .color-primary {
