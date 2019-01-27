@@ -4,11 +4,11 @@ import { Auth } from '../../models/auth';
 export enum AppActionTypes {
   LOGIN = '[app] LOGIN',
   LOGOUT = '[app] LOGOUT',
-  SET_AUTH = '[app] SET_AUTH',
-  SET_AUTH_FROM_LOCAL_STORAGE = '[app] SET_AUTH_FROM_LOCAL_STORAGE',
+  STORE_AUTH = '[app] STORE_AUTH',
+  STORE_AUTH_FROM_LOCAL_STORAGE = '[app] STORE_AUTH_FROM_LOCAL_STORAGE',
   PARSE_AUTH_HASH = '[app] PARSE_AUTH_HASH',
   CHECK_AUTH_SESSION = '[app] CHECK_AUTH_SESSION',
-  SET_LOADING = '[app] SET_LOADING'
+  STORE_LOADING = '[app] STORE_LOADING'
 }
 
 export namespace AppActions {
@@ -20,14 +20,14 @@ export namespace AppActions {
     readonly type = AppActionTypes.LOGOUT;
   }
 
-  export class SetAuth implements Action {
-    readonly type = AppActionTypes.SET_AUTH;
+  export class StoreAuth implements Action {
+    readonly type = AppActionTypes.STORE_AUTH;
 
     constructor(public payload: Auth) { }
   }
 
-  export class SetAuthFromLocalStorage implements Action {
-    readonly type = AppActionTypes.SET_AUTH_FROM_LOCAL_STORAGE;
+  export class StoreAuthFromLocalStorage implements Action {
+    readonly type = AppActionTypes.STORE_AUTH_FROM_LOCAL_STORAGE;
 
     constructor(public payload: Auth) { }
   }
@@ -44,8 +44,8 @@ export namespace AppActions {
     constructor(public next: Action[]) { }
   }
 
-  export class SetLoading implements Action {
-    readonly type = AppActionTypes.SET_LOADING;
+  export class StoreLoading implements Action {
+    readonly type = AppActionTypes.STORE_LOADING;
 
     constructor(public payload: boolean) { }
   }
@@ -54,8 +54,8 @@ export namespace AppActions {
 export type AppAction =
   AppActions.Login |
   AppActions.Logout |
-  AppActions.SetAuth |
-  AppActions.SetAuthFromLocalStorage |
+  AppActions.StoreAuth |
+  AppActions.StoreAuthFromLocalStorage |
   AppActions.ParseAuthHash |
   AppActions.CheckAuthSession |
-  AppActions.SetLoading;
+  AppActions.StoreLoading;

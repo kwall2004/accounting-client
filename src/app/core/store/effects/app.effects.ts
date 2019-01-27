@@ -45,7 +45,7 @@ export class AppEffects {
         returnTo: environment.webAuthLogoutReturnTo
       });
 
-      return new AppActions.SetAuth({
+      return new AppActions.StoreAuth({
         accessToken: null,
         idToken: null,
         expiresAt: 0
@@ -54,9 +54,9 @@ export class AppEffects {
   );
 
   @Effect()
-  setAuthFromLocalStorage$: Observable<Action> = this.actions$.pipe(
+  storeAuthFromLocalStorage$: Observable<Action> = this.actions$.pipe(
     ofType(ROOT_EFFECTS_INIT),
-    map(() => new AppActions.SetAuthFromLocalStorage({
+    map(() => new AppActions.StoreAuthFromLocalStorage({
       accessToken: this.storage.getItem('accessToken'),
       idToken: this.storage.getItem('idToken'),
       expiresAt: Number(this.storage.getItem('expiresAt'))
@@ -64,9 +64,9 @@ export class AppEffects {
   );
 
   @Effect({ dispatch: false })
-  setAuth$: Observable<Action> = this.actions$.pipe(
-    ofType(AppActionTypes.SET_AUTH),
-    tap<AppActions.SetAuth>(action => {
+  storeAuth$: Observable<Action> = this.actions$.pipe(
+    ofType(AppActionTypes.STORE_AUTH),
+    tap<AppActions.StoreAuth>(action => {
       if (action.payload && action.payload.accessToken) {
         this.storage.setItem('accessToken', action.payload.accessToken);
       } else {
@@ -107,7 +107,7 @@ export class AppEffects {
           window.location.hash = '';
 
           return [
-            new AppActions.SetAuth({
+            new AppActions.StoreAuth({
               accessToken: result.accessToken,
               idToken: result.idToken,
               expiresAt: (result.expiresIn * 1000) + new Date().getTime()
@@ -140,7 +140,7 @@ export class AppEffects {
       });
     }).pipe(
       mergeMap((result: any): Action[] => [
-        new AppActions.SetAuth({
+        new AppActions.StoreAuth({
           accessToken: result.accessToken,
           idToken: result.idToken,
           expiresAt: (result.expiresIn * 1000) + new Date().getTime()
@@ -153,7 +153,7 @@ export class AppEffects {
 
         return [
           new AppActions.Logout(),
-          new AppActions.SetAuth({
+          new AppActions.StoreAuth({
             accessToken: null,
             idToken: null,
             expiresAt: 0

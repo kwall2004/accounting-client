@@ -10,7 +10,7 @@ import { Transaction } from '../../../core/models/transaction';
   styleUrls: ['./transaction-dialog.component.scss']
 })
 export class TransactionDialogComponent {
-  @Output() patch = new EventEmitter<Transaction>();
+  @Output() updated = new EventEmitter<Transaction>();
 
   form = new FormGroup({
     date: new FormControl(new Date()),
@@ -31,7 +31,7 @@ export class TransactionDialogComponent {
 
   onSubmit() {
     if (this.form.dirty) {
-      this.patch.emit({
+      this.updated.emit({
         ...this.transaction,
         ...this.form.value
       });
@@ -40,7 +40,7 @@ export class TransactionDialogComponent {
   }
 
   onClearClick() {
-    this.patch.emit({
+    this.updated.emit({
       ...this.transaction,
       cleared: !this.transaction.cleared
     });

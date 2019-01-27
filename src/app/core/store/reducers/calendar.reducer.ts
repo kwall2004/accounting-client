@@ -16,38 +16,43 @@ export interface State {
 }
 
 const initialState: State = {
-  beginDate: moment().subtract(1, 'month').startOf('month').startOf('day').toDate(),
-  endDate: moment().subtract(1, 'month').endOf('month').endOf('day').toDate(),
+  beginDate: moment().startOf('month').startOf('day').toDate(),
+  endDate: moment().endOf('month').endOf('day').toDate(),
   transactions: [],
   balances: [],
-  captureds: [{ date: moment().subtract(1, 'month').startOf('month').startOf('day').toDate() }],
+  captureds: [{ date: moment().startOf('month').startOf('day').toDate() }],
   recurrences: []
 };
 
 export function reducer(state = initialState, action: CalendarAction): State {
   switch (action.type) {
-    case CalendarActionTypes.LOAD:
+    case CalendarActionTypes.NEXT_MONTH:
       return {
         ...state,
+        beginDate: moment(state.beginDate).add(1, 'month').startOf('month').startOf('day').toDate(),
+        endDate: moment(state.beginDate).add(1, 'month').endOf('month').endOf('day').toDate(),
         transactions: [],
         balances: [],
-        captureds: [{ date: action.payload.beginDate }]
+        captureds: [{ date: moment(state.beginDate).add(1, 'month').startOf('month').startOf('day').toDate() }]
       };
 
-    case CalendarActionTypes.GET_TRANSACTIONS:
+    case CalendarActionTypes.PREVIOUS_MONTH:
       return {
         ...state,
-        beginDate: action.payload.beginDate,
-        endDate: action.payload.endDate
+        beginDate: moment(state.beginDate).subtract(1, 'month').startOf('month').startOf('day').toDate(),
+        endDate: moment(state.beginDate).subtract(1, 'month').endOf('month').endOf('day').toDate(),
+        transactions: [],
+        balances: [],
+        captureds: [{ date: moment(state.beginDate).subtract(1, 'month').startOf('month').startOf('day').toDate() }]
       };
 
-    case CalendarActionTypes.SET_TRANSACTIONS:
+    case CalendarActionTypes.STORE_TRANSACTIONS:
       return {
         ...state,
         transactions: action.payload
       };
 
-    case CalendarActionTypes.SET_TRANSACTION:
+    case CalendarActionTypes.STORE_TRANSACTION:
       return {
         ...state,
         transactions: state.transactions.map((t: Transaction) => {
@@ -58,19 +63,19 @@ export function reducer(state = initialState, action: CalendarAction): State {
         })
       };
 
-    case CalendarActionTypes.SET_BALANCES:
+    case CalendarActionTypes.STORE_BALANCES:
       return {
         ...state,
         balances: action.payload
       };
 
-    case CalendarActionTypes.SET_CAPTURED:
+    case CalendarActionTypes.STORE_CAPTUREDS:
       return {
         ...state,
         captureds: action.payload
       };
 
-    case CalendarActionTypes.SET_RECURRENCES:
+    case CalendarActionTypes.STORE_RECURRENCES:
       return {
         ...state,
         recurrences: action.payload

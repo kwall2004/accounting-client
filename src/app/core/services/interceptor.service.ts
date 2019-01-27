@@ -12,7 +12,7 @@ import { AppActions } from '../store/actions/app.actions';
   providedIn: 'root'
 })
 export class InterceptorService implements HttpInterceptor {
-  constructor(private store: Store<CoreState>) {}
+  constructor(private store: Store<CoreState>) { }
 
   getNewRequest(request: HttpRequest<any>): Observable<HttpRequest<any>> {
     const headers = {
@@ -32,11 +32,11 @@ export class InterceptorService implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.getNewRequest(request).pipe(
-      tap(() => this.store.dispatch(new AppActions.SetLoading(true))),
+      tap(() => this.store.dispatch(new AppActions.StoreLoading(true))),
       mergeMap(newRequest => next.handle(newRequest).pipe(
         catchError(error => throwError(error))
       )),
-      finalize(() => this.store.dispatch(new AppActions.SetLoading(false)))
+      finalize(() => this.store.dispatch(new AppActions.StoreLoading(false)))
     );
   }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, mergeMap, withLatestFrom, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { CalendarActions, CalendarActionTypes } from '../actions';
@@ -12,11 +12,14 @@ import { Balance } from '../../models/balance';
 import { Captured } from '../../models/captured';
 import { Recurrence } from '../../models/recurrence';
 import { Day } from '../../models/day';
+import { CoreState } from '../reducers';
+import { CalendarSelectors } from '../selectors';
 
 @Injectable()
 export class CalendarEffects {
   constructor(
     private actions$: Actions,
+    private store: Store<CoreState>,
     private toastrService: ToastrService,
     private transactionService: TransactionService,
     private balanceService: BalanceService,
@@ -28,18 +31,34 @@ export class CalendarEffects {
   @Effect()
   load$: Observable<Action> = this.actions$.pipe(
     ofType<CalendarActions.Load>(CalendarActionTypes.LOAD),
-    mergeMap(action => [
-      new CalendarActions.GetCaptured(action.payload),
-      new CalendarActions.GetTransactions(action.payload),
-      new CalendarActions.GetBalances(action.payload)
+    mergeMap(_ => [
+      new CalendarActions.ReadCaptureds(),
+      new CalendarActions.ReadTransactions(),
+      new CalendarActions.ReadBalances()
     ])
   );
 
   @Effect()
-  getTransactions$: Observable<Action> = this.actions$.pipe(
-    ofType<CalendarActions.GetTransactions>(CalendarActionTypes.GET_TRANSACTIONS),
-    mergeMap(action => this.transactionService.get(action.payload).pipe(
-      mergeMap((transactions: Transaction[]) => [new CalendarActions.SetTransactions(transactions)]),
+  nextMonth$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.NextMonth>(CalendarActionTypes.NEXT_MONTH),
+    map(_ => new CalendarActions.Load())
+  );
+
+  @Effect()
+  previousMonth$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.PreviousMonth>(CalendarActionTypes.PREVIOUS_MONTH),
+    map(_ => new CalendarActions.Load())
+  );
+
+  @Effect()
+  readTransactions$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.ReadTransactions>(CalendarActionTypes.READ_TRANSACTIONS),
+    withLatestFrom(
+      this.store.select(CalendarSelectors.beginDate),
+      this.store.select(CalendarSelectors.endDate)
+    ),
+    mergeMap(([_, beginDate, endDate]) => this.transactionService.get(beginDate, endDate).pipe(
+      mergeMap((transactions: Transaction[]) => [new CalendarActions.StoreTransactions(transactions)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -49,10 +68,10 @@ export class CalendarEffects {
   );
 
   @Effect()
-  patchTransaction$: Observable<Action> = this.actions$.pipe(
-    ofType<CalendarActions.PatchTransaction>(CalendarActionTypes.PATCH_TRANSACTION),
+  updateTransaction$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.UpdateTransaction>(CalendarActionTypes.UPDATE_TRANSACTION),
     mergeMap(action => this.transactionService.patch(action.payload).pipe(
-      mergeMap((transaction: Transaction) => [new CalendarActions.SetTransaction(transaction)]),
+      mergeMap((transaction: Transaction) => [new CalendarActions.StoreTransaction(transaction)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -62,10 +81,14 @@ export class CalendarEffects {
   );
 
   @Effect()
-  getBalances$: Observable<Action> = this.actions$.pipe(
-    ofType<CalendarActions.GetBalances>(CalendarActionTypes.GET_BALANCES),
-    mergeMap(action => this.balanceService.get(action.payload).pipe(
-      mergeMap((balances: Balance[]) => [new CalendarActions.SetBalances(balances)]),
+  readBalances$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.ReadBalances>(CalendarActionTypes.READ_BALANCES),
+    withLatestFrom(
+      this.store.select(CalendarSelectors.beginDate),
+      this.store.select(CalendarSelectors.endDate)
+    ),
+    mergeMap(([_, beginDate, endDate]) => this.balanceService.get(beginDate, endDate).pipe(
+      mergeMap((balances: Balance[]) => [new CalendarActions.StoreBalances(balances)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -75,10 +98,11 @@ export class CalendarEffects {
   );
 
   @Effect()
-  getCaptureds$: Observable<Action> = this.actions$.pipe(
-    ofType<CalendarActions.GetCaptured>(CalendarActionTypes.GET_CAPTURED),
-    mergeMap(action => this.capturedService.get(action.payload).pipe(
-      mergeMap((captureds: Captured[]) => [new CalendarActions.SetCaptured(captureds)]),
+  readCaptureds$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.ReadCaptureds>(CalendarActionTypes.READ_CAPTUREDS),
+    withLatestFrom(this.store.select(CalendarSelectors.beginDate)),
+    mergeMap(([_, beginDate]) => this.capturedService.get(beginDate).pipe(
+      mergeMap((captureds: Captured[]) => [new CalendarActions.StoreCaptureds(captureds)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -88,10 +112,10 @@ export class CalendarEffects {
   );
 
   @Effect()
-  getRecurrences$: Observable<Action> = this.actions$.pipe(
-    ofType<CalendarActions.GetRecurrences>(CalendarActionTypes.GET_RECURRENCES),
+  readRecurrences$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.ReadRecurrences>(CalendarActionTypes.READ_RECURRENCES),
     mergeMap(() => this.recurrenceService.get().pipe(
-      mergeMap((recurrences: Recurrence[]) => [new CalendarActions.SetRecurrences(recurrences)]),
+      mergeMap((recurrences: Recurrence[]) => [new CalendarActions.StoreRecurrences(recurrences)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));
@@ -101,8 +125,8 @@ export class CalendarEffects {
   );
 
   @Effect()
-  captureMonth$: Observable<Action> = this.actions$.pipe(
-    ofType<CalendarActions.CaptureMonth>(CalendarActionTypes.CAPTURE_MONTH),
+  updateCaptured$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.UpdateCaptured>(CalendarActionTypes.UPDATE_CAPTURED),
     mergeMap(action => {
       const days = action.payload;
       const transactions = [
@@ -120,7 +144,7 @@ export class CalendarEffects {
 
       return this.transactionsService.post(transactions).pipe(
         mergeMap(() => this.capturedService.post({ date: days[0].date }).pipe(
-          mergeMap(() => action.next),
+          mergeMap(() => [new CalendarActions.Load()]),
           catchError(error => {
             console.error(error);
             this.toastrService.error(error.message || JSON.stringify(error));
@@ -134,5 +158,22 @@ export class CalendarEffects {
         })
       );
     })
+  );
+
+  @Effect()
+  storeTransaction$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.StoreTransaction>(CalendarActionTypes.STORE_TRANSACTION),
+    withLatestFrom(
+      this.store.select(CalendarSelectors.days),
+      this.store.select(CalendarSelectors.endingBalance)
+    ),
+    mergeMap(([_, days, endingBalance]) => this.balanceService.patch({ ...endingBalance, amount: days[days.length - 1].balance }).pipe(
+      mergeMap(() => []),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
   );
 }

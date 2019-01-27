@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 
 import { environment } from '../../../environments/environment';
-import { TransactionRequest } from '../models/transaction-request';
 import { Captured } from '../models/captured';
 
 @Injectable({
@@ -13,9 +12,9 @@ import { Captured } from '../models/captured';
 export class CapturedService {
   constructor(private httpClient: HttpClient) { }
 
-  public get(request: TransactionRequest): Observable<any> {
+  public get(date: Date): Observable<any> {
     const where = {
-      date: moment(request.beginDate).format('YYYY-MM-DDTHH:mm:ss')
+      date: moment(date).format('YYYY-MM-DDTHH:mm:ss')
     };
 
     return this.httpClient.get(`${environment.apiBaseUrl}/captured?where=${JSON.stringify(where)}`);

@@ -22,7 +22,7 @@ export namespace CalendarSelectors {
 
   export const name = createSelector(
     beginDate,
-    (beginDate1): string => moment(beginDate1).format('MMMM YYYY')
+    (bd): string => moment(bd).format('MMMM YYYY')
   );
 
   export const transactions = createSelector(
@@ -37,7 +37,12 @@ export namespace CalendarSelectors {
 
   export const beginningBalance = createSelector(
     balances,
-    (balances1: Balance[]): number => balances1.length && balances1[0].amount
+    (bb: Balance[]): Balance => bb.length && bb[0]
+  );
+
+  export const endingBalance = createSelector(
+    balances,
+    (bb: Balance[]): Balance => bb.length === 2 && bb[1]
   );
 
   const captureds = createSelector(
@@ -47,7 +52,7 @@ export namespace CalendarSelectors {
 
   export const captured = createSelector(
     captureds,
-    (captureds1: Captured[]): boolean => captureds1.length > 0
+    (cc: Captured[]): boolean => cc.length > 0
   );
 
   export const recurrences = createSelector(
@@ -62,14 +67,14 @@ export namespace CalendarSelectors {
     beginningBalance,
     captured,
     recurrences,
-    (beginDate1: Date, endDate1: Date, transactions1: Transaction[], beginningBalance1: number, captured1: boolean, recurrences1: Recurrence[]): Day[] => {
+    (bd: Date, ed: Date, tt: Transaction[], b: Balance, c: boolean, rr: Recurrence[]): Day[] => {
       const result = new Array<Day>();
 
-      let dayBalance = beginningBalance1;
-      for (let date = moment(beginDate1).clone(); date <= moment(endDate1); date = date.add(1, 'days')) {
-        const dayTransactions = transactions1.filter(t => date.isSame(moment(t.date), 'day'));
+      let dayBalanceAmount = b.amount;
+      for (let date = moment(bd).clone(); date <= moment(ed); date = date.add(1, 'days')) {
+        const dayTransactions = tt.filter(t => date.isSame(moment(t.date), 'day'));
 
-        const dayRecurrences = !captured1 ? recurrences1.filter(r => {
+        const dayRecurrences = !c ? rr.filter(r => {
           if (date.isSameOrAfter(moment(r.startDate), 'day') && (!r.endDate || date.isSameOrBefore(moment(r.endDate), 'day'))) {
             if (r.monthlyFrequency) {
               return r.monthlyDate && moment(r.startDate).diff(date, 'months') % r.monthlyFrequency === 0 && date.date() === r.monthlyDate;
@@ -83,12 +88,12 @@ export namespace CalendarSelectors {
           return false;
         }) : [];
 
-        dayBalance += dayTransactions.reduce((total, t) => total + t.amount, 0) + dayRecurrences.reduce((total, r) => total + r.amount, 0);
+        dayBalanceAmount += dayTransactions.reduce((total, t) => total + t.amount, 0) + dayRecurrences.reduce((total, r) => total + r.amount, 0);
 
         result.push({
           date: date.toDate(),
           transactions: dayTransactions,
-          balance: dayBalance,
+          balance: dayBalanceAmount,
           recurrences: dayRecurrences
         });
       }

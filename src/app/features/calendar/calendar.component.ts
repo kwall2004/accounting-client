@@ -7,12 +7,12 @@ import { takeUntil, take } from 'rxjs/operators';
 
 import { Day } from '../../core/models/day';
 import { CoreState, CalendarSelectors, AppActions, CalendarActions, AppSelectors } from '../../core/store';
-import { TransactionRequest } from '../../core/models/transaction-request';
 import { Transaction } from '../../core/models/transaction';
 import { TransactionDialogComponent } from '../../shared/dialogs/transaction-dialog/transaction-dialog.component';
 import { Recurrence } from '../../core/models/recurrence';
 import { RecurrenceDialogComponent } from '../../shared/dialogs/recurrence-dialog/recurrence-dialog.component';
 import { CaptureMonthDialogComponent } from '../../shared/dialogs/capture-month-dialog/capture-month-dialog.component';
+import { Balance } from '../../core/models/balance';
 
 @Component({
   selector: 'app-calendar',
@@ -23,14 +23,9 @@ import { CaptureMonthDialogComponent } from '../../shared/dialogs/capture-month-
 export class CalendarComponent implements OnInit, OnDestroy {
   private isDestroyed$ = new Subject();
 
-  private transactionRequest: TransactionRequest = {
-    beginDate: moment().startOf('month').startOf('day').toDate(),
-    endDate: moment().endOf('month').endOf('day').toDate()
-  };
-
   days: Day[];
   previousMonthDays: Day[];
-  beginningBalance: number;
+  beginningBalance: Balance;
   name: string;
   captured: boolean;
 
@@ -46,8 +41,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     ).subscribe(days => {
       this.days = days;
 
-      this.previousMonthDays = new Array(moment(this.transactionRequest.beginDate).day())
-        .fill(moment(this.transactionRequest.beginDate))
+      this.previousMonthDays = new Array(moment(days[0].date).day())
+        .fill(moment(days[0].date))
         .map((date, index): Day => ({
           date: date.clone().subtract(date.day() - index, 'days').toDate(),
           transactions: [],
@@ -87,8 +82,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new AppActions.ParseAuthHash([
-      new CalendarActions.GetRecurrences(),
-      new CalendarActions.Load(this.transactionRequest)
+      new CalendarActions.ReadRecurrences(),
+      new CalendarActions.Load()
     ]));
   }
 
@@ -98,7 +93,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   getNextMonthDays(count: number): Day[] {
     return new Array(count)
-      .fill(moment(this.transactionRequest.endDate))
+      .fill(moment(this.days[this.days.length - 1].date))
       .map((date, index): Day => ({
         date: date.clone().add(index + 1, 'days').toDate(),
         transactions: [],
@@ -109,21 +104,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   onPreviousMonthClick() {
-    this.transactionRequest = {
-      beginDate: moment(this.transactionRequest.beginDate).clone().subtract(1, 'month').startOf('month').startOf('day').toDate(),
-      endDate: moment(this.transactionRequest.endDate).clone().subtract(1, 'month').endOf('month').endOf('day').toDate()
-    };
-
-    this.store.dispatch(new CalendarActions.Load(this.transactionRequest));
+    this.store.dispatch(new CalendarActions.PreviousMonth());
   }
 
   onNextMonthClick() {
-    this.transactionRequest = {
-      beginDate: moment(this.transactionRequest.beginDate).clone().add(1, 'month').startOf('month').startOf('day').toDate(),
-      endDate: moment(this.transactionRequest.endDate).clone().add(1, 'month').endOf('month').endOf('day').toDate()
-    };
-
-    this.store.dispatch(new CalendarActions.Load(this.transactionRequest));
+    this.store.dispatch(new CalendarActions.NextMonth());
   }
 
   onNameClick() {
@@ -133,10 +118,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(confirmed => {
       if (confirmed) {
-        this.store.dispatch(new CalendarActions.CaptureMonth(this.days, [
-          new CalendarActions.GetTransactions(this.transactionRequest),
-          new CalendarActions.GetCaptured(this.transactionRequest)
-        ]));
+        this.store.dispatch(new CalendarActions.UpdateCaptured(this.days));
       }
     });
   }
@@ -155,13 +137,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
       dialogRef.componentInstance.transaction = tt.find(t => t.id === dialogRef.componentInstance.transaction.id);
     });
 
-    dialogRef.componentInstance.patch.pipe(takeUntil(dialogIsClosed)).subscribe((t: Transaction) => {
-      this.store.dispatch(new CalendarActions.PatchTransaction(t));
+    dialogRef.componentInstance.updated.pipe(takeUntil(dialogIsClosed)).subscribe((t: Transaction) => {
+      this.store.dispatch(new CalendarActions.UpdateTransaction(t));
     });
   }
 
   onTransactionAmountClick(transaction: Transaction) {
-    this.store.dispatch(new CalendarActions.PatchTransaction({
+    this.store.dispatch(new CalendarActions.UpdateTransaction({
       ...transaction,
       cleared: !transaction.cleared
     }));

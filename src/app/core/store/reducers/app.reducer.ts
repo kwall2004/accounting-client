@@ -17,13 +17,13 @@ const initialState: State = {
 
 export function reducer(state = initialState, action: AppAction): State {
   switch (action.type) {
-    case AppActionTypes.SET_AUTH:
-    case AppActionTypes.SET_AUTH_FROM_LOCAL_STORAGE:
+    case AppActionTypes.STORE_AUTH:
+    case AppActionTypes.STORE_AUTH_FROM_LOCAL_STORAGE:
       return {
         ...state,
         auth: action.payload
       };
-    case AppActionTypes.SET_LOADING:
+    case AppActionTypes.STORE_LOADING:
       return {
         ...state,
         loading: action.payload ? state.loading + 1 : state.loading - 1

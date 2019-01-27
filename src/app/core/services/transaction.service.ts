@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import * as moment from 'moment';
 
 import { environment } from '../../../environments/environment';
-import { TransactionRequest } from '../models/transaction-request';
 import { Transaction } from '../models/transaction';
 
 @Injectable({
@@ -13,11 +12,11 @@ import { Transaction } from '../models/transaction';
 export class TransactionService {
   constructor(private httpClient: HttpClient) { }
 
-  public get(request: TransactionRequest): Observable<any> {
+  public get(beginDate: Date, endDate: Date): Observable<any> {
     const where = {
       date: {
-        '>=': moment(request.beginDate).format('YYYY-MM-DDTHH:mm:ss'),
-        '<=': moment(request.endDate).format('YYYY-MM-DDTHH:mm:ss')
+        '>=': moment(beginDate).format('YYYY-MM-DDTHH:mm:ss'),
+        '<=': moment(endDate).format('YYYY-MM-DDTHH:mm:ss')
       }
     };
 
