@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 import * as moment from 'moment';
 
 import { calendarFeatureSelector } from '../reducers';
-import { State } from '../reducers/calendar.reducer';
+import { State } from '../reducers/month.reducer';
 import { Balance } from '../../models/balance';
 import { Day } from '../../models/day';
 import { Transaction } from '../../models/transaction';

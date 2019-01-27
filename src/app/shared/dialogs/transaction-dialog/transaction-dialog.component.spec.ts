@@ -1,16 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TransactionDialogComponent } from './transaction-dialog.component';
+import { TestingModule } from '../../../shared/testing/testing.module';
 
-describe('TransactionComponent', () => {
+describe('TransactionDialogComponent', () => {
   let component: TransactionDialogComponent;
   let fixture: ComponentFixture<TransactionDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransactionDialogComponent ]
+      imports: [
+        TestingModule,
+        FormsModule,
+        ReactiveFormsModule
+      ],
+      declarations: [
+        TransactionDialogComponent
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { AppEffects } from './app.effects';
-import { CalendarEffects } from './calendar.effects';
+import { CalendarEffects } from './month.effects';
 
 export const effects: any[] = [
   AppEffects,
@@ -7,4 +7,4 @@ export const effects: any[] = [
 ];
 
 export * from './app.effects';
-export * from './calendar.effects';
+export * from './month.effects';

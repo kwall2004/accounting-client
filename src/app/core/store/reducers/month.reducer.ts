@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-import { CalendarActionTypes, CalendarAction } from '../actions/calendar.actions';
+import { CalendarActionTypes, CalendarAction } from '../actions/month.actions';
 import { Transaction } from '../../models/transaction';
 import { Balance } from '../../models/balance';
 import { Recurrence } from '../../models/recurrence';

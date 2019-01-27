@@ -15,9 +15,9 @@ import { CaptureMonthDialogComponent } from '../../shared/dialogs/capture-month-
 import { Balance } from '../../core/models/balance';
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+  selector: 'app-month',
+  templateUrl: './month.component.html',
+  styleUrls: ['./month.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarComponent implements OnInit, OnDestroy {

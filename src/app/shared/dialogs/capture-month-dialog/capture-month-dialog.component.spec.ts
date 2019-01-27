@@ -1,16 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CaptureMonthDialogComponent } from './capture-month-dialog.component';
+import { TestingModule } from '../../../shared/testing/testing.module';
 
-describe('CaptureConfirmationComponent', () => {
+describe('CaptureMonthDialogComponent', () => {
   let component: CaptureMonthDialogComponent;
   let fixture: ComponentFixture<CaptureMonthDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CaptureMonthDialogComponent ]
+      imports: [
+        TestingModule
+      ],
+      declarations: [
+        CaptureMonthDialogComponent
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,2 +1,2 @@
 export * from './app.actions';
-export * from './calendar.actions';
+export * from './month.actions';
