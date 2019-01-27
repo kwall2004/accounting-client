@@ -82,7 +82,7 @@ export class MonthComponent implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new AppActions.ParseAuthHash([
-      new MonthActions.ReadRecurrences(),
+      new AppActions.ReadRecurrences(),
       new MonthActions.Load()
     ]));
   }

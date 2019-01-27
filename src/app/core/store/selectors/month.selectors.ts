@@ -8,6 +8,7 @@ import { Day } from '../../models/day';
 import { Transaction } from '../../models/transaction';
 import { Recurrence } from '../../models/recurrence';
 import { Captured } from '../../models/captured';
+import { AppSelectors } from './app.selectors';
 
 export namespace MonthSelectors {
   export const beginDate = createSelector(
@@ -55,18 +56,13 @@ export namespace MonthSelectors {
     (cc: Captured[]): boolean => cc.length > 0
   );
 
-  export const recurrences = createSelector(
-    calendarFeatureSelector,
-    (state: State): Recurrence[] => state.recurrences
-  );
-
   export const days = createSelector(
     beginDate,
     endDate,
     transactions,
     beginningBalance,
     captured,
-    recurrences,
+    AppSelectors.recurrences,
     (bd: Date, ed: Date, tt: Transaction[], b: Balance, c: boolean, rr: Recurrence[]): Day[] => {
       const result = new Array<Day>();
 

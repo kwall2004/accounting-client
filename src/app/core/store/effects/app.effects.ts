@@ -4,11 +4,12 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { map, tap, catchError, mergeMap } from 'rxjs/operators';
 import { WebAuth, Auth0DecodedHash, Auth0ParseHashError } from 'auth0-js';
-import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { environment } from '../../../../environments/environment';
-import { LocalStorageService } from '../../services/local-storage.service';
+import { LocalStorageService, RecurrenceService } from '../../services';
 import { AppActions, AppActionTypes } from '../actions';
+import { Recurrence } from '../../models/recurrence';
 
 @Injectable()
 export class AppEffects {
@@ -23,7 +24,8 @@ export class AppEffects {
   constructor(
     private actions$: Actions,
     private storage: LocalStorageService,
-    private router: Router
+    private recurrenceService: RecurrenceService,
+    private toastrService: ToastrService
   ) { }
 
   @Effect()
@@ -159,6 +161,19 @@ export class AppEffects {
             expiresAt: 0
           })
         ];
+      })
+    ))
+  );
+
+  @Effect()
+  readRecurrences$: Observable<Action> = this.actions$.pipe(
+    ofType<AppActions.ReadRecurrences>(AppActionTypes.READ_RECURRENCES),
+    mergeMap(() => this.recurrenceService.get().pipe(
+      mergeMap((recurrences: Recurrence[]) => [new AppActions.StoreRecurrences(recurrences)]),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
       })
     ))
   );

@@ -3,7 +3,6 @@ import * as moment from 'moment';
 import { MonthActionTypes, MonthAction } from '../actions/month.actions';
 import { Transaction } from '../../models/transaction';
 import { Balance } from '../../models/balance';
-import { Recurrence } from '../../models/recurrence';
 import { Captured } from '../../models/captured';
 
 export interface State {
@@ -12,7 +11,6 @@ export interface State {
   transactions: Transaction[];
   balances: Balance[];
   captureds: Captured[];
-  recurrences: Recurrence[];
 }
 
 const initialState: State = {
@@ -20,8 +18,7 @@ const initialState: State = {
   endDate: moment().endOf('month').endOf('day').toDate(),
   transactions: [],
   balances: [],
-  captureds: [{ date: moment().startOf('month').startOf('day').toDate() }],
-  recurrences: []
+  captureds: [{ date: moment().startOf('month').startOf('day').toDate() }]
 };
 
 export function reducer(state = initialState, action: MonthAction): State {
@@ -73,12 +70,6 @@ export function reducer(state = initialState, action: MonthAction): State {
       return {
         ...state,
         captureds: action.payload
-      };
-
-    case MonthActionTypes.STORE_RECURRENCES:
-      return {
-        ...state,
-        recurrences: action.payload
       };
   }
 

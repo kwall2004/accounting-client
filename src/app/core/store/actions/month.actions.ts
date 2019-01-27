@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 
 import { Transaction } from '../../models/transaction';
 import { Balance } from '../../models/balance';
-import { Recurrence } from '../../models/recurrence';
 import { Captured } from '../../models/captured';
 import { Day } from '../../models/day';
 
@@ -18,8 +17,6 @@ export enum MonthActionTypes {
   STORE_BALANCES = '[month] STORE_BALANCES',
   READ_CAPTUREDS = '[month] READ_CAPTUREDS',
   STORE_CAPTUREDS = '[month] STORE_CAPTUREDS',
-  READ_RECURRENCES = '[month] READ_RECURRENCES',
-  STORE_RECURRENCES = '[month] STORE_RECURRENCES',
   UPDATE_CAPTURED = '[month] UPDATE_CAPTURED'
 }
 
@@ -78,16 +75,6 @@ export namespace MonthActions {
     constructor(public payload: Captured[]) { }
   }
 
-  export class ReadRecurrences implements Action {
-    readonly type = MonthActionTypes.READ_RECURRENCES;
-  }
-
-  export class StoreRecurrences implements Action {
-    readonly type = MonthActionTypes.STORE_RECURRENCES;
-
-    constructor(public payload: Recurrence[]) { }
-  }
-
   export class UpdateCaptured implements Action {
     readonly type = MonthActionTypes.UPDATE_CAPTURED;
 
@@ -107,6 +94,4 @@ export type MonthAction =
   MonthActions.StoreBalances |
   MonthActions.ReadCaptureds |
   MonthActions.StoreCaptureds |
-  MonthActions.ReadRecurrences |
-  MonthActions.StoreRecurrences |
   MonthActions.UpdateCaptured;

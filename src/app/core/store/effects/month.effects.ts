@@ -6,11 +6,10 @@ import { catchError, mergeMap, withLatestFrom, map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { MonthActions, MonthActionTypes } from '../actions';
-import { TransactionService, BalanceService, CapturedService, RecurrenceService, TransactionsService } from '../../services';
+import { TransactionService, BalanceService, CapturedService, TransactionsService } from '../../services';
 import { Transaction } from '../../models/transaction';
 import { Balance } from '../../models/balance';
 import { Captured } from '../../models/captured';
-import { Recurrence } from '../../models/recurrence';
 import { Day } from '../../models/day';
 import { CoreState } from '../reducers';
 import { MonthSelectors } from '../selectors';
@@ -24,7 +23,6 @@ export class MonthEffects {
     private transactionService: TransactionService,
     private balanceService: BalanceService,
     private capturedService: CapturedService,
-    private recurrenceService: RecurrenceService,
     private transactionsService: TransactionsService
   ) { }
 
@@ -103,19 +101,6 @@ export class MonthEffects {
     withLatestFrom(this.store.select(MonthSelectors.beginDate)),
     mergeMap(([_, beginDate]) => this.capturedService.get(beginDate).pipe(
       mergeMap((captureds: Captured[]) => [new MonthActions.StoreCaptureds(captureds)]),
-      catchError(error => {
-        console.error(error);
-        this.toastrService.error(error.message || JSON.stringify(error));
-        return [];
-      })
-    ))
-  );
-
-  @Effect()
-  readRecurrences$: Observable<Action> = this.actions$.pipe(
-    ofType<MonthActions.ReadRecurrences>(MonthActionTypes.READ_RECURRENCES),
-    mergeMap(() => this.recurrenceService.get().pipe(
-      mergeMap((recurrences: Recurrence[]) => [new MonthActions.StoreRecurrences(recurrences)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));

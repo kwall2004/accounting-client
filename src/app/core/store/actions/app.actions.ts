@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
+
 import { Auth } from '../../models/auth';
+import { Recurrence } from '../../models/recurrence';
 
 export enum AppActionTypes {
   LOGIN = '[app] LOGIN',
@@ -8,6 +10,8 @@ export enum AppActionTypes {
   STORE_AUTH_FROM_LOCAL_STORAGE = '[app] STORE_AUTH_FROM_LOCAL_STORAGE',
   PARSE_AUTH_HASH = '[app] PARSE_AUTH_HASH',
   CHECK_AUTH_SESSION = '[app] CHECK_AUTH_SESSION',
+  READ_RECURRENCES = '[app] READ_RECURRENCES',
+  STORE_RECURRENCES = '[app] STORE_RECURRENCES',
   STORE_LOADING = '[app] STORE_LOADING'
 }
 
@@ -44,6 +48,16 @@ export namespace AppActions {
     constructor(public next: Action[]) { }
   }
 
+  export class ReadRecurrences implements Action {
+    readonly type = AppActionTypes.READ_RECURRENCES;
+  }
+
+  export class StoreRecurrences implements Action {
+    readonly type = AppActionTypes.STORE_RECURRENCES;
+
+    constructor(public payload: Recurrence[]) { }
+  }
+
   export class StoreLoading implements Action {
     readonly type = AppActionTypes.STORE_LOADING;
 
@@ -58,4 +72,6 @@ export type AppAction =
   AppActions.StoreAuthFromLocalStorage |
   AppActions.ParseAuthHash |
   AppActions.CheckAuthSession |
+  AppActions.ReadRecurrences |
+  AppActions.StoreRecurrences |
   AppActions.StoreLoading;
