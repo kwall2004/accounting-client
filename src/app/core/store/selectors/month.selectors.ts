@@ -9,7 +9,7 @@ import { Transaction } from '../../models/transaction';
 import { Recurrence } from '../../models/recurrence';
 import { Captured } from '../../models/captured';
 
-export namespace CalendarSelectors {
+export namespace MonthSelectors {
   export const beginDate = createSelector(
     calendarFeatureSelector,
     (state: State): Date => state.beginDate

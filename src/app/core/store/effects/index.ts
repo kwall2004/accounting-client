@@ -1,9 +1,9 @@
 import { AppEffects } from './app.effects';
-import { CalendarEffects } from './month.effects';
+import { MonthEffects } from './month.effects';
 
 export const effects: any[] = [
   AppEffects,
-  CalendarEffects
+  MonthEffects
 ];
 
 export * from './app.effects';

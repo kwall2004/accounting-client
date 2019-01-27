@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material';
 import { takeUntil, take } from 'rxjs/operators';
 
 import { Day } from '../../core/models/day';
-import { CoreState, CalendarSelectors, AppActions, CalendarActions, AppSelectors } from '../../core/store';
+import { CoreState, MonthSelectors, AppActions, MonthActions, AppSelectors } from '../../core/store';
 import { Transaction } from '../../core/models/transaction';
 import { TransactionDialogComponent } from '../../shared/dialogs/transaction-dialog/transaction-dialog.component';
 import { Recurrence } from '../../core/models/recurrence';
@@ -36,7 +36,7 @@ export class MonthComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.store.select(CalendarSelectors.days).pipe(
+    this.store.select(MonthSelectors.days).pipe(
       takeUntil(this.isDestroyed$)
     ).subscribe(days => {
       this.days = days;
@@ -52,19 +52,19 @@ export class MonthComponent implements OnInit, OnDestroy {
         }));
     });
 
-    this.store.select(CalendarSelectors.beginningBalance).pipe(
+    this.store.select(MonthSelectors.beginningBalance).pipe(
       takeUntil(this.isDestroyed$)
     ).subscribe(beginningBalance => {
       this.beginningBalance = beginningBalance;
     });
 
-    this.store.select(CalendarSelectors.name).pipe(
+    this.store.select(MonthSelectors.name).pipe(
       takeUntil(this.isDestroyed$)
     ).subscribe(name => {
       this.name = name;
     });
 
-    this.store.select(CalendarSelectors.captured).pipe(
+    this.store.select(MonthSelectors.captured).pipe(
       takeUntil(this.isDestroyed$)
     ).subscribe(captured => {
       this.captured = captured;
@@ -82,8 +82,8 @@ export class MonthComponent implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new AppActions.ParseAuthHash([
-      new CalendarActions.ReadRecurrences(),
-      new CalendarActions.Load()
+      new MonthActions.ReadRecurrences(),
+      new MonthActions.Load()
     ]));
   }
 
@@ -104,11 +104,11 @@ export class MonthComponent implements OnInit, OnDestroy {
   }
 
   onPreviousMonthClick() {
-    this.store.dispatch(new CalendarActions.PreviousMonth());
+    this.store.dispatch(new MonthActions.PreviousMonth());
   }
 
   onNextMonthClick() {
-    this.store.dispatch(new CalendarActions.NextMonth());
+    this.store.dispatch(new MonthActions.NextMonth());
   }
 
   onNameClick() {
@@ -118,7 +118,7 @@ export class MonthComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(confirmed => {
       if (confirmed) {
-        this.store.dispatch(new CalendarActions.UpdateCaptured(this.days));
+        this.store.dispatch(new MonthActions.UpdateCaptured(this.days));
       }
     });
   }
@@ -133,17 +133,17 @@ export class MonthComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(() => dialogIsClosed.next());
 
-    this.store.select(CalendarSelectors.transactions).pipe(takeUntil(dialogIsClosed)).subscribe((tt: Transaction[]) => {
+    this.store.select(MonthSelectors.transactions).pipe(takeUntil(dialogIsClosed)).subscribe((tt: Transaction[]) => {
       dialogRef.componentInstance.transaction = tt.find(t => t.id === dialogRef.componentInstance.transaction.id);
     });
 
     dialogRef.componentInstance.updated.pipe(takeUntil(dialogIsClosed)).subscribe((t: Transaction) => {
-      this.store.dispatch(new CalendarActions.UpdateTransaction(t));
+      this.store.dispatch(new MonthActions.UpdateTransaction(t));
     });
   }
 
   onTransactionAmountClick(transaction: Transaction) {
-    this.store.dispatch(new CalendarActions.UpdateTransaction({
+    this.store.dispatch(new MonthActions.UpdateTransaction({
       ...transaction,
       cleared: !transaction.cleared
     }));

@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-import { CalendarActionTypes, CalendarAction } from '../actions/month.actions';
+import { MonthActionTypes, MonthAction } from '../actions/month.actions';
 import { Transaction } from '../../models/transaction';
 import { Balance } from '../../models/balance';
 import { Recurrence } from '../../models/recurrence';
@@ -24,9 +24,9 @@ const initialState: State = {
   recurrences: []
 };
 
-export function reducer(state = initialState, action: CalendarAction): State {
+export function reducer(state = initialState, action: MonthAction): State {
   switch (action.type) {
-    case CalendarActionTypes.NEXT_MONTH:
+    case MonthActionTypes.NEXT_MONTH:
       return {
         ...state,
         beginDate: moment(state.beginDate).add(1, 'month').startOf('month').startOf('day').toDate(),
@@ -36,7 +36,7 @@ export function reducer(state = initialState, action: CalendarAction): State {
         captureds: [{ date: moment(state.beginDate).add(1, 'month').startOf('month').startOf('day').toDate() }]
       };
 
-    case CalendarActionTypes.PREVIOUS_MONTH:
+    case MonthActionTypes.PREVIOUS_MONTH:
       return {
         ...state,
         beginDate: moment(state.beginDate).subtract(1, 'month').startOf('month').startOf('day').toDate(),
@@ -46,13 +46,13 @@ export function reducer(state = initialState, action: CalendarAction): State {
         captureds: [{ date: moment(state.beginDate).subtract(1, 'month').startOf('month').startOf('day').toDate() }]
       };
 
-    case CalendarActionTypes.STORE_TRANSACTIONS:
+    case MonthActionTypes.STORE_TRANSACTIONS:
       return {
         ...state,
         transactions: action.payload
       };
 
-    case CalendarActionTypes.STORE_TRANSACTION:
+    case MonthActionTypes.STORE_TRANSACTION:
       return {
         ...state,
         transactions: state.transactions.map((t: Transaction) => {
@@ -63,19 +63,19 @@ export function reducer(state = initialState, action: CalendarAction): State {
         })
       };
 
-    case CalendarActionTypes.STORE_BALANCES:
+    case MonthActionTypes.STORE_BALANCES:
       return {
         ...state,
         balances: action.payload
       };
 
-    case CalendarActionTypes.STORE_CAPTUREDS:
+    case MonthActionTypes.STORE_CAPTUREDS:
       return {
         ...state,
         captureds: action.payload
       };
 
-    case CalendarActionTypes.STORE_RECURRENCES:
+    case MonthActionTypes.STORE_RECURRENCES:
       return {
         ...state,
         recurrences: action.payload
