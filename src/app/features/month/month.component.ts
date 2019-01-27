@@ -20,7 +20,7 @@ import { Balance } from '../../core/models/balance';
   styleUrls: ['./month.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CalendarComponent implements OnInit, OnDestroy {
+export class MonthComponent implements OnInit, OnDestroy {
   private isDestroyed$ = new Subject();
 
   days: Day[];
