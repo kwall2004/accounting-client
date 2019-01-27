@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   selector: 'mat-progress-bar',
   template: ''
 })
-class MockProgressBarComponent {
+export class MockProgressBarComponent {
 }
 
 @Component({
@@ -14,17 +14,17 @@ class MockProgressBarComponent {
   selector: 'mat-icon',
   template: ''
 })
-class MockIconComponent {
+export class MockIconComponent {
 }
 
-class MockDialogService {
+export class MockDialogService {
 }
 
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: '[matTooltip]'
 })
-class MockTooltipDirective {
+export class MockTooltipDirective {
   @Input() matTooltip: any;
 }
 
@@ -32,7 +32,7 @@ class MockTooltipDirective {
   // tslint:disable-next-line:directive-selector
   selector: 'button[mat-dialog-close]'
 })
-class MockDialogCloseDirective {
+export class MockDialogCloseDirective {
   // tslint:disable-next-line:no-input-rename
   @Input('mat-dialog-close') matDialogClose: any;
 }
@@ -42,7 +42,7 @@ class MockDialogCloseDirective {
   selector: 'mat-form-field',
   template: ''
 })
-class MockFormFieldComponent {
+export class MockFormFieldComponent {
   @Input() color: any;
 }
 
@@ -50,7 +50,7 @@ class MockFormFieldComponent {
   // tslint:disable-next-line:directive-selector
   selector: '[matDatepicker]'
 })
-class MockDatepickerDirective {
+export class MockDatepickerDirective {
   @Input() matDatepicker: any;
 }
 
@@ -59,7 +59,7 @@ class MockDatepickerDirective {
   selector: 'mat-datepicker-toggle',
   template: ''
 })
-class MockDatepickerToggleComponent {
+export class MockDatepickerToggleComponent {
   @Input() for: any;
 }
 
@@ -68,7 +68,7 @@ class MockDatepickerToggleComponent {
   selector: 'mat-datepicker',
   template: ''
 })
-class MockDatepickerComponent {
+export class MockDatepickerComponent {
 }
 
 @NgModule({
