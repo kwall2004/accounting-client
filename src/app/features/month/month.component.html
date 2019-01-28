@@ -53,7 +53,7 @@
           {{day.date | date: 'EEEEEE'}}
         </div>
         <div>
-          {{!day.disabled ? (day.balance | number: '1.2-2') : ''}}
+          {{!day.disabled ? (day.balanceAmount | number: '1.2-2') : ''}}
         </div>
       </div>
       <div *ngFor="let transaction of day.transactions" matRipple class="d-flex justify-content-between border rounded my-1 clickable"
