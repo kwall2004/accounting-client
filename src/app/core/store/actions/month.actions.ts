@@ -15,6 +15,7 @@ export enum MonthActionTypes {
   STORE_TRANSACTION = '[month] STORE_TRANSACTION',
   READ_BALANCES = '[month] READ_BALANCES',
   STORE_BALANCES = '[month] STORE_BALANCES',
+  UPDATE_BALANCE = '[month] UPDATE_BALANCE',
   READ_CAPTUREDS = '[month] READ_CAPTUREDS',
   STORE_CAPTUREDS = '[month] STORE_CAPTUREDS',
   UPDATE_CAPTURED = '[month] UPDATE_CAPTURED'
@@ -65,6 +66,10 @@ export namespace MonthActions {
     constructor(public payload: Balance[]) { }
   }
 
+  export class UpdateBalance implements Action {
+    readonly type = MonthActionTypes.UPDATE_BALANCE;
+  }
+
   export class ReadCaptureds implements Action {
     readonly type = MonthActionTypes.READ_CAPTUREDS;
   }
@@ -92,6 +97,7 @@ export type MonthAction =
   MonthActions.StoreTransaction |
   MonthActions.ReadBalances |
   MonthActions.StoreBalances |
+  MonthActions.UpdateBalance |
   MonthActions.ReadCaptureds |
   MonthActions.StoreCaptureds |
   MonthActions.UpdateCaptured;

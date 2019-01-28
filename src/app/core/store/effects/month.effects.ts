@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { catchError, mergeMap, withLatestFrom, map } from 'rxjs/operators';
+import { catchError, mergeMap, withLatestFrom, map, first } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import { MonthActions, MonthActionTypes } from '../actions';
@@ -34,6 +34,18 @@ export class MonthEffects {
       new MonthActions.ReadTransactions(),
       new MonthActions.ReadBalances()
     ])
+  );
+
+  @Effect()
+  loadSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType<MonthActions.Load>(MonthActionTypes.LOAD),
+    mergeMap(_ => forkJoin(
+      this.actions$.pipe(ofType<MonthActions.StoreCaptureds>(MonthActionTypes.STORE_CAPTUREDS), first()),
+      this.actions$.pipe(ofType<MonthActions.StoreTransactions>(MonthActionTypes.STORE_TRANSACTIONS), first()),
+      this.actions$.pipe(ofType<MonthActions.StoreBalances>(MonthActionTypes.STORE_BALANCES), first())
+    ).pipe(
+      map(() => new MonthActions.UpdateBalance())
+    ))
   );
 
   @Effect()
@@ -148,6 +160,12 @@ export class MonthEffects {
   @Effect()
   storeTransaction$: Observable<Action> = this.actions$.pipe(
     ofType<MonthActions.StoreTransaction>(MonthActionTypes.STORE_TRANSACTION),
+    map(() => new MonthActions.UpdateBalance())
+  );
+
+  @Effect()
+  updateBalance$: Observable<Action> = this.actions$.pipe(
+    ofType<MonthActions.UpdateBalance>(MonthActionTypes.UPDATE_BALANCE),
     withLatestFrom(
       this.store.select(MonthSelectors.days),
       this.store.select(MonthSelectors.endingBalance)
