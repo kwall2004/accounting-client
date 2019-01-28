@@ -52,18 +52,7 @@ export class MonthEffects {
   @Effect()
   nextMonth$: Observable<Action> = this.actions$.pipe(
     ofType<MonthActions.NextMonth>(MonthActionTypes.NEXT_MONTH),
-    withLatestFrom(
-      this.store.select(MonthSelectors.days),
-      this.store.select(MonthSelectors.endingBalance)
-    ),
-    mergeMap(([_, days, endingBalance]) => this.balanceService.patch({ ...endingBalance, amount: days[days.length - 1].balance }).pipe(
-      map(() => new MonthActions.Load()),
-      catchError(error => {
-        console.error(error);
-        this.toastrService.error(error.message || JSON.stringify(error));
-        return [];
-      })
-    ))
+    map(() => new MonthActions.Load())
   );
 
   @Effect()
@@ -182,7 +171,7 @@ export class MonthEffects {
       this.store.select(MonthSelectors.days),
       this.store.select(MonthSelectors.endingBalance)
     ),
-    mergeMap(([_, days, endingBalance]) => this.balanceService.patch({ ...endingBalance, amount: days[days.length - 1].balance }).pipe(
+    mergeMap(([_, days, endingBalance]) => this.balanceService.patch({ ...endingBalance, amount: days[days.length - 1].balanceAmount }).pipe(
       mergeMap(() => []),
       catchError(error => {
         console.error(error);

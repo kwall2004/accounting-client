@@ -4,7 +4,7 @@ import { Recurrence } from './recurrence';
 export interface Day {
   date: Date;
   transactions: Transaction[];
-  balance: number;
+  balanceAmount: number;
   recurrences: Recurrence[];
   disabled?: boolean;
 }

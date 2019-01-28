@@ -46,7 +46,7 @@ export class MonthComponent implements OnInit, OnDestroy {
         .map((date, index): Day => ({
           date: date.clone().subtract(date.day() - index, 'days').toDate(),
           transactions: [],
-          balance: 0,
+          balanceAmount: 0,
           recurrences: [],
           disabled: true
         }));
@@ -97,7 +97,7 @@ export class MonthComponent implements OnInit, OnDestroy {
       .map((date, index): Day => ({
         date: date.clone().add(index + 1, 'days').toDate(),
         transactions: [],
-        balance: 0,
+        balanceAmount: 0,
         recurrences: [],
         disabled: true
       }));

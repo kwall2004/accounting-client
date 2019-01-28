@@ -10,17 +10,17 @@ import * as fromMonth from './month.reducer';
 export interface CoreState {
     router: fromRouterStore.RouterReducerState<fromRouter.RouterStateUrl>;
     app: fromApp.State;
-    calendar: fromMonth.State;
+    month: fromMonth.State;
 }
 
 export const reducers: ActionReducerMap<CoreState> = {
     router: fromRouterStore.routerReducer,
     app: fromApp.reducer,
-    calendar: fromMonth.reducer
+    month: fromMonth.reducer
 };
 
 export const metaReducers: MetaReducer<CoreState>[] = !environment.production ? [storeFreeze] : [];
 
 export const coreFeatureSelector = createFeatureSelector<CoreState>('core');
 export const appFeatureSelector = createFeatureSelector<fromApp.State>('app');
-export const calendarFeatureSelector = createFeatureSelector<fromMonth.State>('calendar');
+export const monthFeatureSelector = createFeatureSelector<fromMonth.State>('month');

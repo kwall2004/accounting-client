@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import * as moment from 'moment';
 
-import { calendarFeatureSelector } from '../reducers';
+import { monthFeatureSelector } from '../reducers';
 import { State } from '../reducers/month.reducer';
 import { Balance } from '../../models/balance';
 import { Day } from '../../models/day';
@@ -12,12 +12,12 @@ import { AppSelectors } from './app.selectors';
 
 export namespace MonthSelectors {
   export const beginDate = createSelector(
-    calendarFeatureSelector,
+    monthFeatureSelector,
     (state: State): Date => state.beginDate
   );
 
   export const endDate = createSelector(
-    calendarFeatureSelector,
+    monthFeatureSelector,
     (state: State): Date => state.endDate
   );
 
@@ -27,19 +27,19 @@ export namespace MonthSelectors {
   );
 
   export const transactions = createSelector(
-    calendarFeatureSelector,
+    monthFeatureSelector,
     (state: State): Transaction[] => state.transactions
   );
 
   const balances = createSelector(
-    calendarFeatureSelector,
+    monthFeatureSelector,
     (state: State): Balance[] => state.balances
   );
 
   export const beginningBalance = createSelector(
     balances,
     beginDate,
-    (bb: Balance[], bd: Date): Balance => bb.find(b => moment(b.date).subtract(1, 'day').isSame(moment(bd), 'day'))
+    (bb: Balance[], bd: Date): Balance => bb.find(b => moment(b.date).isSame(moment(bd).subtract(1, 'day'), 'day'))
   );
 
   export const endingBalance = createSelector(
@@ -49,7 +49,7 @@ export namespace MonthSelectors {
   );
 
   const captureds = createSelector(
-    calendarFeatureSelector,
+    monthFeatureSelector,
     (state: State): Captured[] => state.captureds
   );
 
@@ -91,7 +91,7 @@ export namespace MonthSelectors {
         result.push({
           date: date.toDate(),
           transactions: dayTransactions,
-          balance: dayBalanceAmount,
+          balanceAmount: dayBalanceAmount,
           recurrences: dayRecurrences
         });
       }
