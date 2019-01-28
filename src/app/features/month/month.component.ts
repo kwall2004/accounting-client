@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material';
-import { takeUntil, take, skipWhile, withLatestFrom } from 'rxjs/operators';
+import { takeUntil, take, withLatestFrom, skipWhile } from 'rxjs/operators';
 
 import { Day } from '../../core/models/day';
 import { CoreState, MonthSelectors, AppActions, MonthActions, AppSelectors } from '../../core/store';
@@ -137,7 +137,7 @@ export class MonthComponent implements OnInit, OnDestroy {
       takeUntil(dialogIsClosed),
       skipWhile(loading => loading),
       withLatestFrom(this.store.select(MonthSelectors.transactions))
-    ).subscribe(([_, tt]: [boolean, Transaction[]]) => {
+    ).subscribe(([loading, tt]: [boolean, Transaction[]]) => {
       dialogRef.componentInstance.transaction = tt.find(t => t.id === dialogRef.componentInstance.transaction.id);
     });
 

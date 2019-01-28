@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="col text-right color-primary" style="line-height: 1.7">
-    {{beginningBalance.amount | number: '1.2-2'}}
+    {{beginningBalance && (beginningBalance.amount | number: '1.2-2')}}
   </div>
 </div>
 <div class="row mb-2 text-center font-weight-bold">

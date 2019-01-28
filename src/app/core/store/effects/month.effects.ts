@@ -4,6 +4,7 @@ import { Action, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, mergeMap, withLatestFrom, map, first } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
 
 import { MonthActions, MonthActionTypes } from '../actions';
 import { TransactionService, BalanceService, CapturedService, TransactionsService } from '../../services';
@@ -51,13 +52,24 @@ export class MonthEffects {
   @Effect()
   nextMonth$: Observable<Action> = this.actions$.pipe(
     ofType<MonthActions.NextMonth>(MonthActionTypes.NEXT_MONTH),
-    map(_ => new MonthActions.Load())
+    withLatestFrom(
+      this.store.select(MonthSelectors.days),
+      this.store.select(MonthSelectors.endingBalance)
+    ),
+    mergeMap(([_, days, endingBalance]) => this.balanceService.patch({ ...endingBalance, amount: days[days.length - 1].balance }).pipe(
+      map(() => new MonthActions.Load()),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
   );
 
   @Effect()
   previousMonth$: Observable<Action> = this.actions$.pipe(
     ofType<MonthActions.PreviousMonth>(MonthActionTypes.PREVIOUS_MONTH),
-    map(_ => new MonthActions.Load())
+    map(() => new MonthActions.Load())
   );
 
   @Effect()
@@ -97,7 +109,7 @@ export class MonthEffects {
       this.store.select(MonthSelectors.beginDate),
       this.store.select(MonthSelectors.endDate)
     ),
-    mergeMap(([_, beginDate, endDate]) => this.balanceService.get(beginDate, endDate).pipe(
+    mergeMap(([_, beginDate, endDate]) => this.balanceService.get(moment(beginDate).subtract(1, 'day').toDate(), moment(endDate).startOf('day').toDate()).pipe(
       mergeMap((balances: Balance[]) => [new MonthActions.StoreBalances(balances)]),
       catchError(error => {
         console.error(error);

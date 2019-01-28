@@ -38,12 +38,14 @@ export namespace MonthSelectors {
 
   export const beginningBalance = createSelector(
     balances,
-    (bb: Balance[]): Balance => bb.length && bb[0]
+    beginDate,
+    (bb: Balance[], bd: Date): Balance => bb.find(b => moment(b.date).subtract(1, 'day').isSame(moment(bd), 'day'))
   );
 
   export const endingBalance = createSelector(
     balances,
-    (bb: Balance[]): Balance => bb.length === 2 && bb[1]
+    endDate,
+    (bb: Balance[], ed: Date): Balance => bb.find(b => moment(b.date).isSame(moment(ed), 'day'))
   );
 
   const captureds = createSelector(
@@ -66,7 +68,7 @@ export namespace MonthSelectors {
     (bd: Date, ed: Date, tt: Transaction[], b: Balance, c: boolean, rr: Recurrence[]): Day[] => {
       const result = new Array<Day>();
 
-      let dayBalanceAmount = b.amount;
+      let dayBalanceAmount = b && b.amount;
       for (let date = moment(bd).clone(); date <= moment(ed); date = date.add(1, 'days')) {
         const dayTransactions = tt.filter(t => date.isSame(moment(t.date), 'day'));
 
