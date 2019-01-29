@@ -16,8 +16,8 @@ export class BalanceService {
   public get(beginDate: Date, endDate: Date): Observable<any> {
     const where = {
       date: [
-        moment(beginDate).format('YYYY-MM-DDTHH:mm:ss'),
-        moment(endDate).format('YYYY-MM-DDTHH:mm:ss')
+        moment(beginDate).format('YYYY-MM-DD'),
+        moment(endDate).format('YYYY-MM-DD')
       ]
     };
 

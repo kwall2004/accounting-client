@@ -15,8 +15,8 @@ export class TransactionService {
   public get(beginDate: Date, endDate: Date): Observable<any> {
     const where = {
       date: {
-        '>=': moment(beginDate).format('YYYY-MM-DDTHH:mm:ss'),
-        '<=': moment(endDate).format('YYYY-MM-DDTHH:mm:ss')
+        '>=': moment(beginDate).format('YYYY-MM-DD'),
+        '<=': moment(endDate).format('YYYY-MM-DD')
       }
     };
 
@@ -26,7 +26,7 @@ export class TransactionService {
   public post(transaction: Transaction) {
     return this.httpClient.post(`${environment.apiBaseUrl}/transaction`, JSON.stringify({
       ...transaction,
-      date: moment(transaction.date).format('YYYY-MM-DDTHH:mm:ss')
+      date: moment(transaction.date).format('YYYY-MM-DD')
     }));
   }
 

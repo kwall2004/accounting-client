@@ -14,7 +14,7 @@ export class CapturedService {
 
   public get(date: Date): Observable<any> {
     const where = {
-      date: moment(date).format('YYYY-MM-DDTHH:mm:ss')
+      date: moment(date).format('YYYY-MM-DD')
     };
 
     return this.httpClient.get(`${environment.apiBaseUrl}/captured?where=${JSON.stringify(where)}`);
