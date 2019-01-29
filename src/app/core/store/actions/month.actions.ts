@@ -11,6 +11,7 @@ export enum MonthActionTypes {
   PREVIOUS_MONTH = '[month] PREVIOUS_MONTH',
   READ_TRANSACTIONS = '[month] READ_TRANSACTIONS',
   STORE_TRANSACTIONS = '[month] STORE_TRANSACTIONS',
+  CREATE_TRANSACTION = '[month] CREATE_TRANSACTION',
   UPDATE_TRANSACTION = '[month] UPDATE_TRANSACTION',
   STORE_TRANSACTION = '[month] STORE_TRANSACTION',
   READ_BALANCES = '[month] READ_BALANCES',
@@ -42,6 +43,12 @@ export namespace MonthActions {
     readonly type = MonthActionTypes.STORE_TRANSACTIONS;
 
     constructor(public payload: Transaction[]) { }
+  }
+
+  export class CreateTransaction implements Action {
+    readonly type = MonthActionTypes.CREATE_TRANSACTION;
+
+    constructor(public payload: Transaction) { }
   }
 
   export class UpdateTransaction implements Action {
@@ -93,6 +100,7 @@ export type MonthAction =
   MonthActions.PreviousMonth |
   MonthActions.ReadTransactions |
   MonthActions.StoreTransactions |
+  MonthActions.CreateTransaction |
   MonthActions.UpdateTransaction |
   MonthActions.StoreTransaction |
   MonthActions.ReadBalances |

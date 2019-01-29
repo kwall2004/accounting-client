@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material';
-import { takeUntil, take, withLatestFrom, skipWhile } from 'rxjs/operators';
+import { takeUntil, take, withLatestFrom, skipWhile, skip } from 'rxjs/operators';
 
 import { Day } from '../../core/models/day';
 import { CoreState, MonthSelectors, AppActions, MonthActions, AppSelectors } from '../../core/store';
@@ -22,6 +22,7 @@ import { Balance } from '../../core/models/balance';
 })
 export class MonthComponent implements OnInit, OnDestroy {
   private isDestroyed$ = new Subject();
+  private dialogIsClosed$ = new Subject();
 
   days: Day[];
   previousMonthDays: Day[];
@@ -123,25 +124,39 @@ export class MonthComponent implements OnInit, OnDestroy {
     });
   }
 
-  onTransactionClick(transaction: Transaction) {
-    const dialogIsClosed = new Subject();
+  onDayClick(day: Day) {
+    const dialogRef = this.dialog.open(TransactionDialogComponent, {
+      width: '400px',
+      data: {
+        date: day.date
+      } as Transaction
+    });
 
+    dialogRef.afterClosed().pipe(take(1)).subscribe(() => this.dialogIsClosed$.next());
+
+    dialogRef.componentInstance.updated.pipe(takeUntil(this.dialogIsClosed$)).subscribe((t: Transaction) => {
+      this.store.dispatch(new MonthActions.CreateTransaction(t));
+    });
+  }
+
+  onTransactionClick(transaction: Transaction) {
     const dialogRef = this.dialog.open(TransactionDialogComponent, {
       width: '400px',
       data: transaction
     });
 
-    dialogRef.afterClosed().pipe(take(1)).subscribe(() => dialogIsClosed.next());
+    dialogRef.afterClosed().pipe(take(1)).subscribe(() => this.dialogIsClosed$.next());
 
     this.store.select(AppSelectors.loading).pipe(
-      takeUntil(dialogIsClosed),
+      takeUntil(this.dialogIsClosed$),
+      skip(1),
       skipWhile(loading => loading),
       withLatestFrom(this.store.select(MonthSelectors.transactions))
-    ).subscribe(([loading, tt]: [boolean, Transaction[]]) => {
+    ).subscribe(([_, tt]: [boolean, Transaction[]]) => {
       dialogRef.componentInstance.transaction = tt.find(t => t.id === dialogRef.componentInstance.transaction.id);
     });
 
-    dialogRef.componentInstance.updated.pipe(takeUntil(dialogIsClosed)).subscribe((t: Transaction) => {
+    dialogRef.componentInstance.updated.pipe(takeUntil(this.dialogIsClosed$)).subscribe((t: Transaction) => {
       this.store.dispatch(new MonthActions.UpdateTransaction(t));
     });
   }

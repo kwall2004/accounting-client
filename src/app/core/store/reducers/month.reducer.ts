@@ -50,11 +50,20 @@ export function reducer(state = initialState, action: MonthAction): State {
       };
 
     case MonthActionTypes.STORE_TRANSACTION:
+      const transaction = state.transactions.find((t: Transaction) => t.id === action.payload.id);
+
+      if (!transaction) {
+        return {
+          ...state,
+          transactions: state.transactions.concat(action.payload)
+        };
+      }
+
       return {
         ...state,
         transactions: state.transactions.map((t: Transaction) => {
-          if (t.id === action.payload.id) {
-            return action.payload;
+          if (t.id === transaction.id) {
+            return transaction;
           }
           return t;
         })

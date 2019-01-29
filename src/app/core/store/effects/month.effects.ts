@@ -79,6 +79,19 @@ export class MonthEffects {
   );
 
   @Effect()
+  createTransaction$: Observable<Action> = this.actions$.pipe(
+    ofType<MonthActions.CreateTransaction>(MonthActionTypes.CREATE_TRANSACTION),
+    mergeMap(action => this.transactionService.post(action.payload).pipe(
+      mergeMap((transaction: Transaction) => [new MonthActions.StoreTransaction(transaction)]),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
+  );
+
+  @Effect()
   updateTransaction$: Observable<Action> = this.actions$.pipe(
     ofType<MonthActions.UpdateTransaction>(MonthActionTypes.UPDATE_TRANSACTION),
     mergeMap(action => this.transactionService.patch(action.payload).pipe(

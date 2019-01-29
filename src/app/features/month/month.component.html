@@ -44,7 +44,7 @@
     </div>
   </ng-container>
   <ng-container *ngFor="let day of days; let dayIndex = index">
-    <div class="col border p-2 day">
+    <div class="col border p-2 day" (click)="onDayClick(day)">
       <div class="font-weight-bold mb-2 d-flex justify-content-between">
         <div>
           {{day.date.getDate()}}
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div *ngFor="let transaction of day.transactions" matRipple class="d-flex justify-content-between border rounded my-1 clickable"
-        [ngClass]="{'clickable-primary': transaction.cleared, 'clickable-warn': !transaction.cleared}" (click)="onTransactionClick(transaction)">
+        [ngClass]="{'clickable-primary': transaction.cleared, 'clickable-warn': !transaction.cleared}" (click)="onTransactionClick(transaction);$event.stopPropagation()">
         <div class="px-1">
           {{transaction.description}}
         </div>

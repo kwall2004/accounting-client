@@ -23,6 +23,13 @@ export class TransactionService {
     return this.httpClient.get(`${environment.apiBaseUrl}/transaction?where=${JSON.stringify(where)}`);
   }
 
+  public post(transaction: Transaction) {
+    return this.httpClient.post(`${environment.apiBaseUrl}/transaction`, JSON.stringify({
+      ...transaction,
+      date: moment(transaction.date).format('YYYY-MM-DDTHH:mm:ss')
+    }));
+  }
+
   public patch(transaction: Transaction) {
     return this.httpClient.patch(`${environment.apiBaseUrl}/transaction/${transaction.id}`, JSON.stringify(transaction));
   }
