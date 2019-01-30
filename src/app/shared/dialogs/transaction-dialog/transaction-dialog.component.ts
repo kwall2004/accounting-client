@@ -10,7 +10,8 @@ import { Transaction } from '../../../core/models/transaction';
   styleUrls: ['./transaction-dialog.component.scss']
 })
 export class TransactionDialogComponent {
-  @Output() updated = new EventEmitter<Transaction>();
+  @Output() update = new EventEmitter<Transaction>();
+  @Output() delete = new EventEmitter<Transaction>();
 
   form = new FormGroup({
     date: new FormControl(new Date()),
@@ -31,7 +32,7 @@ export class TransactionDialogComponent {
 
   onSubmit() {
     if (this.form.dirty) {
-      this.updated.emit({
+      this.update.emit({
         ...this.transaction,
         ...this.form.value
       });
@@ -40,9 +41,14 @@ export class TransactionDialogComponent {
   }
 
   onClearClick() {
-    this.updated.emit({
+    this.update.emit({
       ...this.transaction,
       cleared: !this.transaction.cleared
     });
+  }
+
+  onDeleteClick() {
+    this.delete.emit(this.transaction);
+    this.dialogRef.close();
   }
 }

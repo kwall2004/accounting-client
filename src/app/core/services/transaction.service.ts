@@ -24,13 +24,14 @@ export class TransactionService {
   }
 
   public post(transaction: Transaction) {
-    return this.httpClient.post(`${environment.apiBaseUrl}/transaction`, JSON.stringify({
-      ...transaction,
-      date: moment(transaction.date).format('YYYY-MM-DD')
-    }));
+    return this.httpClient.post(`${environment.apiBaseUrl}/transaction`, { ...transaction, date: moment(transaction.date).format('YYYY-MM-DD') });
   }
 
   public patch(transaction: Transaction) {
-    return this.httpClient.patch(`${environment.apiBaseUrl}/transaction/${transaction.id}`, JSON.stringify(transaction));
+    return this.httpClient.patch(`${environment.apiBaseUrl}/transaction/${transaction.id}`, transaction);
+  }
+
+  public delete(transaction: Transaction) {
+    return this.httpClient.delete(`${environment.apiBaseUrl}/transaction/${transaction.id}`);
   }
 }

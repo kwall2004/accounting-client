@@ -13,7 +13,9 @@ export enum MonthActionTypes {
   STORE_TRANSACTIONS = '[month] STORE_TRANSACTIONS',
   CREATE_TRANSACTION = '[month] CREATE_TRANSACTION',
   UPDATE_TRANSACTION = '[month] UPDATE_TRANSACTION',
+  DELETE_TRANSACTION = '[month] DELETE_TRANSACTION',
   STORE_TRANSACTION = '[month] STORE_TRANSACTION',
+  REMOVE_TRANSACTION = '[month] REMOVE_TRANSACTION',
   READ_BALANCES = '[month] READ_BALANCES',
   STORE_BALANCES = '[month] STORE_BALANCES',
   UPDATE_BALANCE = '[month] UPDATE_BALANCE',
@@ -57,8 +59,20 @@ export namespace MonthActions {
     constructor(public payload: Transaction) { }
   }
 
+  export class DeleteTransaction implements Action {
+    readonly type = MonthActionTypes.DELETE_TRANSACTION;
+
+    constructor(public payload: Transaction) { }
+  }
+
   export class StoreTransaction implements Action {
     readonly type = MonthActionTypes.STORE_TRANSACTION;
+
+    constructor(public payload: Transaction) { }
+  }
+
+  export class RemoveTransaction implements Action {
+    readonly type = MonthActionTypes.REMOVE_TRANSACTION;
 
     constructor(public payload: Transaction) { }
   }
@@ -102,7 +116,9 @@ export type MonthAction =
   MonthActions.StoreTransactions |
   MonthActions.CreateTransaction |
   MonthActions.UpdateTransaction |
+  MonthActions.DeleteTransaction |
   MonthActions.StoreTransaction |
+  MonthActions.RemoveTransaction |
   MonthActions.ReadBalances |
   MonthActions.StoreBalances |
   MonthActions.UpdateBalance |

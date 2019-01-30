@@ -134,7 +134,7 @@ export class MonthComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(() => this.dialogIsClosed$.next());
 
-    dialogRef.componentInstance.updated.pipe(takeUntil(this.dialogIsClosed$)).subscribe((t: Transaction) => {
+    dialogRef.componentInstance.update.pipe(takeUntil(this.dialogIsClosed$)).subscribe((t: Transaction) => {
       this.store.dispatch(new MonthActions.CreateTransaction(t));
     });
   }
@@ -142,6 +142,7 @@ export class MonthComponent implements OnInit, OnDestroy {
   onTransactionClick(transaction: Transaction) {
     const dialogRef = this.dialog.open(TransactionDialogComponent, {
       width: '400px',
+      autoFocus: false,
       data: transaction
     });
 
@@ -156,8 +157,12 @@ export class MonthComponent implements OnInit, OnDestroy {
       dialogRef.componentInstance.transaction = tt.find(t => t.id === dialogRef.componentInstance.transaction.id);
     });
 
-    dialogRef.componentInstance.updated.pipe(takeUntil(this.dialogIsClosed$)).subscribe((t: Transaction) => {
+    dialogRef.componentInstance.update.pipe(takeUntil(this.dialogIsClosed$)).subscribe((t: Transaction) => {
       this.store.dispatch(new MonthActions.UpdateTransaction(t));
+    });
+
+    dialogRef.componentInstance.delete.pipe(takeUntil(this.dialogIsClosed$)).subscribe((t: Transaction) => {
+      this.store.dispatch(new MonthActions.DeleteTransaction(t));
     });
   }
 

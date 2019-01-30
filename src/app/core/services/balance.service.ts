@@ -33,6 +33,6 @@ export class BalanceService {
   }
 
   public patch(balance: Balance) {
-    return this.httpClient.patch(`${environment.apiBaseUrl}/balance/${balance.id}`, JSON.stringify(balance));
+    return this.httpClient.patch(`${environment.apiBaseUrl}/balance/${balance.id}`, balance);
   }
 }

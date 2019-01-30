@@ -3,9 +3,18 @@
     <div>
       transaction
     </div>
-    <button mat-icon-button mat-dialog-close class="dialog-close-button">
-      <mat-icon>close</mat-icon>
-    </button>
+    <div>
+      <button mat-icon-button (click)="onClearClick()">
+        <mat-icon *ngIf="!transaction.cleared">done</mat-icon>
+        <mat-icon *ngIf="transaction.cleared">not_interested</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDeleteClick()">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
   <form [formGroup]="form" class="d-flex flex-column" *ngIf="transaction.cleared ? 'primary' : 'warn' as color"
     (ngSubmit)="onSubmit()">
@@ -20,7 +29,6 @@
     <mat-form-field [color]="color">
       <input matInput placeholder="amount" formControlName="amount">
     </mat-form-field>
-    <button mat-button type="button" (click)="onClearClick()">{{transaction.cleared ? 'unclear' : 'clear'}}</button>
     <div class="d-flex justify-content-end mt-2">
       <button mat-button mat-dialog-close type="button" class="mr-2">cancel</button>
       <button mat-button type="submit">ok</button>

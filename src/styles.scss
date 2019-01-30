@@ -78,6 +78,12 @@ button[mat-dialog-close] {
   }
 }
 
+.mat-icon-button {
+  .mat-icon {
+    vertical-align: text-bottom !important;
+  }
+}
+
 
 
 

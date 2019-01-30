@@ -105,6 +105,19 @@ export class MonthEffects {
   );
 
   @Effect()
+  deleteTransaction$: Observable<Action> = this.actions$.pipe(
+    ofType<MonthActions.DeleteTransaction>(MonthActionTypes.DELETE_TRANSACTION),
+    mergeMap(action => this.transactionService.delete(action.payload).pipe(
+      mergeMap(() => [new MonthActions.RemoveTransaction(action.payload)]),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
+  );
+
+  @Effect()
   readBalances$: Observable<Action> = this.actions$.pipe(
     ofType<MonthActions.ReadBalances>(MonthActionTypes.READ_BALANCES),
     withLatestFrom(
@@ -174,6 +187,12 @@ export class MonthEffects {
   @Effect()
   storeTransaction$: Observable<Action> = this.actions$.pipe(
     ofType<MonthActions.StoreTransaction>(MonthActionTypes.STORE_TRANSACTION),
+    map(() => new MonthActions.UpdateBalance())
+  );
+
+  @Effect()
+  removeTransaction$: Observable<Action> = this.actions$.pipe(
+    ofType<MonthActions.StoreTransaction>(MonthActionTypes.REMOVE_TRANSACTION),
     map(() => new MonthActions.UpdateBalance())
   );
 

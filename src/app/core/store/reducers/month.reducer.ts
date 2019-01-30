@@ -63,10 +63,16 @@ export function reducer(state = initialState, action: MonthAction): State {
         ...state,
         transactions: state.transactions.map((t: Transaction) => {
           if (t.id === transaction.id) {
-            return transaction;
+            return action.payload;
           }
           return t;
         })
+      };
+
+    case MonthActionTypes.REMOVE_TRANSACTION:
+      return {
+        ...state,
+        transactions: state.transactions.filter((t: Transaction) => t.id !== action.payload.id)
       };
 
     case MonthActionTypes.STORE_BALANCES:
