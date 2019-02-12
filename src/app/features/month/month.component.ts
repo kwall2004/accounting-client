@@ -176,10 +176,20 @@ export class MonthComponent implements OnInit, OnDestroy {
   }
 
   onRecurrenceClick(recurrence: Recurrence) {
-    this.dialog.open(RecurrenceDialogComponent, {
+    const dialogRef = this.dialog.open(RecurrenceDialogComponent, {
       width: '400px',
       autoFocus: false,
       data: recurrence
+    });
+
+    dialogRef.afterClosed().pipe(take(1)).subscribe(() => this.dialogIsClosed$.next());
+
+    dialogRef.componentInstance.update.pipe(takeUntil(this.dialogIsClosed$)).subscribe((r: Recurrence) => {
+      this.store.dispatch(new AppActions.UpdateRecurrence(r));
+    });
+
+    dialogRef.componentInstance.delete.pipe(takeUntil(this.dialogIsClosed$)).subscribe((r: Recurrence) => {
+      this.store.dispatch(new AppActions.DeleteRecurrence(r));
     });
   }
 }

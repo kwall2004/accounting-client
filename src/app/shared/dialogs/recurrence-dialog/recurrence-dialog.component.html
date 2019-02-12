@@ -3,8 +3,47 @@
     <div>
       recurrence
     </div>
-    <button mat-icon-button mat-dialog-close>
-      <mat-icon inline="true">close</mat-icon>
-    </button>
+    <div>
+      <button mat-icon-button (click)="onDeleteClick()">
+        <mat-icon inline="true">delete</mat-icon>
+      </button>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon inline="true">close</mat-icon>
+      </button>
+    </div>
   </div>
+  <form [formGroup]="form" class="d-flex flex-column" (ngSubmit)="onSubmit()">
+    <mat-form-field color="accent">
+      <input matInput placeholder="description" formControlName="description">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput placeholder="amount" formControlName="amount">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput placeholder="weekly frequency" formControlName="weeklyFrequency">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput placeholder="weekly day" formControlName="weeklyDay">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput placeholder="monthly frequency" formControlName="monthlyFrequency">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput placeholder="monthly date" formControlName="monthlyDate">
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput [matDatepicker]="startDatePicker" placeholder="start date" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #startDatePicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field color="accent">
+      <input matInput [matDatepicker]="endDatePicker" placeholder="end date" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #endDatePicker></mat-datepicker>
+    </mat-form-field>
+    <div class="d-flex justify-content-end mt-2">
+      <button mat-button mat-dialog-close type="button" class="mr-2">cancel</button>
+      <button mat-button type="submit">ok</button>
+    </div>
+  </form>
 </div>

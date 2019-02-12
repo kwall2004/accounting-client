@@ -13,6 +13,9 @@ export class TransactionsService {
   constructor(private httpClient: HttpClient) { }
 
   public post(transactions: Transaction[]): Observable<any> {
-    return this.httpClient.post(`${environment.apiBaseUrl}/transactions`, transactions.map(t => ({ ...t, date: moment(t.date).format('YYYY-MM-DD') })), { responseType: 'text' });
+    return this.httpClient.post(`${environment.apiBaseUrl}/transactions`, transactions.map(t => ({
+      ...t,
+      date: moment(t.date).format('YYYY-MM-DD')
+    })), { responseType: 'text' });
   }
 }

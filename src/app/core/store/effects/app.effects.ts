@@ -177,4 +177,43 @@ export class AppEffects {
       })
     ))
   );
+
+  @Effect()
+  createRecurrence$: Observable<Action> = this.actions$.pipe(
+    ofType<AppActions.CreateRecurrence>(AppActionTypes.CREATE_RECURRENCE),
+    mergeMap(action => this.recurrenceService.post(action.payload).pipe(
+      mergeMap((recurrence: Recurrence) => [new AppActions.StoreRecurrence(recurrence)]),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
+  );
+
+  @Effect()
+  updateRecurrence$: Observable<Action> = this.actions$.pipe(
+    ofType<AppActions.UpdateRecurrence>(AppActionTypes.UPDATE_RECURRENCE),
+    mergeMap(action => this.recurrenceService.patch(action.payload).pipe(
+      mergeMap((recurrence: Recurrence) => [new AppActions.StoreRecurrence(recurrence)]),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
+  );
+
+  @Effect()
+  deleteRecurrence$: Observable<Action> = this.actions$.pipe(
+    ofType<AppActions.DeleteRecurrence>(AppActionTypes.DELETE_RECURRENCE),
+    mergeMap(action => this.recurrenceService.delete(action.payload).pipe(
+      mergeMap(() => [new AppActions.RemoveRecurrence(action.payload)]),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
+  );
 }

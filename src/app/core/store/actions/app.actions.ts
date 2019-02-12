@@ -12,6 +12,11 @@ export enum AppActionTypes {
   CHECK_AUTH_SESSION = '[app] CHECK_AUTH_SESSION',
   READ_RECURRENCES = '[app] READ_RECURRENCES',
   STORE_RECURRENCES = '[app] STORE_RECURRENCES',
+  CREATE_RECURRENCE = '[app] CREATE_RECURRENCE',
+  UPDATE_RECURRENCE = '[app] UPDATE_RECURRENCE',
+  DELETE_RECURRENCE = '[app] DELETE_RECURRENCE',
+  STORE_RECURRENCE = '[app] STORE_RECURRENCE',
+  REMOVE_RECURRENCE = '[app] REMOVE_RECURRENCE',
   STORE_LOADING = '[app] STORE_LOADING'
 }
 
@@ -58,6 +63,36 @@ export namespace AppActions {
     constructor(public payload: Recurrence[]) { }
   }
 
+  export class CreateRecurrence implements Action {
+    readonly type = AppActionTypes.CREATE_RECURRENCE;
+
+    constructor(public payload: Recurrence) { }
+  }
+
+  export class UpdateRecurrence implements Action {
+    readonly type = AppActionTypes.UPDATE_RECURRENCE;
+
+    constructor(public payload: Recurrence) { }
+  }
+
+  export class DeleteRecurrence implements Action {
+    readonly type = AppActionTypes.DELETE_RECURRENCE;
+
+    constructor(public payload: Recurrence) { }
+  }
+
+  export class StoreRecurrence implements Action {
+    readonly type = AppActionTypes.STORE_RECURRENCE;
+
+    constructor(public payload: Recurrence) { }
+  }
+
+  export class RemoveRecurrence implements Action {
+    readonly type = AppActionTypes.REMOVE_RECURRENCE;
+
+    constructor(public payload: Recurrence) { }
+  }
+
   export class StoreLoading implements Action {
     readonly type = AppActionTypes.STORE_LOADING;
 
@@ -74,4 +109,9 @@ export type AppAction =
   AppActions.CheckAuthSession |
   AppActions.ReadRecurrences |
   AppActions.StoreRecurrences |
+  AppActions.CreateRecurrence |
+  AppActions.UpdateRecurrence |
+  AppActions.DeleteRecurrence |
+  AppActions.StoreRecurrence |
+  AppActions.RemoveRecurrence |
   AppActions.StoreLoading;
