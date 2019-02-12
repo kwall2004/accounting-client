@@ -1,0 +1,12 @@
+<mat-table [dataSource]="recurrences$ | async">
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef> description </mat-header-cell>
+    <mat-cell *matCellDef="let recurrence"> {{recurrence.description}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="amount">
+    <mat-header-cell *matHeaderCellDef> amount </mat-header-cell>
+    <mat-cell *matCellDef="let recurrence"> {{recurrence.amount}} </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+</mat-table>

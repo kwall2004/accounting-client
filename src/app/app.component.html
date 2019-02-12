@@ -8,6 +8,9 @@
       <button mat-button color="primary" class="mx-1" routerLink="calendar">
         calendar
       </button>
+      <button mat-button color="primary" class="mx-1" routerLink="recurrences">
+        recurrences
+      </button>
       <button mat-button color="primary" class="mx-1" *ngIf="authIsExpired$ | async" (click)="login()">
         log in
       </button>
@@ -18,7 +21,7 @@
   </div>
 </nav>
 <main>
-  <div class="overlay" *ngIf="loading$ | async">
+  <div class="overlay" *ngIf="loading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
   <div class="container">

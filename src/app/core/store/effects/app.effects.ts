@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Observer, concat } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { map, tap, catchError, mergeMap } from 'rxjs/operators';
@@ -131,37 +131,42 @@ export class AppEffects {
   @Effect()
   checkAuthSession$: Observable<Action> = this.actions$.pipe(
     ofType<AppActions.CheckAuthSession>(AppActionTypes.CHECK_AUTH_SESSION),
-    mergeMap(action => Observable.create((observer: Observer<any>) => {
-      this.webAuth.checkSession({}, (err: any, result: any) => {
-        if (result && result.accessToken && result.idToken) {
-          observer.next(result);
-        } else if (err) {
-          observer.error(err);
-        }
-        observer.complete();
-      });
-    }).pipe(
-      mergeMap((result: any): Action[] => [
-        new AppActions.StoreAuth({
-          accessToken: result.accessToken,
-          idToken: result.idToken,
-          expiresAt: (result.expiresIn * 1000) + new Date().getTime()
-        }),
-        ...action.next
-      ]),
-      catchError(error => {
-        console.error(error);
-        alert(`Could not get a new token (${error.error}: ${error.error_description}).`);
-
-        return [
-          new AppActions.Logout(),
+    mergeMap(action => concat(
+      [new AppActions.StoreLoading(true)],
+      Observable.create((observer: Observer<any>) => {
+        this.webAuth.checkSession({}, (err: any, result: any) => {
+          if (result && result.accessToken && result.idToken) {
+            observer.next(result);
+          } else if (err) {
+            observer.error(err);
+          }
+          observer.complete();
+        });
+      }).pipe(
+        mergeMap((result: any): Action[] => [
+          new AppActions.StoreLoading(false),
           new AppActions.StoreAuth({
-            accessToken: null,
-            idToken: null,
-            expiresAt: 0
-          })
-        ];
-      })
+            accessToken: result.accessToken,
+            idToken: result.idToken,
+            expiresAt: (result.expiresIn * 1000) + new Date().getTime()
+          }),
+          ...action.next
+        ]),
+        catchError(error => {
+          console.error(error);
+          this.toastrService.error(`Could not get a new token (${error.error}: ${error.error_description}).`);
+
+          return [
+            new AppActions.StoreLoading(false),
+            new AppActions.Logout(),
+            new AppActions.StoreAuth({
+              accessToken: null,
+              idToken: null,
+              expiresAt: 0
+            })
+          ];
+        })
+      )
     ))
   );
 

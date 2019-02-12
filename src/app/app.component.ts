@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { takeUntil } from 'rxjs/operators';
 
 import { CoreState, AppActions } from './core/store';
 import { AppSelectors } from './core/store/selectors/app.selectors';
@@ -12,14 +13,25 @@ import { AppSelectors } from './core/store/selectors/app.selectors';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
+  isDestroyed$ = new Subject();
   authIsExpired$: Observable<boolean>;
-  loading$: Observable<boolean>;
+  loading: boolean;
 
-  constructor(private store: Store<CoreState>) { }
+  constructor(
+    private store: Store<CoreState>,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     this.authIsExpired$ = this.store.select(AppSelectors.authIsExpired);
-    this.loading$ = this.store.select(AppSelectors.loading);
+
+    // async pipe for loading wasn't detecting all changes for some reason
+    this.store.select(AppSelectors.loading).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe(loading => {
+      this.loading = loading;
+      this.cd.detectChanges();
+    });
   }
 
   login() {

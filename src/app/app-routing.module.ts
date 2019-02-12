@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MonthComponent } from './features/month/month.component';
 import { HomeComponent } from './features/home/home.component';
+import { RecurrencesComponent } from './features/recurrences/recurrences.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'calendar',
     component: MonthComponent
+  },
+  {
+    path: 'recurrences',
+    component: RecurrencesComponent
   }
 ];
 
