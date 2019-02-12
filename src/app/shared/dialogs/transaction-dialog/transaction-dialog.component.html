@@ -1,18 +1,18 @@
-<div class="transaction-dialog-container" [ngClass]="{'transaction-dialog-container-primary': transaction.cleared, 'transaction-dialog-container-warn': !transaction.cleared}">
+<div class="dialog-container" [ngClass]="{'dialog-container-primary': transaction.cleared, 'dialog-container-warn': !transaction.cleared}">
   <div class="d-flex justify-content-between align-items-center h5 mb-4">
     <div>
       transaction
     </div>
     <div>
       <button mat-icon-button (click)="onClearClick()">
-        <mat-icon *ngIf="!transaction.cleared">done</mat-icon>
-        <mat-icon *ngIf="transaction.cleared">not_interested</mat-icon>
+        <mat-icon *ngIf="!transaction.cleared" inline="true">done</mat-icon>
+        <mat-icon *ngIf="transaction.cleared" inline="true">not_interested</mat-icon>
       </button>
       <button mat-icon-button (click)="onDeleteClick()">
-        <mat-icon>delete</mat-icon>
+        <mat-icon inline="true">delete</mat-icon>
       </button>
       <button mat-icon-button mat-dialog-close>
-        <mat-icon>close</mat-icon>
+        <mat-icon inline="true">close</mat-icon>
       </button>
     </div>
   </div>

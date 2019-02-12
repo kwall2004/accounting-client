@@ -1,23 +1,17 @@
 <div class="row mb-2 lead font-weight-bold">
   <div class="col d-flex align-items-center">
-    <div>
-      <button mat-button color="primary" class="navigate-month-button" (click)="onPreviousMonthClick()">
-        <mat-icon>chevron_left</mat-icon>
-      </button>
-    </div>
-    <div>
-      <button mat-button color="primary" matTooltip="capture month" [disabled]="captured" style="min-width: 180px;"
-        (click)="onNameClick()">
-        {{name}}
-      </button>
-    </div>
-    <div>
-      <button mat-button color="primary" class="navigate-month-button" (click)="onNextMonthClick()">
-        <mat-icon>chevron_right</mat-icon>
-      </button>
-    </div>
+    <button mat-button color="primary" (click)="onPreviousMonthClick()">
+      <mat-icon inline="true">chevron_left</mat-icon>
+    </button>
+    <button mat-button color="primary" [disabled]="captured" style="min-width: 180px;"
+      (click)="onNameClick()">
+      {{name}}
+    </button>
+    <button mat-button color="primary" (click)="onNextMonthClick()">
+      <mat-icon inline="true">chevron_right</mat-icon>
+    </button>
   </div>
-  <div class="col text-right color-primary" style="line-height: 1.7">
+  <div class="col text-right color-primary">
     {{beginningBalance && (beginningBalance.amount | number: '1.2-2')}}
   </div>
 </div>

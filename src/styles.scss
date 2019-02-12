@@ -35,7 +35,7 @@ label {
 }
 
 .mat-progress-bar-buffer {
-  background-color: $black !important;
+  background-color: mat-color($mat-dark-theme-foreground, elevation) !important;
 }
 
 .mat-button:hover .mat-button-focus-overlay,
@@ -51,15 +51,17 @@ a:not(.mat-button):not(.mat-raised-button):not(.mat-fab):not(.mat-mini-fab):not(
   color: mat-color($dark-primary);
 }
 
-button[mat-dialog-close] {
-  mat-icon {
-    margin-top: -2px;
+button.mat-button {
+  .mat-icon {
+    vertical-align: top;
+    font-size: 1.50em;
   }
 }
 
-.mat-icon-button {
+button.mat-icon-button {
   .mat-icon {
-    vertical-align: text-bottom !important;
+    vertical-align: top;
+    font-size: 1.25em;
   }
 }
 

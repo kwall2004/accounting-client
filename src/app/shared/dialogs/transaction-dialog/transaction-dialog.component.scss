@@ -1,6 +1,6 @@
 @import '../../../../variables';
 
-.transaction-dialog-container {
+.dialog-container {
   position: relative;
 
   &:before {
@@ -16,15 +16,15 @@
     opacity: .2;
   }
 
-  &.transaction-dialog-container-primary {
+  &.dialog-container-primary {
     &:before {
-      background-color: mat-color($dark-primary, default);
+      background-color: mat-color($dark-primary);
     }
   }
 
-  &.transaction-dialog-container-warn {
+  &.dialog-container-warn {
     &:before {
-      background-color: mat-color($dark-warn, default);
+      background-color: mat-color($dark-warn);
     }
   }
 }

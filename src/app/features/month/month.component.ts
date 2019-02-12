@@ -114,7 +114,8 @@ export class MonthComponent implements OnInit, OnDestroy {
 
   onNameClick() {
     const dialogRef = this.dialog.open(CaptureMonthDialogComponent, {
-      width: '200px'
+      width: '300px',
+      autoFocus: false
     });
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(confirmed => {
@@ -127,6 +128,7 @@ export class MonthComponent implements OnInit, OnDestroy {
   onDayClick(day: Day) {
     const dialogRef = this.dialog.open(TransactionDialogComponent, {
       width: '400px',
+      autoFocus: false,
       data: {
         date: day.date
       } as Transaction
@@ -176,6 +178,7 @@ export class MonthComponent implements OnInit, OnDestroy {
   onRecurrenceClick(recurrence: Recurrence) {
     this.dialog.open(RecurrenceDialogComponent, {
       width: '400px',
+      autoFocus: false,
       data: recurrence
     });
   }
