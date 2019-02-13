@@ -1,2 +1,2 @@
 export * from './app.selectors';
-export * from './month.selectors';
+export * from './calendar.selectors';

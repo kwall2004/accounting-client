@@ -3,8 +3,7 @@
     <button mat-button color="primary" (click)="onPreviousMonthClick()">
       <mat-icon inline="true">chevron_left</mat-icon>
     </button>
-    <button mat-button color="primary" [disabled]="captured" style="min-width: 180px;"
-      (click)="onNameClick()">
+    <button mat-button color="primary" [disabled]="captured" style="min-width: 180px;" (click)="onNameClick()">
       {{name}}
     </button>
     <button mat-button color="primary" (click)="onNextMonthClick()">
@@ -15,14 +14,14 @@
     {{beginningBalance && (beginningBalance.amount | number: '1.2-2')}}
   </div>
 </div>
-<div class="row mb-2 text-center font-weight-bold">
-  <div class="col d-none d-xl-block">Sun</div>
-  <div class="col d-none d-xl-block">Mon</div>
-  <div class="col d-none d-xl-block">Tue</div>
-  <div class="col d-none d-xl-block">Wed</div>
-  <div class="col d-none d-xl-block">Thu</div>
-  <div class="col d-none d-xl-block">Fri</div>
-  <div class="col d-none d-xl-block">Sat</div>
+<div class="row mb-2 text-center font-weight-bold d-none d-xl-flex">
+  <div class="col">Sun</div>
+  <div class="col">Mon</div>
+  <div class="col">Tue</div>
+  <div class="col">Wed</div>
+  <div class="col">Thu</div>
+  <div class="col">Fri</div>
+  <div class="col">Sat</div>
 </div>
 <div class="row border mb-5">
   <ng-container *ngFor="let day of previousMonthDays">

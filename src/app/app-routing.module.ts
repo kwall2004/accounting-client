@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MonthComponent } from './features/month/month.component';
+import { CalendarComponent } from './features/calendar/calendar.component';
 import { HomeComponent } from './features/home/home.component';
 import { RecurrencesComponent } from './features/recurrences/recurrences.component';
 
@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'calendar',
-    component: MonthComponent
+    component: CalendarComponent
   },
   {
     path: 'recurrences',

@@ -1,13 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 
-import { MonthComponent } from './month.component';
+import { CalendarComponent } from './calendar.component';
 import { TestingModule } from '../../shared/testing/testing.module';
 import { reducers } from '../../core/store/reducers';
 
 describe('CalendarComponent', () => {
-  let component: MonthComponent;
-  let fixture: ComponentFixture<MonthComponent>;
+  let component: CalendarComponent;
+  let fixture: ComponentFixture<CalendarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -16,14 +16,14 @@ describe('CalendarComponent', () => {
         StoreModule.forRoot(reducers)
       ],
       declarations: [
-        MonthComponent
+        CalendarComponent
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MonthComponent);
+    fixture = TestBed.createComponent(CalendarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
