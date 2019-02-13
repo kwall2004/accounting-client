@@ -39,6 +39,7 @@ label {
 }
 
 .mat-button:hover .mat-button-focus-overlay,
+.mat-button.router-link-active .mat-button-focus-overlay,
 .mat-stroked-button:hover .mat-button-focus-overlay {
   opacity: $button-hover-opacity !important;
 }

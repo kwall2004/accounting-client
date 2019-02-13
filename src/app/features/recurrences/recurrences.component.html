@@ -1,12 +1,53 @@
-<mat-table [dataSource]="recurrences$ | async">
+<mat-table [dataSource]="recurrences">
   <ng-container matColumnDef="description">
-    <mat-header-cell *matHeaderCellDef> description </mat-header-cell>
-    <mat-cell *matCellDef="let recurrence"> {{recurrence.description}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef>
+      description
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{row.description}}
+    </mat-cell>
   </ng-container>
   <ng-container matColumnDef="amount">
-    <mat-header-cell *matHeaderCellDef> amount </mat-header-cell>
-    <mat-cell *matCellDef="let recurrence"> {{recurrence.amount}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef>
+      amount
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{row.amount}}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="weekly-frequency">
+    <mat-header-cell *matHeaderCellDef>
+      weekly frequency
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{row.weeklyFrequency}}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="weekly-day">
+    <mat-header-cell *matHeaderCellDef>
+      weekly day
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{row.weeklyDay}}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="monthly-frequency">
+    <mat-header-cell *matHeaderCellDef>
+      monthly frequency
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{row.monthlyFrequency}}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="monthly-date">
+    <mat-header-cell *matHeaderCellDef>
+      monthly date
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      {{row.monthlyDate}}
+    </mat-cell>
   </ng-container>
   <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: columns;"></mat-row>
 </mat-table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
