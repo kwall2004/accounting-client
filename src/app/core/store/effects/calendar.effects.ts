@@ -33,7 +33,8 @@ export class CalendarEffects {
     mergeMap(_ => [
       new CalendarActions.ReadCaptureds(),
       new CalendarActions.ReadTransactions(),
-      new CalendarActions.ReadBalances()
+      new CalendarActions.ReadBalances(),
+      new CalendarActions.ReadUnclearedTransactions()
     ])
   );
 
@@ -43,7 +44,8 @@ export class CalendarEffects {
     mergeMap(_ => forkJoin(
       this.actions$.pipe(ofType<CalendarActions.StoreCaptureds>(CalendarActionTypes.STORE_CAPTUREDS), first()),
       this.actions$.pipe(ofType<CalendarActions.StoreTransactions>(CalendarActionTypes.STORE_TRANSACTIONS), first()),
-      this.actions$.pipe(ofType<CalendarActions.StoreBalances>(CalendarActionTypes.STORE_BALANCES), first())
+      this.actions$.pipe(ofType<CalendarActions.StoreBalances>(CalendarActionTypes.STORE_BALANCES), first()),
+      this.actions$.pipe(ofType<CalendarActions.StoreUnclearedBalance>(CalendarActionTypes.STORE_UNCLEARED_BALANCE), first())
     ).pipe(
       map(() => new CalendarActions.UpdateBalance())
     ))
@@ -205,6 +207,19 @@ export class CalendarEffects {
     ),
     mergeMap(([_, days, endingBalance]) => this.balanceService.patch({ ...endingBalance, amount: days[days.length - 1].balanceAmount }).pipe(
       mergeMap(() => []),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
+  );
+
+  @Effect()
+  readUnclearedTransactions$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.ReadUnclearedTransactions>(CalendarActionTypes.READ_UNCLEARED_TRANSACTIONS),
+    mergeMap(() => this.transactionService.getUncleared().pipe(
+      mergeMap((transactions: Transaction[]) => [new CalendarActions.StoreUnclearedBalance(transactions.reduce((total, t) => total + t.amount, 0))]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));

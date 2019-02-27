@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from './angular-material.module';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularMaterialModule } from './angular-material.module';
 
 import { TransactionDialogComponent } from './dialogs/transaction-dialog/transaction-dialog.component';
 import { RecurrenceDialogComponent } from './dialogs/recurrence-dialog/recurrence-dialog.component';
@@ -14,9 +14,9 @@ import { CaptureMonthDialogComponent } from './dialogs/capture-month-dialog/capt
     CaptureMonthDialogComponent
   ],
   imports: [
-    BrowserAnimationsModule,
-    AngularMaterialModule,
-    ReactiveFormsModule
+    CommonModule,
+    ReactiveFormsModule,
+    AngularMaterialModule
   ],
   entryComponents: [
     TransactionDialogComponent,
@@ -25,7 +25,6 @@ import { CaptureMonthDialogComponent } from './dialogs/capture-month-dialog/capt
   ],
   exports: [
     AngularMaterialModule,
-    ReactiveFormsModule,
     TransactionDialogComponent,
     RecurrenceDialogComponent,
     CaptureMonthDialogComponent

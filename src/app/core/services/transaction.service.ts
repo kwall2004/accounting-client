@@ -23,6 +23,14 @@ export class TransactionService {
     return this.httpClient.get(`${environment.apiBaseUrl}/transaction?where=${JSON.stringify(where)}`);
   }
 
+  public getUncleared(): Observable<any> {
+    const where = {
+      cleared: false
+    };
+
+    return this.httpClient.get(`${environment.apiBaseUrl}/transaction?where=${JSON.stringify(where)}`);
+  }
+
   public post(transaction: Transaction) {
     return this.httpClient.post(`${environment.apiBaseUrl}/transaction`, {
       ...transaction,

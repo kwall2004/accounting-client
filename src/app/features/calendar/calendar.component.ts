@@ -29,6 +29,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   beginningBalance: Balance;
   name: string;
   captured: boolean;
+  unclearedBalance: number;
 
   constructor(
     private store: Store<CoreState>,
@@ -55,21 +56,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.store.select(CalendarSelectors.beginningBalance).pipe(
       takeUntil(this.isDestroyed$)
-    ).subscribe(beginningBalance => {
-      this.beginningBalance = beginningBalance;
-    });
+    ).subscribe(beginningBalance => this.beginningBalance = beginningBalance);
 
     this.store.select(CalendarSelectors.name).pipe(
       takeUntil(this.isDestroyed$)
-    ).subscribe(name => {
-      this.name = name;
-    });
+    ).subscribe(name => this.name = name);
 
     this.store.select(CalendarSelectors.captured).pipe(
       takeUntil(this.isDestroyed$)
-    ).subscribe(captured => {
-      this.captured = captured;
-    });
+    ).subscribe(captured => this.captured = captured);
+
+    this.store.select(CalendarSelectors.unclearedBalance).pipe(
+      takeUntil(this.isDestroyed$)
+    ).subscribe(unclearedBalance => this.unclearedBalance = unclearedBalance);
 
     this.store.select(AppSelectors.loading).pipe(
       takeUntil(this.isDestroyed$)

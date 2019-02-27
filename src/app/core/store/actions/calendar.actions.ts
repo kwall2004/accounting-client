@@ -21,7 +21,9 @@ export enum CalendarActionTypes {
   UPDATE_BALANCE = '[calendar] UPDATE_BALANCE',
   READ_CAPTUREDS = '[calendar] READ_CAPTUREDS',
   STORE_CAPTUREDS = '[calendar] STORE_CAPTUREDS',
-  UPDATE_CAPTURED = '[calendar] UPDATE_CAPTURED'
+  UPDATE_CAPTURED = '[calendar] UPDATE_CAPTURED',
+  READ_UNCLEARED_TRANSACTIONS = '[calendar] READ_UNCLEARED_TRANSACTIONS',
+  STORE_UNCLEARED_BALANCE = '[calendar] STORE_UNCLEARED_BALANCE'
 }
 
 export namespace CalendarActions {
@@ -106,6 +108,16 @@ export namespace CalendarActions {
 
     constructor(public payload: Day[]) { }
   }
+
+  export class ReadUnclearedTransactions implements Action {
+    readonly type = CalendarActionTypes.READ_UNCLEARED_TRANSACTIONS;
+  }
+
+  export class StoreUnclearedBalance implements Action {
+    readonly type = CalendarActionTypes.STORE_UNCLEARED_BALANCE;
+
+    constructor(public payload: number) { }
+  }
 }
 
 export type CalendarAction =
@@ -124,4 +136,6 @@ export type CalendarAction =
   CalendarActions.UpdateBalance |
   CalendarActions.ReadCaptureds |
   CalendarActions.StoreCaptureds |
-  CalendarActions.UpdateCaptured;
+  CalendarActions.UpdateCaptured |
+  CalendarActions.ReadUnclearedTransactions |
+  CalendarActions.StoreUnclearedBalance;

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,7 +15,6 @@ import { InterceptorService } from './services/interceptor.service';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
     HttpClientModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),

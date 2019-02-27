@@ -11,6 +11,7 @@ export interface State {
   transactions: Transaction[];
   balances: Balance[];
   captureds: Captured[];
+  unclearedBalance: number;
 }
 
 const initialState: State = {
@@ -18,7 +19,8 @@ const initialState: State = {
   endDate: moment().endOf('month').endOf('day').toDate(),
   transactions: [],
   balances: [],
-  captureds: [{ date: moment().startOf('month').startOf('day').toDate() }]
+  captureds: [{ date: moment().startOf('month').startOf('day').toDate() }],
+  unclearedBalance: 0
 };
 
 export function reducer(state = initialState, action: CalendarAction): State {
@@ -85,6 +87,12 @@ export function reducer(state = initialState, action: CalendarAction): State {
       return {
         ...state,
         captureds: action.payload
+      };
+
+    case CalendarActionTypes.STORE_UNCLEARED_BALANCE:
+      return {
+        ...state,
+        unclearedBalance: action.payload
       };
   }
 

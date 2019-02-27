@@ -1,5 +1,16 @@
-<div class="row mb-2 lead font-weight-bold">
-  <div class="col d-flex align-items-center">
+<div class="row mb-2">
+  <div class="col color-primary lead">
+    <mat-form-field>
+      <input matInput placeholder="bank" formControlName="bank" autocomplete="off">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="uncleared" [value]="unclearedBalance | number: '1.2-2'" readonly>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="actual" readonly>
+    </mat-form-field>
+  </div>
+  <div class="col d-flex justify-content-center align-items-center lead font-weight-bold">
     <button mat-button color="primary" (click)="onPreviousMonthClick()">
       <mat-icon inline="true">chevron_left</mat-icon>
     </button>
@@ -10,8 +21,17 @@
       <mat-icon inline="true">chevron_right</mat-icon>
     </button>
   </div>
-  <div class="col text-right color-primary">
-    {{beginningBalance && (beginningBalance.amount | number: '1.2-2')}}
+  <div class="col color-primary lead">
+    <mat-form-field>
+      <input matInput placeholder="beginning" [value]="beginningBalance ? (beginningBalance.amount | number: '1.2-2') : ''"
+        readonly>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="ending" readonly>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="difference" readonly>
+    </mat-form-field>
   </div>
 </div>
 <div class="row mb-2 text-center font-weight-bold d-none d-xl-flex">

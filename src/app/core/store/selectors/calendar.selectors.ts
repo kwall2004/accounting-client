@@ -99,4 +99,9 @@ export namespace CalendarSelectors {
       return result;
     }
   );
+
+  export const unclearedBalance = createSelector(
+    calendarFeatureSelector,
+    (state: State): number => state.unclearedBalance
+  );
 }
