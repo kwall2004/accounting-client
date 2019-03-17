@@ -1,21 +1,31 @@
-<div class="row mb-2">
+<div *ngIf="{
+  bankBalance: bankBalance$ | async,
+  unclearedBalance: unclearedBalance$ | async,
+  captured: captured$ | async,
+  name: name$ | async,
+  beginningBalance: beginningBalance$ | async
+} as comp"
+  class="row mb-2">
   <div class="col color-primary lead">
     <mat-form-field>
-      <input matInput placeholder="bank" formControlName="bank" autocomplete="off">
+      <input matInput currencyMask [options]="{ prefix: '', align: 'left' }" placeholder="bank" formControlName="bank"
+        [value]="comp.bankBalance" autocomplete="off">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="uncleared" [value]="unclearedBalance | number: '1.2-2'" readonly>
+      <input matInput currencyMask [options]="{ prefix: '', align: 'left' }" placeholder="uncleared" [value]="comp.unclearedBalance | number: '1.2-2'"
+        readonly>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="actual" readonly>
+      <input matInput currencyMask [options]="{ prefix: '', align: 'left' }" placeholder="actual" [value]="(comp.bankBalance + comp.unclearedBalance) | number: '1.2-2'"
+        readonly>
     </mat-form-field>
   </div>
   <div class="col d-flex justify-content-center align-items-center lead font-weight-bold">
     <button mat-button color="primary" (click)="onPreviousMonthClick()">
       <mat-icon inline="true">chevron_left</mat-icon>
     </button>
-    <button mat-button color="primary" [disabled]="captured" style="min-width: 180px;" (click)="onNameClick()">
-      {{name}}
+    <button mat-button color="primary" [disabled]="comp.captured" style="min-width: 180px;" (click)="onNameClick()">
+      {{comp.name}}
     </button>
     <button mat-button color="primary" (click)="onNextMonthClick()">
       <mat-icon inline="true">chevron_right</mat-icon>
@@ -23,14 +33,14 @@
   </div>
   <div class="col color-primary lead">
     <mat-form-field>
-      <input matInput placeholder="beginning" [value]="beginningBalance ? (beginningBalance.amount | number: '1.2-2') : ''"
+      <input matInput currencyMask [options]="{ prefix: '', align: 'left' }" placeholder="beginning" [value]="comp.beginningBalance?.amount"
         readonly>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="ending" readonly>
+      <input matInput currencyMask [options]="{ prefix: '', align: 'left' }" placeholder="ending" readonly>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="difference" readonly>
+      <input matInput currencyMask [options]="{ prefix: '', align: 'left' }" placeholder="difference" readonly>
     </mat-form-field>
   </div>
 </div>

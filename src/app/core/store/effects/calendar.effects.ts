@@ -14,6 +14,7 @@ import { Captured } from '../../models/captured';
 import { Day } from '../../models/day';
 import { CoreState } from '../reducers';
 import { CalendarSelectors } from '../selectors';
+import { SettingService } from '../../services/setting.service';
 
 @Injectable()
 export class CalendarEffects {
@@ -24,7 +25,8 @@ export class CalendarEffects {
     private transactionService: TransactionService,
     private balanceService: BalanceService,
     private capturedService: CapturedService,
-    private transactionsService: TransactionsService
+    private transactionsService: TransactionsService,
+    private settingService: SettingService
   ) { }
 
   @Effect()
@@ -34,6 +36,7 @@ export class CalendarEffects {
       new CalendarActions.ReadCaptureds(),
       new CalendarActions.ReadTransactions(),
       new CalendarActions.ReadBalances(),
+      new CalendarActions.ReadBankBalance(),
       new CalendarActions.ReadUnclearedTransactions()
     ])
   );
@@ -45,6 +48,7 @@ export class CalendarEffects {
       this.actions$.pipe(ofType<CalendarActions.StoreCaptureds>(CalendarActionTypes.STORE_CAPTUREDS), first()),
       this.actions$.pipe(ofType<CalendarActions.StoreTransactions>(CalendarActionTypes.STORE_TRANSACTIONS), first()),
       this.actions$.pipe(ofType<CalendarActions.StoreBalances>(CalendarActionTypes.STORE_BALANCES), first()),
+      this.actions$.pipe(ofType<CalendarActions.StoreBankBalance>(CalendarActionTypes.STORE_BANK_BALANCE), first()),
       this.actions$.pipe(ofType<CalendarActions.StoreUnclearedBalance>(CalendarActionTypes.STORE_UNCLEARED_BALANCE), first())
     ).pipe(
       map(() => new CalendarActions.UpdateBalance())
@@ -207,6 +211,19 @@ export class CalendarEffects {
     ),
     mergeMap(([_, days, endingBalance]) => this.balanceService.patch({ ...endingBalance, amount: days[days.length - 1].balanceAmount }).pipe(
       mergeMap(() => []),
+      catchError(error => {
+        console.error(error);
+        this.toastrService.error(error.message || JSON.stringify(error));
+        return [];
+      })
+    ))
+  );
+
+  @Effect()
+  readBankBalance$: Observable<Action> = this.actions$.pipe(
+    ofType<CalendarActions.ReadBankBalance>(CalendarActionTypes.READ_BANK_BALANCE),
+    mergeMap(() => this.settingService.get().pipe(
+      mergeMap((settings: any[]) => [new CalendarActions.StoreBankBalance(settings.length && settings[0].amount)]),
       catchError(error => {
         console.error(error);
         this.toastrService.error(error.message || JSON.stringify(error));

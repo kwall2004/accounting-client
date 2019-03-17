@@ -100,6 +100,11 @@ export namespace CalendarSelectors {
     }
   );
 
+  export const bankBalance = createSelector(
+    calendarFeatureSelector,
+    (state: State): number => state.bankBalance
+  );
+
   export const unclearedBalance = createSelector(
     calendarFeatureSelector,
     (state: State): number => state.unclearedBalance
